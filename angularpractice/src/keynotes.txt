@@ -1,0 +1,7 @@
+1. Angular Files and Folder Structure
+2. Boostraping Angular Application
+3. what is typescript
+4. What is compoenent and Directives
+5. View Template of compoenent
+6. Styling View Template
+7. Adding CSS Styling Globally
