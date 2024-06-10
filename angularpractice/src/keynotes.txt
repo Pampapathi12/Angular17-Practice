@@ -5,3 +5,11 @@
 5. View Template of compoenent
 6. Styling View Template
 7. Adding CSS Styling Globally
+8. Creating compoenent using Angular CLI
+9. Types of component selector
+10. what is data binding
+11. string interpolation
+12. Property binding
+13. event binding
+14. two way data binding
+15. understanding Directives
