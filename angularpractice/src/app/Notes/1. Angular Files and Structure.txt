@@ -1,0 +1,17 @@
+package.json
+
+every project have package.json all the configuration and node modules
+dependencies -> angular dependencies project directly dependent
+devDependencies -> third party dependencies
+editconfig -> setup the environment of angular different coding standards, developer to follow the coding standards
+gitignore -> git repo ignore the exclude the while code pushing to the repo
+angular.json - > contains the all configuration of angular project
+package-lock.json -> environment same to all the area , production, development , integration environment
+tsconfig.json -> convert the typescript compiler going to compile the typescript into javascript
+src -> 
+app -> in angular Application , multiple Application in that single compoenent and 1 module File 
+assests -> static assests images, text, -> those are public can access anywhere in the Application
+assests/image.jpg
+index.html main  html file when applicatoin start its render, 
+main.ts -> starting point of the applicatoin, when we are start the angular application its load the bootstrapModule -> appModule
+style.css -> Globally added the css each compoenent of the application

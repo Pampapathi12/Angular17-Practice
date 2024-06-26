@@ -1,0 +1,3 @@
+Boostraping is the process of initilizing or loading the angular application
+-> angular project -> index.html -> <app-root></app-root> -> tag
+how does angualr knows 
