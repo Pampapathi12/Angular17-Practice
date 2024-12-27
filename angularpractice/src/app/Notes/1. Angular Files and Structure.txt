@@ -14,4 +14,4 @@ assests -> static assests images, text, -> those are public can access anywhere 
 assests/image.jpg
 index.html main  html file when applicatoin start its render, 
 main.ts -> starting point of the applicatoin, when we are start the angular application its load the bootstrapModule -> appModule
-style.css -> Globally added the css each compoenent of the application
+style.css -> Globally added the css each compoenent of the applications
