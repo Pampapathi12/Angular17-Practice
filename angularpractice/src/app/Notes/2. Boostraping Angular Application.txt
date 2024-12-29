@@ -117,3 +117,96 @@ how does angualr knows
 - The contents are minified and optimized in **production mode** to reduce size and improve performance. For instance, `runtime.js` in production handles code splitting and chunk loading.
 
 Angular project -> Index.html -> angular.json -> main.ts -> AppModule -> app.component.ts -> view template
+======================================
+typescript is a superset of javascript
+typescript is strongly typed , but javascript is dynamically typed
+
+The distinction between **strongly typed** (TypeScript) and **dynamically typed** (JavaScript) languages can be demonstrated with examples:
+
+---
+
+### **JavaScript (Dynamically Typed)**
+In JavaScript, variables are not bound to a specific type. You can reassign values of different types to the same variable:
+
+```javascript
+// JavaScript example
+let value = 42; // Initially a number
+console.log(typeof value); // "number"
+
+value = "Hello"; // Now a string
+console.log(typeof value); // "string"
+
+value = true; // Now a boolean
+console.log(typeof value); // "boolean"
+```
+
+- **Behavior**: 
+  - JavaScript doesn't enforce type consistency, which makes it dynamically typed.
+  - The type of a variable is determined at runtime based on its value.
+
+---
+
+### **TypeScript (Strongly Typed)**
+In TypeScript, you explicitly define the type of variables, and the type cannot change. If you attempt to assign a value of a different type, the compiler throws an error.
+
+```typescript
+// TypeScript example
+let value: number = 42; // Explicitly a number
+console.log(typeof value); // "number"
+
+// Reassigning a value of a different type causes an error
+// value = "Hello"; // Error: Type 'string' is not assignable to type 'number'
+
+// Correct assignment
+value = 100; // Works because it's a number
+```
+
+- **Behavior**: 
+  - TypeScript enforces type checking at compile time.
+  - Once a type is assigned, you cannot change it unless you explicitly use `any` or `unknown`.
+
+---
+
+### **Advantages of Strong Typing in TypeScript**
+1. **Error Detection at Compile Time**:
+   - Many type-related bugs are caught before runtime.
+   ```typescript
+   let count: number = "five"; // Compile-time error
+   ```
+
+2. **Better Tooling and Autocomplete**:
+   - TypeScript provides better IntelliSense and code completion due to explicit type declarations.
+
+3. **Improved Maintainability**:
+   - Enforcing types makes code easier to understand and maintain, especially in large projects.
+
+---
+
+### Comparison Table:
+
+| Feature                  | **JavaScript**                 | **TypeScript**                |
+|--------------------------|---------------------------------|--------------------------------|
+| **Typing**               | Dynamic                        | Static (strongly typed)       |
+| **Error Detection**      | At runtime                     | At compile time               |
+| **Variable Type Flexibility** | Can change at runtime         | Fixed, based on declaration   |
+| **Tooling Support**      | Limited                        | Extensive                     |
+| **Learning Curve**       | Easier for beginners           | Requires understanding of types |
+
+---
+
+In summary:
+- **JavaScript** is flexible but prone to runtime errors due to its dynamic typing.
+- **TypeScript** provides stricter type checking, reducing errors and making large-scale development more robust.
+========================================================================
+
+
+JavaScript
+
+let name = ' John';
+name = "smith"
+let age = 28;
+let isMarried = false;
+
+let name: string = 'John'
+let age: number = 28;
+let isMarried: boolean = false
