@@ -1,3 +1,119 @@
 Boostraping is the process of initilizing or loading the angular application
 -> angular project -> index.html -> <app-root></app-root> -> tag
 how does angualr knows 
+-> Ng serve :- compile the application and create the bundle file and inject into the index.html file
+-> ng build :- building the angular application
+   .index.html script files are injected in the index.html
+   webpack 
+   polyfills -> support the old browser version
+   main -> compile the typescript code into the javascript file
+
+
+   runtime.js
+   polyfills.js
+   style.js
+   vendor.js
+   main.js
+   ==================================================================================
+   These JavaScript files (`runtime.js`, `polyfills.js`, `styles.js`, `vendor.js`, and `main.js`) are part of an Angular application when it is built and deployed. Here's an explanation of each file, its purpose, when it is used, and an example of what it contains:
+
+---
+
+### **1. `runtime.js`**
+- **Purpose**: 
+  - Manages the loading and execution of the application by handling Webpack's module system.
+  - Ensures lazy-loaded modules and chunks are loaded dynamically at runtime.
+- **When Used**: During application startup and module loading.
+- **Example**:
+  - Contains Webpack-specific code for bootstrapping and module resolution.
+  ```javascript
+  (function(modules) {
+    // Webpack runtime logic to load modules
+  })([/* module definitions */]);
+  ```
+- **Scenario**: When you navigate between routes, `runtime.js` ensures the required modules are loaded dynamically.
+
+---
+
+### **2. `polyfills.js`**
+- **Purpose**: 
+  - Includes polyfills required to provide support for older browsers that do not natively support modern JavaScript and Angular features (like ES6, Promises, and Fetch API).
+- **When Used**: At the beginning of the application to ensure compatibility with all targeted browsers.
+- **Example**:
+  - Adds missing browser features.
+  ```javascript
+  // Example: Polyfill for Promise
+  if (!window.Promise) {
+    window.Promise = /* implementation */;
+  }
+  ```
+- **Scenario**: Ensures features like `Array.prototype.includes` or `Promise` work in older browsers like Internet Explorer.
+
+---
+
+### **3. `styles.js`**
+- **Purpose**: 
+  - Contains the global CSS and stylesheets defined in the Angular project (`src/styles.css` or `.scss`) and imported styles from the `angular.json` configuration.
+- **When Used**: Loaded into the browser at the initial rendering to apply global styles to the app.
+- **Example**:
+  ```css
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .button {
+    background-color: #007bff;
+  }
+  ```
+- **Scenario**: When a user visits your app, `styles.js` ensures global and third-party library styles are applied.
+
+---
+
+### **4. `vendor.js`**
+- **Purpose**: 
+  - Contains third-party libraries and dependencies used by the Angular application, such as `RxJS`, `Angular core modules`, or utility libraries like `lodash`.
+- **When Used**: At the initial load and whenever external libraries are required.
+- **Example**:
+  ```javascript
+  import { Observable } from 'rxjs';
+
+  Observable.of(1, 2, 3).subscribe(console.log);
+  ```
+- **Scenario**: Handles third-party dependencies like RxJS or Angular core modules, ensuring shared libraries are loaded once.
+
+---
+
+### **5. `main.js`**
+- **Purpose**: 
+  - Contains the compiled application code written by the developer.
+  - Serves as the entry point for bootstrapping the Angular app.
+- **When Used**: At application startup, when `platformBrowserDynamic` bootstraps the `AppModule`.
+- **Example**:
+  ```javascript
+  import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+  import { AppModule } from './app/app.module';
+
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+  ```
+- **Scenario**: Includes your app's business logic, components, and services.
+
+---
+
+### **Lifecycle Flow**:
+1. **Browser loads the app**:
+   - `runtime.js` starts the app's Webpack runtime.
+   - `polyfills.js` ensures the browser supports the required features.
+2. **Global styles applied**:
+   - `styles.js` ensures all global styles are loaded.
+3. **Third-party dependencies loaded**:
+   - `vendor.js` makes third-party libraries available.
+4. **App bootstrapped**:
+   - `main.js` initializes and renders the Angular application.
+
+---
+
+### **Key Notes**:
+- These files are generated during the **build process** (`ng build`).
+- The contents are minified and optimized in **production mode** to reduce size and improve performance. For instance, `runtime.js` in production handles code splitting and chunk loading.
+
+Angular project -> Index.html -> angular.json -> main.ts -> AppModule -> app.component.ts -> view template

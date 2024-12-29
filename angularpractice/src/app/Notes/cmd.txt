@@ -1,0 +1,2 @@
+node --version
+npm install -global @angular/cli@latest
