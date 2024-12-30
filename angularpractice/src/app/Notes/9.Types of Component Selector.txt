@@ -1,0 +1,91 @@
+Types of component selector
+
+In Angular, a **component selector** determines how a component is used in the HTML. There are three types of component selectors:
+
+---
+
+### 1. **Element Selector**
+- The component is used as an HTML-like element.
+- Most common type of selector.
+  
+#### Example:
+```typescript
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {}
+```
+
+#### Usage in Template:
+```html
+<app-my-component></app-my-component>
+```
+
+---
+
+### 2. **Attribute Selector**
+- The component is used as an HTML attribute.
+  
+#### Example:
+```typescript
+@Component({
+  selector: '[app-my-component]',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {}
+```
+
+#### Usage in Template:
+```html
+<div app-my-component></div>
+```
+
+---
+
+### 3. **Class Selector**
+- The component is used as a CSS class.
+  
+#### Example:
+```typescript
+@Component({
+  selector: '.app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {}
+```
+
+#### Usage in Template:
+```html
+<div class="app-my-component"></div>
+```
+
+---
+
+### Choosing the Right Selector:
+- **Element Selector**: Preferred for most components because it ensures clarity and separation of components.
+- **Attribute Selector**: Useful for directives or when the component needs to enhance an existing element.
+- **Class Selector**: Rarely used in practice, often replaced by structural directives or styles.
+====================================================================
+Html Tag : selector: "app-nav"
+Html Attribute : "[app-nav]
+CSS Selector:  selector: ".app-nav"
+=================================================
+<top-header></top-header> 
+<!-- // html element -->
+<!-- <div class="top-header"></div> // css class -->
+ <!-- <div id="top-header"></div>  -->
+ <!-- // css id -->
+ <!-- <div top-header></div>  -->
+   <!-- attribute  -->
+<app-header></app-header>
+
+@Component({
+  selector: 'top-header', // html element
+  // selector: '[top-header]', // html aatribute
+  // selector: '.top-header', // css class or id , in case of angular directive
+  // selector: '#top-header',
+  templateUrl: './top-header.component.html',
+  styleUrls: ['./top-header.component.css']
+})
+
