@@ -1,0 +1,124 @@
+addin the css on the globally
+1. style.css import the built in desing framework css
+2. in angualar.json  first array of object syles where the import theme 
+========================================================================
+Adding CSS styles globally in an Angular application using npm modules is a straightforward process. Here’s how you can set it up, along with an explanation, an example, and some related interview questions.
+
+---
+
+### **Setting Up Global CSS Using NPM Modules**
+
+1. **Install the CSS Module via NPM**:
+   Use npm or yarn to install the CSS module. For instance, to install Bootstrap:
+   ```bash
+   npm install bootstrap
+   ```
+
+2. **Update `angular.json`**:
+   Add the CSS file to the `styles` array in your `angular.json` file under the `build` options.
+   ```json
+   {
+     "projects": {
+       "your-app-name": {
+         "architect": {
+           "build": {
+             "options": {
+               "styles": [
+                 "src/styles.css",
+                 "node_modules/bootstrap/dist/css/bootstrap.min.css"
+               ]
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
+
+3. **Use the Styles Globally**:
+   Once added to `angular.json`, the styles will be applied globally to your Angular application.
+
+4. **Restart the Application**:
+   Restart the Angular development server to apply changes:
+   ```bash
+   ng serve
+   ```
+
+---
+
+### **Theory**
+
+- **Global Styles**:
+  Global styles apply to the entire Angular application. These are typically declared in `src/styles.css` or added via external CSS libraries like Bootstrap.
+
+- **Module-Specific Styles**:
+  Angular supports scoped styles through component stylesheets (`component.css`), which only apply to the specific component. Global styles, on the other hand, apply to all components.
+
+- **Why Use NPM Modules for CSS?**:
+  - Easy updates and version control.
+  - Pre-tested, widely used CSS frameworks.
+  - Simplifies application styling.
+
+---
+
+### **Example**
+
+Using Bootstrap in an Angular Component:
+1. Install Bootstrap:
+   ```bash
+   npm install bootstrap
+   ```
+2. Add Bootstrap to `angular.json`:
+   ```json
+   "styles": [
+     "src/styles.css",
+     "node_modules/bootstrap/dist/css/bootstrap.min.css"
+   ]
+   ```
+3. Use Bootstrap Classes in a Component:
+   ```html
+   <div class="container">
+     <h1 class="text-primary">Hello, Angular with Bootstrap!</h1>
+   </div>
+   ```
+
+---
+
+### **Interview Questions**
+
+#### **Basic Questions**
+1. **What is the purpose of `angular.json` in managing global styles?**
+   - Answer: `angular.json` is the configuration file for the Angular CLI that specifies how the application is built, including global styles and scripts.
+
+2. **How do you add global CSS styles in Angular?**
+   - Answer: By adding the CSS file paths to the `styles` array in `angular.json`.
+
+3. **What is the difference between global and component-specific styles in Angular?**
+   - Answer: Global styles apply to the entire application, whereas component-specific styles are scoped to the component and do not affect others.
+
+#### **Advanced Questions**
+4. **How can you override styles from a third-party library globally in Angular?**
+   - Answer: Add custom styles after the library's styles in `angular.json` to ensure specificity or use `!important`.
+
+5. **How do you manage versioning of CSS libraries in Angular?**
+   - Answer: By using npm to install libraries and specifying versions in `package.json`.
+
+6. **What are the advantages and disadvantages of using npm modules for CSS?**
+   - Answer:
+     - **Advantages**: Centralized package management, ease of updates, and community support.
+     - **Disadvantages**: Potential for large file sizes and dependency management issues.
+
+7. **What is the purpose of adding CSS modules in `node_modules` instead of the `src` folder?**
+   - Answer: CSS modules in `node_modules` are maintained and updated as part of the package, reducing manual maintenance and ensuring consistency.
+
+8. **Can you load CSS dynamically in Angular?**
+   - Answer: Yes, CSS can be loaded dynamically using `<link>` tags in `index.html` or programmatically via JavaScript.
+
+9. **How can you conditionally apply global styles in Angular?**
+   - Answer: Use dynamic class binding or lazy load CSS files conditionally based on application state.
+
+---
+
+### **Practice Scenario**
+
+You are building an Angular application that uses Materialize CSS for styling. Set up the application to include Materialize CSS globally, ensuring you can use its classes in your components.
