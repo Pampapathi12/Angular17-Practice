@@ -1,0 +1,18 @@
+=> using Bootstrap for styling
+
+=> css files and js files
+=> bootstrap.js and jquery
+1>  npm i --save bootstrap
+2> node_modules/css/bootstrap.min.css
+3> 2 ways use css
+   1.in angular.json file where styles array add the path
+      "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
+    2. style.css file where
+        @import "~../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+    *** important once the added the bootstrap path again rebuild the project
+
+    3. npm uninstall bootstrap
