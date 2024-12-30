@@ -1,0 +1,197 @@
+create component component using the CLI
+1. ng g c component-name
+
+1. creats a component class decorated with @component decorater
+2. generates the view template and styles sheet for the component
+3. register the component class in the main module
+4. use cmd change the folder path -> cd src/app/header
+5. create the child components inside the main compoent and using the selector display the ui in the parent component
+===========================================================================
+Here’s a structured **table list of Angular CLI commands**, organized for quick reference.
+
+---
+
+| **Command**                  | **Description**                                                                                   | **Example**                                                                 |
+|------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `ng new <project-name>`       | Creates a new Angular project.                                                                   | `ng new my-app --routing --style=scss`                                      |
+| `ng serve`                   | Builds and serves the application locally.                                                       | `ng serve --open --port=4201`                                               |
+| `ng build`                   | Builds the application for deployment.                                                           | `ng build --prod --output-path=dist/my-app`                                 |
+| `ng test`                    | Runs unit tests.                                                                                 | `ng test --code-coverage`                                                   |
+| `ng e2e`                     | Runs end-to-end (E2E) tests.                                                                      | `ng e2e`                                                                    |
+| `ng generate <schematic>`    | Generates Angular code scaffolding (e.g., components, services).                                 | `ng generate component my-component`                                        |
+| `ng add <package-name>`      | Adds a package to the project and updates configurations automatically.                          | `ng add @angular/material`                                                  |
+| `ng lint`                    | Lints the project using the configured linting tool.                                             | `ng lint --fix`                                                             |
+| `ng update`                  | Updates Angular CLI and dependencies.                                                            | `ng update @angular/cli @angular/core`                                      |
+| `ng deploy`                  | Deploys the application to a hosting service.                                                    | `ng deploy --base-href=/my-app/`                                            |
+| `ng extract-i18n`            | Extracts translation strings for internationalization.                                           | `ng extract-i18n --output-path=src/locale`                                  |
+| `ng version`                 | Displays Angular CLI, framework, and dependency versions.                                        | `ng version`                                                                |
+| `ng help`                    | Displays help for Angular CLI commands.                                                          | `ng help`                                                                   |
+| `ng analytics`               | Configures Angular CLI usage analytics.                                                          | `ng analytics off`                                                          |
+| `ng config <key> <value>`    | Modifies Angular CLI configuration settings.                                                     | `ng config cli.defaultCollection @angular-eslint/schematics`                |
+| `ng cache`                   | Manages the Angular CLI cache.                                                                   | `ng cache clean`                                                            |
+| `ng run <target>`            | Runs a custom builder target defined in `angular.json`.                                          | `ng run my-app:build`                                                       |
+| `ng doc <keyword>`           | Opens the Angular documentation for a specific keyword.                                          | `ng doc Component`                                                          |
+| `ng analytics off`           | Disables usage analytics for Angular CLI.                                                        | `ng analytics off`                                                          |
+| `ng generate environment`    | Creates environment-specific files for configuration variables.                                  | `ng generate environment`                                                   |
+| `ng serve --proxy-config`    | Serves the application with a proxy configuration for API requests.                              | `ng serve --proxy-config proxy.conf.json`                                   |
+
+---
+
+### **Key Schematics for `ng generate`**
+
+| **Schematic**         | **Command**                          | **Description**                         |
+|-----------------------|--------------------------------------|-----------------------------------------|
+| Component             | `ng generate component <name>`      | Creates a new component.                |
+| Service               | `ng generate service <name>`        | Creates a new service.                  |
+| Module                | `ng generate module <name>`         | Creates a new module.                   |
+| Directive             | `ng generate directive <name>`      | Creates a new directive.                |
+| Pipe                  | `ng generate pipe <name>`           | Creates a new pipe.                     |
+| Guard                 | `ng generate guard <name>`          | Creates a new route guard.              |
+| Class                 | `ng generate class <name>`          | Creates a new class.                    |
+| Interface             | `ng generate interface <name>`      | Creates a new interface.                |
+| Enum                  | `ng generate enum <name>`           | Creates a new enumeration.              |
+
+Let me know if you'd like detailed explanations or examples for any of these commands!
+Here’s a list of **Angular CLI interview questions** based on the commands provided earlier, along with differences and key points for each. These questions are categorized for a comprehensive understanding.
+
+---
+
+### **Basic Questions on Angular CLI**
+
+1. **What is Angular CLI? Why is it important?**  
+   - Answer: Angular CLI (Command Line Interface) is a tool that helps developers create, develop, test, and deploy Angular applications efficiently. It provides built-in commands to reduce repetitive tasks.
+
+2. **What are the benefits of using Angular CLI?**  
+   - Quick scaffolding of components, services, and modules.  
+   - Simplified builds and production optimization.  
+   - Integration with testing frameworks.  
+   - Easy updates and configuration management.
+
+3. **What is the difference between `ng serve` and `ng build`?**  
+   | Feature            | `ng serve`                                           | `ng build`                                     |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Runs the app locally with live reload.              | Builds the app for deployment.                |
+   | Output             | No files generated in the `dist/` folder.           | Files are generated in the `dist/` folder.    |
+   | Optimization       | No production optimizations.                        | Optimized with flags like `--prod`.           |
+
+4. **What are the key differences between `ng add` and `npm install`?**  
+   | Feature            | `ng add`                                            | `npm install`                                  |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Adds a package and configures the project (e.g., Angular Material). | Installs packages without automatic configuration. |
+   | Configuration      | Automatically updates files (e.g., `angular.json`). | Manual configuration is required.             |
+
+---
+
+### **Command-Specific Questions**
+
+#### **`ng new`**
+1. **What does the `ng new` command do?**
+   - Creates a new Angular project with necessary files and configuration.
+
+2. **What options can you pass to `ng new`?**
+   - `--routing`, `--style`, `--strict`, etc.
+
+3. **How do you include SCSS styling when creating a new project?**
+   - Use the flag: `ng new my-app --style=scss`.
+
+#### **`ng serve`**
+4. **What is the default port for `ng serve`?**
+   - Port `4200`.
+
+5. **How do you change the port number in `ng serve`?**
+   - Use the flag: `--port=<port-number>`.
+
+#### **`ng build`**
+6. **What does the `--prod` flag do in `ng build`?**
+   - Enables Ahead-of-Time (AOT) compilation, minification, and tree-shaking.
+
+7. **What is the difference between `ng build` and `ng deploy`?**
+   | Feature            | `ng build`                                          | `ng deploy`                                   |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Builds the app for deployment.                      | Deploys the app to a hosting platform.        |
+   | Hosting            | Does not handle deployment.                         | Handles deployment with specific hosting.     |
+
+#### **`ng generate`**
+8. **How do you generate a new component?**
+   - Command: `ng generate component <name>` or `ng g c <name>`.
+
+9. **What is the purpose of the `--module` flag in `ng generate component`?**
+   - Specifies the module where the component should be declared.
+
+10. **What’s the difference between generating a `service` and a `component`?**
+   | Feature            | Service                                             | Component                                     |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Encapsulates logic and can be injected into other components. | Represents a view and logic for a UI element.|
+   | Declaration        | Not declared in modules.                            | Declared in Angular modules.                 |
+
+#### **`ng lint`**
+11. **What does the `ng lint` command do?**
+   - Runs the configured linting tool (ESLint/TSLint) to identify code issues.
+
+12. **How do you automatically fix linting errors?**
+   - Use the flag: `ng lint --fix`.
+
+#### **`ng update`**
+13. **What is the purpose of `ng update`?**
+   - Updates Angular CLI and other dependencies.
+
+14. **What’s the difference between `ng update` and `npm update`?**
+   | Feature            | `ng update`                                         | `npm update`                                  |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Updates Angular packages and dependencies.          | Updates any installed npm packages.           |
+   | Scope              | Focused on Angular ecosystem.                       | Applicable to all npm packages.               |
+
+#### **`ng add`**
+15. **What’s the difference between `ng add` and `ng generate`?**
+   | Feature            | `ng add`                                            | `ng generate`                                 |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Installs and configures external libraries.         | Generates Angular code scaffolding.           |
+   | Usage              | `ng add @angular/material`.                         | `ng generate component my-component`.         |
+
+#### **`ng extract-i18n`**
+16. **What is the purpose of `ng extract-i18n`?**
+   - Extracts translation strings for internationalization into an `.xlf` or `.json` file.
+
+#### **`ng doc`**
+17. **What does the `ng doc` command do?**
+   - Opens Angular documentation for the specified keyword in the default browser.
+
+#### **`ng cache`**
+18. **How do you clean the Angular CLI cache?**
+   - Command: `ng cache clean`.
+
+---
+
+### **Advanced Questions**
+
+1. **What is the `angular.json` file used for?**
+   - It stores workspace configurations like build, test, and serve options.
+
+2. **How do you enable production optimizations in an Angular project?**
+   - Use the `--prod` flag with `ng build`.
+
+3. **Explain how `ng run` differs from `ng serve`.**
+   - `ng run` executes a specific builder target defined in `angular.json`.
+
+4. **What are the differences between `ng test` and `ng e2e`?**
+   | Feature            | `ng test`                                           | `ng e2e`                                     |
+   |--------------------|-----------------------------------------------------|-----------------------------------------------|
+   | Purpose            | Runs unit tests.                                    | Runs end-to-end tests.                        |
+   | Framework          | Uses Jasmine and Karma by default.                  | Uses Protractor or Cypress.                   |
+
+---
+
+### **Scenario-Based Questions**
+
+1. **You need to create a lazy-loaded module with Angular CLI. How would you do it?**
+   - Use: `ng generate module <module-name> --route <route-name> --module app.module`.
+
+2. **How would you configure a proxy for API requests in development?**
+   - Create a `proxy.conf.json` file and use `ng serve --proxy-config proxy.conf.json`.
+
+3. **How do you analyze the bundle size of an Angular application?**
+   - Build with `ng build --stats-json` and use tools like `webpack-bundle-analyzer`.
+
+---
+
+Would you like more detailed answers or explanations for specific commands? Let me know!

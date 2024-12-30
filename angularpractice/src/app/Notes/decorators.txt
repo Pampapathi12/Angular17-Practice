@@ -1,0 +1,757 @@
+In Angular, metadata decorators are used to provide metadata about a class, method, property, or parameter. These decorators are functions prefixed with the `@` symbol and play a significant role in configuring the behavior of Angular components, directives, modules, and other building blocks.
+
+Here are the most common Angular metadata decorators:
+
+---
+
+### 1. **`@Component`**
+Defines a component and its metadata.
+
+**Example:**
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root', // The CSS selector to identify this component in templates
+  templateUrl: './app.component.html', // Path to the component's HTML template
+  styleUrls: ['./app.component.css'] // Path(s) to the component's styles
+})
+export class AppComponent {
+  title = 'Angular App';
+}
+```
+
+---
+
+### 2. **`@Directive`**
+Defines a directive and its metadata.
+
+**Example:**
+```typescript
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]' // Attribute selector
+})
+export class HighlightDirective {
+  constructor(el: ElementRef, renderer: Renderer2) {
+    renderer.setStyle(el.nativeElement, 'backgroundColor', 'yellow');
+  }
+}
+```
+
+---
+
+### 3. **`@NgModule`**
+Defines an Angular module and its metadata.
+
+**Example:**
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent // Declare the components, directives, and pipes
+  ],
+  imports: [
+    BrowserModule // Import Angular modules
+  ],
+  providers: [], // Provide services
+  bootstrap: [AppComponent] // Bootstrap this component
+})
+export class AppModule { }
+```
+
+---
+
+### 4. **`@Injectable`**
+Marks a class as available for dependency injection.
+
+**Example:**
+```typescript
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root' // Makes the service available throughout the app
+})
+export class DataService {
+  getData() {
+    return ['Data1', 'Data2'];
+  }
+}
+```
+
+---
+
+### 5. **`@Input`**
+Defines an input property for a component or directive to receive data from its parent.
+
+**Example:**
+```typescript
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<p>{{ data }}</p>`
+})
+export class ChildComponent {
+  @Input() data: string = ''; // Accepts data from the parent component
+}
+```
+
+---
+
+### 6. **`@Output`**
+Defines an output property to emit events to the parent component.
+
+**Example:**
+```typescript
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<button (click)="sendData()">Click Me</button>`
+})
+export class ChildComponent {
+  @Output() dataEmitter = new EventEmitter<string>();
+
+  sendData() {
+    this.dataEmitter.emit('Hello from Child!');
+  }
+}
+```
+
+---
+
+### 7. **`@HostListener`**
+Listens to events on the host element.
+
+**Example:**
+```typescript
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appClickTracker]'
+})
+export class ClickTrackerDirective {
+  @HostListener('click', ['$event'])
+  onClick(event: Event) {
+    console.log('Element clicked:', event);
+  }
+}
+```
+
+---
+
+### 8. **`@HostBinding`**
+Binds a property of the host element to a directive property.
+
+**Example:**
+```typescript
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+  selector: '[appBoldText]'
+})
+export class BoldTextDirective {
+  @HostBinding('style.fontWeight') fontWeight = 'bold';
+}
+```
+
+---
+
+### 9. **`@Pipe`**
+Defines a custom pipe and its metadata.
+
+**Example:**
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'uppercase'
+})
+export class UppercasePipe implements PipeTransform {
+  transform(value: string): string {
+    return value.toUpperCase();
+  }
+}
+```
+
+---
+
+### 10. **`@ContentChild` and `@ContentChildren`**
+Queries for projected content in a component.
+
+**Example:**
+```typescript
+import { Component, ContentChild } from '@angular/core';
+
+@Component({
+  selector: 'app-container',
+  template: `<ng-content></ng-content>`
+})
+export class ContainerComponent {
+  @ContentChild('content') content: any;
+}
+```
+
+---
+
+These decorators help Angular developers define the purpose and behavior of the class or property and configure how Angular interacts with them.
+=======================================================================================================================
+
+Here’s a deeper explanation of Angular metadata properties for each decorator, including less commonly discussed details:
+
+---
+
+### 1. **`@Component` Metadata Properties**
+
+Used to define a component, it includes several important properties:
+
+| Property         | Description                                                                                                                                      |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`selector`**    | Specifies the CSS selector that identifies the component in the template. E.g., `<app-root></app-root>` or `[appDirective]`.                    |
+| **`template`**    | Inline HTML content for the component.                                                                                                         |
+| **`templateUrl`** | Path to an external HTML template file.                                                                                                         |
+| **`styles`**      | Inline CSS styles for the component.                                                                                                           |
+| **`styleUrls`**   | Array of paths to external CSS files.                                                                                                          |
+| **`providers`**   | Specifies an array of services/providers available to this component and its children.                                                         |
+| **`animations`**  | Defines animations for this component.                                                                                                         |
+| **`encapsulation`** | Determines how styles are encapsulated. Values: `Emulated` (default), `None`, `ShadowDom`.                                                   |
+| **`changeDetection`** | Specifies change detection strategy. Values: `Default`, `OnPush`.                                                                           |
+| **`viewProviders`** | Similar to `providers` but only accessible within the component's view hierarchy.                                                            |
+| **`host`**        | Declares host element bindings. Example: `{ '[attr.aria-label]': 'label' }`.                                                                   |
+| **`inputs`**      | Lists the component’s input properties. Same as `@Input`.                                                                                      |
+| **`outputs`**     | Lists the component’s output properties. Same as `@Output`.                                                                                    |
+| **`entryComponents`** | Specifies components to compile when this component is defined. Required for dynamically loaded components in earlier versions of Angular. |
+
+---
+
+### 2. **`@Directive` Metadata Properties**
+
+Used to define a directive, it shares many properties with `@Component`.
+
+| Property         | Description                                                                                               |
+|------------------|----------------------------------------------------------------------------------------------------------|
+| **`selector`**    | Specifies the CSS selector that identifies the directive.                                               |
+| **`inputs`**      | Same as `@Input`, declares input properties for the directive.                                          |
+| **`outputs`**     | Same as `@Output`, declares output properties for the directive.                                        |
+| **`providers`**   | Defines services/providers available to the directive.                                                  |
+| **`host`**        | Declares host element bindings. E.g., `{ '[attr.disabled]': 'isDisabled' }`.                             |
+| **`exportAs`**    | Specifies the name under which the directive instance is exported. Allows referencing in templates.      |
+
+---
+
+### 3. **`@NgModule` Metadata Properties**
+
+Defines an Angular module with the following properties:
+
+| Property         | Description                                                                                                                                 |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| **`declarations`** | Lists the components, directives, and pipes declared in this module.                                                                      |
+| **`imports`**      | Lists the modules whose exported classes are needed by this module.                                                                       |
+| **`exports`**      | Specifies the components, directives, and pipes visible to other modules importing this module.                                           |
+| **`providers`**    | Declares the services/providers available in the module.                                                                                 |
+| **`bootstrap`**    | Specifies the root component that Angular should bootstrap when starting the application. Only used in the root module (`AppModule`).     |
+| **`entryComponents`** | Specifies dynamically loaded components. Typically unnecessary in Angular 9+ (with Ivy enabled).                                       |
+| **`schemas`**      | Allows the use of non-standard elements and attributes. Values: `NO_ERRORS_SCHEMA`, `CUSTOM_ELEMENTS_SCHEMA`.                             |
+
+---
+
+### 4. **`@Injectable` Metadata Properties**
+
+Marks a class as a provider available for dependency injection.
+
+| Property             | Description                                                                                       |
+|----------------------|---------------------------------------------------------------------------------------------------|
+| **`providedIn`**      | Specifies the scope of the service. Values: `root`, `any`, or a specific module. Default is `root`. |
+
+---
+
+### 5. **`@Input` and `@Output` Metadata Properties**
+
+- **`@Input`:**
+  - Defines an input property to receive data from the parent.
+  - **Optional alias:** You can provide a custom alias. Example:
+    ```typescript
+    @Input('aliasName') data!: string;
+    ```
+
+- **`@Output`:**
+  - Defines an event emitter for sending data to the parent.
+  - **Optional alias:** Example:
+    ```typescript
+    @Output('aliasEvent') dataEmitter = new EventEmitter<string>();
+    ```
+
+---
+
+### 6. **`@HostListener` Metadata Properties**
+
+| Parameter          | Description                                                                                            |
+|--------------------|--------------------------------------------------------------------------------------------------------|
+| Event name         | The event to listen for, e.g., `'click'`, `'mouseover'`.                                               |
+| Argument array     | Optionally passes event data. Example: `['$event']`.                                                   |
+
+Example:
+```typescript
+@HostListener('document:keydown', ['$event'])
+handleKeyDown(event: KeyboardEvent) {
+  console.log('Key pressed:', event.key);
+}
+```
+
+---
+
+### 7. **`@HostBinding` Metadata Properties**
+
+| Property          | Description                                                                                           |
+|-------------------|-------------------------------------------------------------------------------------------------------|
+| Bound property    | The host element property to bind. Example: `'class.highlight'`.                                       |
+
+Example:
+```typescript
+@HostBinding('class.active') isActive = false;
+```
+
+---
+
+### 8. **`@ContentChild` and `@ContentChildren` Metadata Properties**
+
+- **`@ContentChild`:**
+  - Queries a single element projected into a component.
+  - **Options:**
+    - `static`: Whether to resolve before view initialization (`true`) or after (`false`).
+    - `read`: Type or token to retrieve.
+
+- **`@ContentChildren`:**
+  - Queries multiple projected elements.
+
+Example:
+```typescript
+@ContentChildren('myDirective') elements: QueryList<ElementRef>;
+```
+
+---
+
+### 9. **`@Pipe` Metadata Properties**
+
+| Property         | Description                                                                                               |
+|------------------|----------------------------------------------------------------------------------------------------------|
+| **`name`**       | The name used to invoke the pipe in templates.                                                           |
+| **`pure`**       | Specifies if the pipe is pure (default: `true`). A pure pipe is only re-evaluated when its inputs change. |
+
+---
+
+### 10. **Common Options for Decorators**
+
+For decorators like `@Component`, `@Directive`, `@Pipe`, and `@NgModule`, you might encounter these shared options:
+
+| Option              | Description                                                                                              |
+|---------------------|----------------------------------------------------------------------------------------------------------|
+| **`inheritance`**    | Allows inheriting metadata from a parent class.                                                         |
+| **`queries`**        | Declares queries for child components or directives.                                                    |
+
+By understanding these properties and their use cases, you can make the most out of Angular's metadata-driven framework.
+==============================================================================================================
+
+Here’s a list of interview questions specifically focused on Angular metadata decorators, along with detailed answers:
+
+---
+
+### **Basic Metadata Decorator Questions**
+
+#### 1. **What is a metadata decorator in Angular?**
+**Answer:**
+Metadata decorators are special functions in Angular that add metadata to classes, properties, or methods. These decorators define the behavior and configuration of Angular entities such as components, directives, pipes, and modules.
+
+Examples: `@Component`, `@Directive`, `@Injectable`, `@NgModule`, `@Pipe`.
+
+---
+
+#### 2. **What are the different types of metadata decorators in Angular?**
+**Answer:**
+Key metadata decorators in Angular include:
+- **`@Component`**: Defines a component.
+- **`@Directive`**: Defines a directive.
+- **`@NgModule`**: Defines an Angular module.
+- **`@Injectable`**: Defines a service for dependency injection.
+- **`@Pipe`**: Defines a custom pipe.
+- **`@Input` and `@Output`**: For binding data to/from components.
+- **`@HostListener` and `@HostBinding`**: To interact with the host element.
+- **`@ContentChild` and `@ContentChildren`**: For querying projected content.
+
+---
+
+#### 3. **What is the purpose of the `@Component` decorator?**
+**Answer:**
+The `@Component` decorator defines a class as a component and provides metadata to configure the component. It includes:
+- **`selector`**: Identifies the component in the DOM.
+- **`template/templateUrl`**: Defines the component's HTML.
+- **`styles/styleUrls`**: Specifies CSS styles.
+- **Other properties**: `encapsulation`, `providers`, `animations`.
+
+Example:
+```typescript
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
+})
+export class ExampleComponent {}
+```
+
+---
+
+#### 4. **How does `@NgModule` differ from `@Component`?**
+**Answer:**
+| Feature           | `@NgModule`                                    | `@Component`                                      |
+|-------------------|------------------------------------------------|--------------------------------------------------|
+| Purpose           | Defines a module.                              | Defines a component.                             |
+| Key Properties    | `declarations`, `imports`, `providers`, etc.   | `selector`, `template`, `styleUrls`, etc.        |
+| Usage             | Organizes an application into blocks of functionality. | Represents a specific UI part in the application.|
+
+---
+
+### **Advanced Metadata Decorator Questions**
+
+#### 5. **What is the use of `@Input` and `@Output` decorators?**
+**Answer:**
+- **`@Input`**: Passes data from a parent component to a child component.
+- **`@Output`**: Emits events from a child component to a parent component using an `EventEmitter`.
+
+Example:
+```typescript
+// Parent component template
+<app-child [childData]="data" (childEvent)="handleEvent($event)"></app-child>
+
+// Child component
+@Component({
+  selector: 'app-child',
+  template: '<button (click)="sendEvent()">Click Me</button>'
+})
+export class ChildComponent {
+  @Input() childData!: string;
+  @Output() childEvent = new EventEmitter<string>();
+
+  sendEvent() {
+    this.childEvent.emit('Hello Parent!');
+  }
+}
+```
+
+---
+
+#### 6. **What are `@HostListener` and `@HostBinding` used for?**
+**Answer:**
+- **`@HostListener`**: Listens to events on the host element.
+- **`@HostBinding`**: Binds a host element property to a component/directive property.
+
+Example:
+```typescript
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  @HostBinding('style.backgroundColor') bgColor = 'transparent';
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.bgColor = 'yellow';
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.bgColor = 'transparent';
+  }
+}
+```
+
+---
+
+#### 7. **What is the difference between `@ContentChild` and `@ViewChild`?**
+**Answer:**
+| Feature           | `@ContentChild`                                   | `@ViewChild`                                    |
+|-------------------|---------------------------------------------------|------------------------------------------------|
+| Scope             | Queries content projected into the component.     | Queries elements inside the component's template. |
+| Use Case          | Used in components with content projection (`<ng-content>`). | Used for elements within the same component.  |
+
+Example:
+```typescript
+// Parent template
+<app-container>
+  <p #contentParagraph>Projected Content</p>
+</app-container>
+
+// Container component
+@Component({
+  selector: 'app-container',
+  template: '<ng-content></ng-content>'
+})
+export class ContainerComponent {
+  @ContentChild('contentParagraph') paragraph!: ElementRef;
+}
+```
+
+---
+
+#### 8. **How does `@Injectable` differ from `@NgModule`?**
+**Answer:**
+- **`@Injectable`**: Marks a class as a service available for dependency injection.
+- **`@NgModule`**: Declares and organizes components, directives, pipes, and services in a module.
+
+Example of `@Injectable`:
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class MyService {}
+```
+
+---
+
+#### 9. **What is the `providers` property in metadata decorators?**
+**Answer:**
+The `providers` array in `@Component` or `@NgModule` metadata specifies the services available for dependency injection.
+
+- **`@Component` `providers`**: Makes a service available only to the component and its children.
+- **`@NgModule` `providers`**: Makes a service available application-wide.
+
+Example:
+```typescript
+@Component({
+  selector: 'app-example',
+  providers: [MyService]
+})
+export class ExampleComponent {}
+```
+
+---
+
+#### 10. **What is the role of `encapsulation` in the `@Component` decorator?**
+**Answer:**
+The `encapsulation` property in `@Component` controls how styles are scoped:
+- **`Emulated` (default)**: Styles are scoped to the component using attribute selectors.
+- **`None`**: Styles are global and not scoped.
+- **`ShadowDom`**: Uses native shadow DOM for style encapsulation.
+
+Example:
+```typescript
+@Component({
+  selector: 'app-example',
+  template: '<p>Hello</p>',
+  styles: ['p { color: red; }'],
+  encapsulation: ViewEncapsulation.Emulated
+})
+export class ExampleComponent {}
+```
+
+---
+
+These questions should prepare you well for metadata-specific Angular interviews.
+==================================================================================================================
+Here’s an extended list of metadata decorator-related Angular interview questions and answers:
+
+---
+
+### **Advanced Metadata Decorator Questions**
+
+#### 11. **What is the use of the `entryComponents` property in `@NgModule`?**
+**Answer:**
+The `entryComponents` property in `@NgModule` metadata lists components that are not referenced in templates but are dynamically loaded. These components are included in the build to ensure they are available at runtime.
+
+Example:
+```typescript
+@NgModule({
+  declarations: [DynamicComponent],
+  entryComponents: [DynamicComponent]
+})
+export class AppModule {}
+```
+
+---
+
+#### 12. **Explain the `declarations`, `imports`, and `exports` properties in `@NgModule`.**
+**Answer:**
+- **`declarations`**: Declares components, directives, and pipes used in the module.
+- **`imports`**: Imports other Angular modules to make their functionalities available.
+- **`exports`**: Exports components, directives, or pipes to make them available to other modules.
+
+Example:
+```typescript
+@NgModule({
+  declarations: [ExampleComponent],
+  imports: [CommonModule],
+  exports: [ExampleComponent]
+})
+export class SharedModule {}
+```
+
+---
+
+#### 13. **What is the `selector` property in `@Component`?**
+**Answer:**
+The `selector` defines the custom HTML tag that identifies the component. It allows the component to be used in templates.
+
+Example:
+```typescript
+@Component({
+  selector: 'app-example',
+  template: '<h1>Hello World</h1>'
+})
+export class ExampleComponent {}
+```
+The `<app-example>` tag can now be used in templates.
+
+---
+
+#### 14. **What does the `multi: true` property in the `@Injectable` decorator do?**
+**Answer:**
+The `multi: true` option allows multiple providers for the same token. The dependency injector will provide an array of all instances.
+
+Example:
+```typescript
+@Injectable({ providedIn: 'root' })
+class Logger {}
+
+@NgModule({
+  providers: [
+    { provide: 'LOG', useClass: ConsoleLogger, multi: true },
+    { provide: 'LOG', useClass: FileLogger, multi: true }
+  ]
+})
+export class AppModule {}
+```
+
+---
+
+#### 15. **What is the difference between `@ContentChild` and `@ContentChildren`?**
+**Answer:**
+- **`@ContentChild`**: Retrieves a single projected element.
+- **`@ContentChildren`**: Retrieves a list of projected elements.
+
+Example:
+```typescript
+@ContentChildren('projectedItem') items!: QueryList<ElementRef>;
+
+@ContentChild('projectedItem') item!: ElementRef;
+```
+
+---
+
+#### 16. **How do you create and use a custom decorator in Angular?**
+**Answer:**
+A custom decorator is created as a function that returns another function. It can be used for logging, validation, etc.
+
+Example:
+```typescript
+function LogMethod() {
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+      console.log(`Calling ${key} with`, args);
+      return originalMethod.apply(this, args);
+    };
+  };
+}
+
+class ExampleClass {
+  @LogMethod()
+  sayHello(name: string) {
+    return `Hello ${name}`;
+  }
+}
+```
+
+---
+
+#### 17. **What is the purpose of `@Self`, `@Optional`, and `@SkipSelf` in Angular?**
+**Answer:**
+These are parameter decorators for controlling how Angular resolves dependencies:
+- **`@Self`**: Retrieves a dependency from the current injector only.
+- **`@Optional`**: Makes a dependency optional. If not found, it returns `null`.
+- **`@SkipSelf`**: Skips the current injector and retrieves the dependency from the parent injector.
+
+Example:
+```typescript
+constructor(@Optional() @Self() public service: MyService) {}
+```
+
+---
+
+#### 18. **What is the `forwardRef` function used for in Angular?**
+**Answer:**
+`forwardRef` allows you to refer to references that are not yet defined. It is useful for circular dependencies.
+
+Example:
+```typescript
+@Injectable()
+class ParentService {}
+
+@Injectable()
+class ChildService {
+  constructor(@Inject(forwardRef(() => ParentService)) private parent: ParentService) {}
+}
+```
+
+---
+
+#### 19. **What is the role of the `resolve` property in Angular's `@RouteConfig` decorator?**
+**Answer:**
+The `resolve` property pre-fetches data before activating a route. It uses `Resolve` guard to fetch data.
+
+Example:
+```typescript
+const routes: Routes = [
+  {
+    path: 'details',
+    component: DetailsComponent,
+    resolve: { data: DataResolverService }
+  }
+];
+```
+
+---
+
+#### 20. **How does Angular's `@Directive` decorator differ from `@Component` in metadata configuration?**
+**Answer:**
+- **`@Directive`**: Adds behavior to existing elements.
+- **`@Component`**: Creates a reusable UI block with a template.
+
+Example:
+```typescript
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  @HostBinding('style.backgroundColor') bgColor = 'yellow';
+}
+```
+
+---
+
+#### 21. **What are `host` and `hostBindings` in Angular metadata decorators?**
+**Answer:**
+- **`host`**: Provides a shorthand for binding events or properties.
+- **`hostBindings`**: Similar, but used in `@Directive` or `@Component`.
+
+Example:
+```typescript
+@Directive({
+  selector: '[appExample]',
+  host: {
+    '(click)': 'onClick()',
+    '[class.active]': 'isActive'
+  }
+})
+export class ExampleDirective {
+  isActive = true;
+  onClick() {
+    console.log('Clicked!');
+  }
+}
+```
+
+---
+
+These advanced questions should help you prepare for a detailed discussion on Angular's metadata decorators in interviews. Let me know if you'd like even more!
