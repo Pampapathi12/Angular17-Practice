@@ -1,0 +1,236 @@
+Data Binding in angular allows us to communicate between a component class and its corresponding
+view template and vice-versa
+communication between compoent and view template
+ component have ui logic and view template  render data of the compoent 
+ ===============================================================================================================
+ one way data binding : from component to view and view to component 
+ 
+
+
+ Here’s a detailed **categorized list** of different types of bindings available in Angular:
+
+---
+
+### **1. Property Binding**
+Used to bind a component property to a DOM element property.  
+Syntax: `[property]="value"`
+
+| Binding Type   | Example                                         | Description                                             |
+|----------------|-------------------------------------------------|---------------------------------------------------------|
+| HTML attribute | `<img [src]="imageUrl">`                        | Binds the `src` property of an image element.          |
+| DOM property   | `<input [value]="username">`                    | Binds the `value` property of an input element.        |
+| Boolean        | `<button [disabled]="isDisabled">Click</button>`| Binds a boolean property like `disabled`.              |
+
+---
+
+### **2. Event Binding**
+Used to listen for events such as clicks, keypresses, etc.  
+Syntax: `(event)="handlerFunction($event)"`
+
+| Binding Type   | Example                                         | Description                                             |
+|----------------|-------------------------------------------------|---------------------------------------------------------|
+| DOM Event      | `<button (click)="onClick()">Click Me</button>` | Calls `onClick()` when the button is clicked.          |
+| Key Event      | `<input (keyup)="onKeyUp($event)">`             | Listens for keyup events on the input element.         |
+| Custom Event   | `<child (customEvent)="onCustomEvent($event)">` | Handles events emitted by child components.            |
+
+---
+
+### **3. Two-Way Binding**
+Combines property binding and event binding to synchronize data between the view and model.  
+Syntax: `[(ngModel)]="property"`
+
+| Binding Type     | Example                                    | Description                                             |
+|------------------|--------------------------------------------|---------------------------------------------------------|
+| Input Control    | `<input [(ngModel)]="username">`           | Syncs `username` between the input and component.       |
+| Custom Component | `<app-child [(value)]="childValue"></app-child>` | Enables two-way binding for custom components. |
+
+---
+
+### **4. Style Binding**
+Used to dynamically set inline styles on elements.  
+Syntax: `[style.property]="value"`
+
+| Binding Type      | Example                                        | Description                                             |
+|-------------------|------------------------------------------------|---------------------------------------------------------|
+| Single Style      | `<p [style.color]="textColor">Hello</p>`       | Binds a single style property like `color`.            |
+| Multiple Styles   | `<p [ngStyle]="{ color: textColor, fontSize: '16px' }">Hello</p>` | Binds multiple styles using `ngStyle`. |
+
+---
+
+### **5. Class Binding**
+Used to dynamically add or remove CSS classes.  
+Syntax: `[class.className]="value"`
+
+| Binding Type     | Example                                             | Description                                             |
+|------------------|-----------------------------------------------------|---------------------------------------------------------|
+| Single Class     | `<div [class.active]="isActive">Content</div>`      | Adds `active` class if `isActive` is true.             |
+| Multiple Classes | `<div [ngClass]="{ active: isActive, hidden: isHidden }">Content</div>` | Dynamically adds or removes multiple classes. |
+
+---
+
+### **6. Attribute Binding**
+Used to bind HTML attributes (not DOM properties).  
+Syntax: `[attr.attributeName]="value"`
+
+| Binding Type         | Example                                       | Description                                             |
+|----------------------|-----------------------------------------------|---------------------------------------------------------|
+| Accessibility        | `<button [attr.aria-label]="label">Click</button>` | Sets an ARIA attribute dynamically.                   |
+| Non-standard Attr.   | `<div [attr.custom-attr]="customValue"></div>`| Binds custom or non-standard attributes.               |
+
+---
+
+### **7. Interpolation (String Binding)**
+Used to display dynamic content in the DOM.  
+Syntax: `{{expression}}`
+
+| Binding Type         | Example                     | Description                                             |
+|----------------------|-----------------------------|---------------------------------------------------------|
+| Text Content         | `<h1>{{title}}</h1>`        | Displays the value of `title` in the `<h1>` tag.       |
+| Expressions          | `<p>{{1 + 1}}</p>`          | Displays the result of expressions.                   |
+| Safe HTML            | `<div [innerHTML]="html"></div>` | Renders raw HTML content securely.                   |
+
+---
+
+### **8. Other Bindings**
+
+| Binding Type            | Example                                          | Description                                             |
+|-------------------------|--------------------------------------------------|---------------------------------------------------------|
+| **[innerHTML]**         | `<div [innerHTML]="htmlContent"></div>`          | Dynamically binds HTML content.                        |
+| **[outerHTML]**         | `<div [outerHTML]="outerHtmlContent"></div>`     | Dynamically binds HTML content, including the element itself. |
+| **[style]**             | `<div [style]="dynamicStyles"></div>`            | Dynamically binds multiple styles using an object.      |
+| **[class]**             | `<div [class]="dynamicClasses"></div>`           | Dynamically binds multiple classes using an object.     |
+| **[routerLink]**        | `<a [routerLink]="['/home']">Home</a>`           | Binds the route link dynamically.                      |
+| **[src]**               | `<img [src]="imagePath">`                        | Binds the `src` attribute of an image.                 |
+| **[disabled]**          | `<button [disabled]="isDisabled">Click</button>` | Enables or disables an element dynamically.            |
+
+---
+
+### Summary of Binding Types and Syntax
+| Binding Type       | Syntax                  |
+|--------------------|-------------------------|
+| Property Binding   | `[property]="value"`    |
+| Event Binding      | `(event)="handler($event)"` |
+| Two-Way Binding    | `[(ngModel)]="property"` |
+| Style Binding      | `[style.property]="value"` |
+| Class Binding      | `[class.className]="value"` |
+| Attribute Binding  | `[attr.attributeName]="value"` |
+| Interpolation      | `{{expression}}`       |
+
+Let me know if you want more examples or specific use cases for any of these bindings!
+======================================================================================================================
+Angular provides a rich set of directives and attributes for template binding, event handling, and dynamic styling. Here is a categorized list of commonly used Angular attributes:
+
+---
+
+### **1. Structural Directives**
+Structural directives modify the DOM layout by adding or removing elements.
+
+| Attribute/Directive   | Description                           |
+|------------------------|---------------------------------------|
+| `*ngIf`               | Conditionally add or remove elements.|
+| `*ngFor`              | Repeat a block of HTML for each item in a collection. |
+| `*ngSwitch`           | Switch between multiple templates.   |
+| `*ngSwitchCase`       | Defines a case for `ngSwitch`.        |
+| `*ngSwitchDefault`    | Defines a default case for `ngSwitch`.|
+
+---
+
+### **2. Attribute Directives**
+Attribute directives modify the behavior or appearance of an element.
+
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[hidden]`               | Toggles the visibility of an element (via `display: none`). |
+| `[class]`                | Dynamically binds CSS classes.                |
+| `[style]`                | Dynamically binds inline styles.              |
+| `ngClass`                | Adds or removes multiple CSS classes dynamically.|
+| `ngStyle`                | Adds or removes inline styles dynamically.     |
+| `[attr.attributeName]`   | Dynamically binds an attribute. Example: `[attr.aria-label]`.|
+| `[disabled]`             | Dynamically enables or disables an element.    |
+
+---
+
+### **3. Event Binding**
+Bind events like `click`, `change`, or custom events to methods.
+
+| Attribute                | Description                                    |
+|--------------------------|------------------------------------------------|
+| `(click)`                | Binds a method to a click event.               |
+| `(change)`               | Binds a method to an input change event.       |
+| `(keyup)`                | Binds a method to a keyup event.               |
+| `(keydown)`              | Binds a method to a keydown event.             |
+| `(mouseover)`            | Binds a method to a mouseover event.           |
+| `(mouseleave)`           | Binds a method to a mouseleave event.          |
+
+---
+
+### **4. Two-Way Data Binding**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[(ngModel)]`            | Creates a two-way data binding between the view and the model. Requires the `FormsModule`. |
+
+---
+
+### **5. Input and Output Binding**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[property]`             | One-way binding for properties.               |
+| `(event)`                | Event binding for custom or built-in events.  |
+| `[(ngModel)]`            | Two-way binding (shorthand for `[value]` and `(input)`).|
+| `[value]`                | One-way binding for an input field's value.   |
+
+---
+
+### **6. Lifecycle Hooks**
+| Attribute                | Description                                    |
+|--------------------------|------------------------------------------------|
+| `ngOnInit()`             | Executes when the component initializes.       |
+| `ngOnDestroy()`          | Executes just before the component is destroyed.|
+| `ngAfterViewInit()`      | Executes after the component’s view has been initialized. |
+
+---
+
+### **7. Router-Related Directives**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[routerLink]`           | Navigates to a route.                         |
+| `[routerLinkActive]`     | Adds a CSS class when the route is active.     |
+| `router-outlet`          | Placeholder for dynamically loaded components. |
+| `[queryParams]`          | Adds query parameters to a route.             |
+
+---
+
+### **8. Form-Related Directives**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `formControlName`        | Binds an input to a specific form control.     |
+| `ngForm`                 | Tracks the state of a form.                   |
+| `required`               | Marks an input as required.                   |
+| `minlength`              | Sets a minimum character length.              |
+| `maxlength`              | Sets a maximum character length.              |
+
+---
+
+### **9. Custom Directive Binding**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[appCustomDirective]`   | Applies a custom directive to an element.      |
+
+---
+
+### **10. Other Useful Attributes**
+| Attribute/Directive      | Description                                    |
+|---------------------------|------------------------------------------------|
+| `[src]`                  | Dynamically binds the `src` attribute of an image.|
+| `[href]`                 | Dynamically binds the `href` attribute of a link.|
+| `[innerHTML]`            | Binds raw HTML content inside an element.       |
+| `[outerHTML]`            | Binds raw HTML including the element itself.    |
+
+---
+
+### **Note:**
+- The square brackets `[]` indicate property binding.
+- Parentheses `()` indicate event binding.
+- Square brackets with parentheses `[()]` indicate two-way binding.
+
+Let me know if you'd like details about any specific directive or attribute!
