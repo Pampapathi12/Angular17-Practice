@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class ProductListComponent {
 
+  listOfString: string[] = ['mark', 'steve', 'reddy', 'manoj', 'pampapathi']
+
   // name: string = 'IPhone';
   // price: number = 999;
   // color: string = 'Red'
