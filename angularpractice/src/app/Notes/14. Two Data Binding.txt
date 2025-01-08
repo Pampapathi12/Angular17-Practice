@@ -1,0 +1,158 @@
+1. two way data binding is combination of property and event binding
+
+
+### **Two-Way Data Binding in Angular**
+
+Two-way data binding is a technique in Angular that establishes a connection between the component's data and the user interface (UI). Any changes in the UI are reflected in the component, and vice versa. Angular achieves this using the `[(ngModel)]` directive.
+
+---
+
+### **Key Concepts**
+
+1. **One-Way Binding**:
+   - **From Component to View (Interpolation & Property Binding)**:
+     - Interpolation: `{{data}}`
+     - Property Binding: `[property]="data"`
+   - **From View to Component (Event Binding)**:
+     - Event Binding: `(event)="updateData($event)"`
+
+2. **Two-Way Binding**:
+   - Combines both Property Binding and Event Binding.
+   - Syntax: `[(ngModel)]="data"`
+   - Requires importing `FormsModule` in the module.
+
+---
+
+### **Example: Two-Way Data Binding**
+
+#### **app.module.ts**
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormsModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+#### **app.component.ts**
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title: string = 'Angular Two-Way Data Binding';
+  userName: string = '';
+}
+```
+
+#### **app.component.html**
+```html
+<div>
+  <h1>{{ title }}</h1>
+  <label for="userName">Enter Your Name:</label>
+  <input id="userName" [(ngModel)]="userName" placeholder="Enter name" />
+  <p>Your Name: {{ userName }}</p>
+</div>
+```
+
+---
+
+### **How Two-Way Data Binding Works**
+
+1. **Property Binding**:
+   The value of `userName` is bound to the `<input>` element.
+   ```html
+   [value]="userName"
+   ```
+
+2. **Event Binding**:
+   The `input` event updates the `userName` variable in the component whenever the user types in the field.
+   ```html
+   (input)="userName = $event.target.value"
+   ```
+
+   Combined together:
+   ```html
+   [(ngModel)]="userName"
+   ```
+
+---
+
+### **Common Questions and Answers for Interviews**
+
+#### **Basic Questions**
+
+1. **What is Two-Way Data Binding?**
+   - Two-way data binding is a mechanism in Angular where changes in the component's data are reflected in the view, and changes in the view are reflected in the component automatically.
+
+2. **What is the syntax for Two-Way Data Binding?**
+   - The syntax is `[(ngModel)]="propertyName"`.
+
+3. **What module is required for Two-Way Data Binding?**
+   - You need to import `FormsModule` in your Angular module.
+
+---
+
+#### **Advanced Questions**
+
+4. **How does Two-Way Data Binding work under the hood?**
+   - Two-way data binding is syntactic sugar for combining property binding `[value]="property"` and event binding `(input)="property = $event.target.value"`. The `ngModel` directive manages this.
+
+5. **Can you use Two-Way Data Binding without `ngModel`?**
+   - Yes, by manually implementing property binding and event binding:
+     ```html
+     <input [value]="data" (input)="data = $event.target.value" />
+     ```
+
+6. **What are the use cases for Two-Way Data Binding?**
+   - Forms: Updating model data when a user types in inputs, selects options, or toggles switches.
+   - Real-time UI updates: Synchronizing UI elements like sliders or counters with data in the component.
+
+7. **What are the downsides of Two-Way Data Binding?**
+   - It can introduce complexity and coupling between the component and the template.
+   - May lead to performance issues in large applications if not managed properly.
+
+---
+
+#### **Code-Based Questions**
+
+8. **Write code to bind an input field to a `user.email` object using Two-Way Data Binding.**
+   ```html
+   <input [(ngModel)]="user.email" placeholder="Enter email" />
+   ```
+
+9. **Explain how to implement Two-Way Data Binding with Reactive Forms.**
+   - Two-way binding is not natively supported with Reactive Forms. Instead, you can use `formControl` or `formControlName`:
+     ```html
+     <input [formControl]="emailControl" />
+     ```
+
+---
+
+#### **Debugging Questions**
+
+10. **Why is `[(ngModel)]` not working in my Angular application?**
+    - Ensure `FormsModule` is imported in the module.
+    - Check if the `name` attribute is missing in the form control.
+    - Confirm there are no typos in the binding syntax.
+
+---
+
+### **Practice Scenarios**
+
+1. Create a registration form with Two-Way Data Binding for `username`, `password`, and `confirmPassword`.
+2. Implement a real-time character counter for a text area using Two-Way Data Binding.
+3. Build a simple todo application with Two-Way Data Binding for adding new tasks.
+
+Let me know if you want more examples or in-depth explanations!
