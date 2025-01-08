@@ -1,0 +1,178 @@
+-> A directive is an instruction to the DOM
+manipulate DOM , change Behavior, Add/Remove DOM elements
+
+1. Component directive =>
+2. Attribute directive => ngStyle,ngClass ( attribute directive is used to change the appearance of of a DOM elements)
+3. Structural directive => (Structural directives is use to add or remove a DOM element on the Webpage) * tell to angular its a Structural directive
+
+
+
+custome directive
+
+<div changeToGreen> Some Content</div>
+@directive({
+    selector: '[changeToGreen]'
+})
+export class changeToGreen{
+
+}
+
+
+
+
+
+### Directives in Angular: Types, Examples, and Interview Q&A
+
+Directives in Angular are used to manipulate the DOM (Document Object Model). Angular provides three types of directives: **Structural**, **Attribute**, and **Custom Directives**.
+
+---
+
+### **1. Structural Directives**
+Structural directives change the structure of the DOM by adding or removing elements.
+
+#### Examples:
+- **`*ngIf`**: Conditionally includes a template.
+  ```html
+  <div *ngIf="isVisible">Content is visible</div>
+  ```
+- **`*ngFor`**: Repeats a node for each item in a list.
+  ```html
+  <ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+  </ul>
+  ```
+- **`*ngSwitch`**: Switch between multiple templates.
+  ```html
+  <div [ngSwitch]="viewMode">
+    <p *ngSwitchCase="'list'">List View</p>
+    <p *ngSwitchCase="'grid'">Grid View</p>
+    <p *ngSwitchDefault>Default View</p>
+  </div>
+  ```
+
+---
+
+### **2. Attribute Directives**
+Attribute directives modify the appearance or behavior of an element, component, or another directive.
+
+#### Examples:
+- **`ngClass`**: Dynamically add or remove classes.
+  ```html
+  <div [ngClass]="{'active': isActive, 'disabled': isDisabled}">Content</div>
+  ```
+- **`ngStyle`**: Dynamically set inline styles.
+  ```html
+  <div [ngStyle]="{'color': textColor, 'font-size': fontSize}">Styled Content</div>
+  ```
+- **`[disabled]`**: Enable or disable an element.
+  ```html
+  <button [disabled]="isDisabled">Click Me</button>
+  ```
+
+---
+
+### **3. Custom Directives**
+Custom directives are created by developers to encapsulate reusable logic.
+
+#### Example:
+A directive to change the background color on hover:
+```typescript
+import { Directive, ElementRef, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appHoverHighlight]'
+})
+export class HoverHighlightDirective {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.el.nativeElement.style.backgroundColor = 'yellow';
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.el.nativeElement.style.backgroundColor = null;
+  }
+}
+```
+
+Usage:
+```html
+<p appHoverHighlight>Hover over this text</p>
+```
+
+---
+
+### **Interview Questions and Answers**
+
+#### **Q1. What is a directive in Angular?**
+- **A:** A directive is a class that adds behavior to elements in the Angular application. Angular directives are used to manipulate the DOM or extend its behavior.
+
+---
+
+#### **Q2. What are the types of directives in Angular?**
+- **A:** Angular provides three types of directives:
+  1. Structural Directives (`*ngIf`, `*ngFor`, `*ngSwitch`)
+  2. Attribute Directives (`[ngClass]`, `[ngStyle]`, `[disabled]`)
+  3. Custom Directives (User-defined directives)
+
+---
+
+#### **Q3. What is the difference between `*ngIf` and `*ngFor`?**
+- **A:** 
+  - `*ngIf`: Conditionally adds or removes an element from the DOM based on a boolean condition.
+  - `*ngFor`: Iterates over a collection and renders an element for each item in the collection.
+
+---
+
+#### **Q4. How do you create a custom directive in Angular?**
+- **A:** You create a custom directive using the `@Directive` decorator. Here's an example:
+  ```typescript
+  @Directive({
+    selector: '[appCustomDirective]'
+  })
+  export class CustomDirective {
+    constructor() {
+      // Custom logic
+    }
+  }
+  ```
+
+---
+
+#### **Q5. What is the difference between Structural and Attribute directives?**
+- **A:**
+  - **Structural Directives**: Modify the structure of the DOM by adding or removing elements (e.g., `*ngIf`, `*ngFor`).
+  - **Attribute Directives**: Modify the behavior or appearance of an existing DOM element (e.g., `[ngClass]`, `[ngStyle]`).
+
+---
+
+#### **Q6. Can multiple structural directives be applied to the same element?**
+- **A:** No, you cannot apply multiple structural directives to the same element. You can wrap the element with another element to achieve this.
+
+---
+
+#### **Q7. What is `HostListener` in Angular?**
+- **A:** `HostListener` is a decorator that allows you to listen to events on the host element of a directive. Example:
+  ```typescript
+  @HostListener('click') onClick() {
+    console.log('Element clicked!');
+  }
+  ```
+
+---
+
+#### **Q8. What is the difference between `@Directive` and `@Component` in Angular?**
+- **A:**
+  - `@Directive`: Used to define a directive that manipulates the DOM.
+  - `@Component`: A special type of directive with a template, styles, and encapsulated logic to define a UI element.
+
+---
+
+### Practice Scenarios:
+1. Create a directive to toggle the text color between red and blue when clicked.
+2. Create a custom structural directive to display an element only if the user has a specific role.
+3. Use `ngClass` to dynamically add classes based on the current state of a variable.
+
+---
+
+Would you like detailed examples for the practice scenarios or more interview-style questions?
