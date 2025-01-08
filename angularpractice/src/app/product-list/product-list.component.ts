@@ -10,7 +10,8 @@ export class ProductListComponent {
   // name: string = 'IPhone';
   // price: number = 999;
   // color: string = 'Red'
-  name="pampapathi"
+  name="pampapathi reddy"
+  addToCart: number = 0;
 
   product = {
     name: 'Iphone X',
@@ -24,6 +25,21 @@ export class ProductListComponent {
 
   getDiscountPrice(){
    return this.product.price - (this.product.price * this.product.discount / 100)
+  }
+  onNameChange(event: any){
+    console.log((event.target ).value)
+    this.name = (event.target ).value;
+  }
+  decrementCartValue(){
+    if(this.addToCart > 0){
+      this.addToCart--;
+    }
+   
+  }
+  incrementCartValue(){
+    if(this.addToCart < this.product.inStock){
+    this.addToCart++;
+    }
   }
 
 

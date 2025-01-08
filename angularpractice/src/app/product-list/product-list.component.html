@@ -8,8 +8,16 @@
  <p>{{ product.inStock > 0 ? 'Only ' + product.inStock + ' Items Left' : 'Not In Stock' }}</p>
 
  <button [disabled]="!(product.inStock > 0)">buy now</button>
- <input [value]="name">
- <input bind-value="name">
+ <!-- <input [value]="name" (input)="onNameChange()">  -->
+ <!-- <input  (input)="onNameChange()">  -->
+ <input  (input)="onNameChange($event)"> 
+ <!-- input event for the change the value -->
+ <br>
+ <p>Name = {{name}}</p>
+ <button (click)="decrementCartValue()">-</button>
+ <span>{{addToCart}}</span>
+ <button (click)="incrementCartValue()">+</button>
+ <!-- <input bind-value="name"> -->
 
  <!-- we can use show 2 decimal point -->
 <!-- <p>Discount: $999</p> -->

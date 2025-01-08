@@ -1,0 +1,165 @@
+event binding :- data flows from the view Template to component class
+
+
+
+
+In Angular, **event binding** is a way to bind an event (like a click, hover, keypress, etc.) to a method or an expression in the component. Event binding uses parentheses `()` to bind to the target event in the template.
+
+### **Types of Angular Event Binding**
+
+1. **Standard Event Binding**
+   - Syntax:  
+     ```html
+     <button (click)="onClick()">Click me</button>
+     ```
+   - Binds to standard DOM events like `click`, `input`, `keyup`, etc.
+
+2. **Event Binding with Template Variables**
+   - Syntax:  
+     ```html
+     <input #myInput (keyup)="onKeyUp(myInput.value)">
+     ```
+
+3. **Custom Events with `@Output`**
+   - Example:  
+     ```typescript
+     @Output() customEvent = new EventEmitter<string>();
+     emitEvent() {
+       this.customEvent.emit('Hello from Child!');
+     }
+     ```
+     ```html
+     <child-component (customEvent)="onCustomEvent($event)"></child-component>
+     ```
+
+4. **Prevent Default Behavior**
+   - Syntax:  
+     ```html
+     <a href="#" (click)="preventDefault($event)">Click</a>
+     ```
+     ```typescript
+     preventDefault(event: Event) {
+       event.preventDefault();
+     }
+     ```
+
+5. **Event Filtering**
+   - Example for filtering specific key events:  
+     ```html
+     <input (keyup.enter)="onEnter()"> <!-- Triggers only on Enter key -->
+     ```
+
+---
+
+### **Interview Q&A Examples**
+
+#### **Q1. What is event binding in Angular?**
+**Answer:**  
+Event binding in Angular is a mechanism to handle events raised by the DOM, such as user clicks, keyboard presses, or mouse movements. It allows you to execute a component method or expression when an event occurs.
+
+#### **Q2. How do you bind a click event to a method in Angular?**
+**Answer:**  
+By using parentheses `()` to enclose the event name:  
+```html
+<button (click)="onButtonClick()">Click Me</button>
+```
+In the component:  
+```typescript
+onButtonClick() {
+  console.log('Button clicked!');
+}
+```
+
+#### **Q3. What is the purpose of `$event` in event binding?**
+**Answer:**  
+`$event` is a special variable in Angular that represents the DOM event object. It can be used to access event-related data such as the target element, input value, etc.  
+Example:  
+```html
+<input (input)="onInputChange($event)">
+```
+```typescript
+onInputChange(event: Event) {
+  const inputValue = (event.target as HTMLInputElement).value;
+  console.log(inputValue);
+}
+```
+
+#### **Q4. How can you bind keyboard events in Angular?**
+**Answer:**  
+You can bind to specific keyboard events like `keyup` or `keydown` and filter by keys.  
+Example:  
+```html
+<input (keyup.enter)="onEnterKey()"> <!-- Triggered when the Enter key is pressed -->
+```
+
+#### **Q5. What are custom events in Angular, and how are they implemented?**
+**Answer:**  
+Custom events are events emitted by a child component to its parent using `@Output` and `EventEmitter`.  
+Example:  
+In the child component:  
+```typescript
+@Output() valueChange = new EventEmitter<string>();
+sendValue() {
+  this.valueChange.emit('Child Value');
+}
+```
+In the parent component:  
+```html
+<child-component (valueChange)="onValueChange($event)"></child-component>
+```
+```typescript
+onValueChange(value: string) {
+  console.log('Received from child:', value);
+}
+```
+
+#### **Q6. How do you prevent the default action of an event in Angular?**
+**Answer:**  
+By calling `event.preventDefault()` in the event handler.  
+Example:  
+```html
+<a href="https://example.com" (click)="onClick($event)">Click me</a>
+```
+```typescript
+onClick(event: Event) {
+  event.preventDefault();
+  console.log('Default action prevented.');
+}
+```
+
+---
+
+### **Hands-on Example with Code**
+**Component HTML:**
+```html
+<div>
+  <button (click)="onClick()">Click Me</button>
+  <input #inputBox (keyup)="onKeyUp(inputBox.value)" placeholder="Type here">
+  <a href="#" (click)="preventDefault($event)">Prevent Default Link</a>
+</div>
+```
+
+**Component TS:**
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-event-binding',
+  templateUrl: './event-binding.component.html',
+  styleUrls: ['./event-binding.component.css']
+})
+export class EventBindingComponent {
+  onClick() {
+    console.log('Button clicked!');
+  }
+
+  onKeyUp(value: string) {
+    console.log('Input value:', value);
+  }
+
+  preventDefault(event: Event) {
+    event.preventDefault();
+    console.log('Default action prevented!');
+  }
+}
+```
