@@ -1,0 +1,159 @@
+### **Angular String Interpolation: Interview Questions and Answers**
+
+---
+
+#### **Basic Questions**
+
+1. **What is string interpolation in Angular?**  
+   **Answer:**  
+   String interpolation is a one-way data-binding method in Angular that allows you to bind and display data or expressions from the TypeScript component in the HTML template using the `{{ }}` syntax. It evaluates the expression within the component’s scope and renders the result in the DOM.
+
+2. **How does string interpolation differ from property binding in Angular?**  
+   **Answer:**  
+   - String interpolation (`{{ }}`) is used for binding data or expressions to text content in the DOM.
+   - Property binding (`[property]`) is used to bind data to element properties, such as `src`, `alt`, `disabled`, etc.  
+   Example:  
+   ```html
+   <!-- String Interpolation -->
+   <p>{{ title }}</p>
+   <!-- Property Binding -->
+   <img [src]="imageUrl" />
+   ```
+
+3. **Can you bind events using string interpolation?**  
+   **Answer:**  
+   No, string interpolation is strictly used for binding data to the DOM. To handle events, Angular provides **event binding** using the `()` syntax.
+
+---
+
+#### **Intermediate Questions**
+
+4. **What types of expressions are allowed inside `{{ }}` in Angular?**  
+   **Answer:**  
+   - Simple variables: `{{ variableName }}`
+   - Method calls: `{{ methodName() }}`
+   - Mathematical expressions: `{{ 2 + 2 }}`
+   - String operations: `{{ 'Hello ' + name }}`
+   - Object or array access: `{{ object.property }}` or `{{ array[index] }}`
+
+5. **Explain the difference between interpolation and two-way data binding.**  
+   **Answer:**  
+   - **String Interpolation**: One-way data binding where data flows from the component to the view.  
+     Example: `{{ variableName }}`
+   - **Two-Way Data Binding**: Synchronizes data between the component and the view using `[(ngModel)]`. Changes in the view update the component and vice versa.  
+     Example: `<input [(ngModel)]="variableName" />`
+
+6. **Why is string interpolation considered one-way data binding?**  
+   **Answer:**  
+   In string interpolation, the data flows from the TypeScript component to the view (DOM). Any updates in the component reflect in the view, but changes in the view (e.g., user inputs) do not affect the component.
+
+---
+
+#### **Advanced Questions**
+
+7. **What are the limitations of string interpolation in Angular?**  
+   **Answer:**  
+   - Cannot bind events or modify DOM elements directly.
+   - Cannot use control structures like `if` or `for`.
+   - Complex or computationally expensive operations may impact performance.
+
+8. **Can string interpolation call methods in the component? Is it a good practice? Why or why not?**  
+   **Answer:**  
+   Yes, you can call methods inside `{{ }}`, but it is not considered good practice for the following reasons:
+   - Methods are re-evaluated on every change detection cycle, which can degrade performance if the method has heavy computations.
+   **Alternative**: Precompute values in the component and use variables in the template.
+
+9. **Explain the lifecycle of an interpolated value. How does Angular handle updates for interpolated values?**  
+   **Answer:**  
+   During the change detection cycle, Angular evaluates all expressions inside `{{ }}` and updates the DOM with the new values if they have changed.
+
+---
+
+#### **Code-Based Questions**
+
+10. **Write an example to display the full name of a person using string interpolation where the first name and last name are separate variables in the component.**  
+   **Answer:**  
+
+   **Component (TypeScript):**
+   ```typescript
+   export class ExampleComponent {
+     firstName: string = 'John';
+     lastName: string = 'Doe';
+   }
+   ```
+
+   **Template (HTML):**
+   ```html
+   <p>Full Name: {{ firstName + ' ' + lastName }}</p>
+   ```
+
+11. **What will be the output of the following code snippet?**
+
+    **Code:**
+    ```typescript
+    export class ExampleComponent {
+      message: string = 'Hello';
+      count: number = 5;
+
+      calculateSum(a: number, b: number): number {
+        return a + b;
+      }
+    }
+    ```
+
+    ```html
+    <p>{{ message + ' World!' }}</p>
+    <p>{{ count * 2 }}</p>
+    <p>{{ calculateSum(3, 4) }}</p>
+    ```
+
+    **Answer:**  
+    Output:
+    ```
+    Hello World!
+    10
+    7
+    ```
+
+12. **What happens if an undefined variable is used inside `{{ }}`?**  
+   **Answer:**  
+   If an undefined variable is used, Angular will throw an error in development mode. In production mode, it will display an empty string in the DOM.
+
+---
+
+#### **Performance Questions**
+
+13. **How does Angular optimize string interpolation during change detection?**  
+   **Answer:**  
+   Angular tracks the binding values in the component and only updates the DOM when a bound value changes. This optimization avoids unnecessary re-renders and ensures efficient updates.
+
+14. **What is the impact of using computationally expensive expressions inside string interpolation? How can you mitigate this?**  
+   **Answer:**  
+   - **Impact**: Angular reevaluates expressions during every change detection cycle, which can lead to performance degradation if the expression involves expensive computations.  
+   - **Mitigation**: Precompute the value in the component and store it in a variable, then bind the variable in the template.
+
+   Example:
+   ```typescript
+   export class ExampleComponent {
+     expensiveResult: number = 0;
+
+     constructor() {
+       this.expensiveResult = this.expensiveComputation();
+     }
+
+     expensiveComputation(): number {
+       // Simulate an expensive operation
+       return 100 * 1000;
+     }
+   }
+   ```
+
+   **Template:**
+   ```html
+   <p>{{ expensiveResult }}</p>
+   ```
+
+---
+
+Let me know if you'd like me to expand on any specific aspect! 😊
+===================================================================

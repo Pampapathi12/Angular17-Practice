@@ -1,0 +1,9 @@
+<p>Name: {{product.name}}</p>
+<p>Price: {{ '$' + product.price}}</p>
+<p>Color: {{product.color}}</p>
+<!-- <p>Discount Price: {{ product.price - (product.price * product.discount / 100)}} </p> -->
+ <p>Discount price {{getDiscountPrice().toFixed(2)}}</p>
+ <p>{{ product.inStock > 0 ? 'Only ' + product.inStock + ' Items Left' : 'Not In Stock' }}</p>
+
+ <!-- we can use show 2 decimal point -->
+<!-- <p>Discount: $999</p> -->
