@@ -1,3 +1,5 @@
+
+<img [src]="product.pImage">
 <p>Name: {{product.name}}</p>
 <p>Price: {{ '$' + product.price}}</p>
 <p>Color: {{product.color}}</p>
@@ -5,5 +7,12 @@
  <p>Discount price {{getDiscountPrice().toFixed(2)}}</p>
  <p>{{ product.inStock > 0 ? 'Only ' + product.inStock + ' Items Left' : 'Not In Stock' }}</p>
 
+ <button [disabled]="!(product.inStock > 0)">buy now</button>
+ <input [value]="name">
+ <input bind-value="name">
+
  <!-- we can use show 2 decimal point -->
 <!-- <p>Discount: $999</p> -->
+
+
+
