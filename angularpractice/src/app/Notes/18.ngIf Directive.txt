@@ -1,0 +1,2 @@
+the ngIf directive is used to add or remove a dom element from the webpage based on a 
+given condition
