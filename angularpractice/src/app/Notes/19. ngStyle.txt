@@ -1,0 +1,90 @@
+attribute directives
+1. ngClass :Used to dynamically add or remove CSS classes based on conditions.
+2. ngStyle : Used to apply inline styles dynamically. using the expression
+
+In Angular, **attribute directives** are a type of directive that are used to modify the behavior or appearance of a DOM element. Unlike structural directives, which change the structure of the DOM, attribute directives apply specific behavior or styling to an existing element.
+
+### Common Use Cases of Attribute Directives
+1. **Changing appearance**: Dynamically updating styles or classes.
+2. **Manipulating behavior**: Adding interactivity to elements.
+
+---
+
+### Built-in Attribute Directives
+
+1. **`ngClass`**:
+   Used to dynamically add or remove CSS classes based on conditions.
+   ```html
+   <div [ngClass]="{'active': isActive, 'disabled': !isActive}">Content</div>
+   ```
+
+2. **`ngStyle`**:
+   Used to apply inline styles dynamically.
+   ```html
+   <div [ngStyle]="{'background-color': isActive ? 'green' : 'red'}">Styled Content</div>
+   ```
+
+3. **`ngModel`**:
+   Used for two-way data binding in forms.
+   ```html
+   <input [(ngModel)]="username" placeholder="Enter your name">
+   ```
+
+4. **`ngIf`** (in specific contexts):
+   Can be used to toggle element appearance in templates.
+
+---
+
+### Custom Attribute Directives
+You can create your own attribute directive to apply custom logic to elements.
+
+#### Example: Custom Directive to Change Background Color
+1. **Generate a Directive**:
+   ```bash
+   ng generate directive Highlight
+   ```
+
+2. **Code for the Directive (`highlight.directive.ts`)**:
+   ```typescript
+   import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+   @Directive({
+     selector: '[appHighlight]'
+   })
+   export class HighlightDirective {
+     @Input() defaultColor: string = 'yellow';
+     @Input('appHighlight') highlightColor: string = 'lightblue';
+
+     constructor(private el: ElementRef) {}
+
+     @HostListener('mouseenter') onMouseEnter() {
+       this.changeBackgroundColor(this.highlightColor || this.defaultColor);
+     }
+
+     @HostListener('mouseleave') onMouseLeave() {
+       this.changeBackgroundColor(null);
+     }
+
+     private changeBackgroundColor(color: string | null) {
+       this.el.nativeElement.style.backgroundColor = color;
+     }
+   }
+   ```
+
+3. **Usage in Template**:
+   ```html
+   <p appHighlight="pink" defaultColor="lightgreen">Hover over me to see the effect!</p>
+   ```
+
+   - On hover, the background color changes to `pink`.
+   - On mouse leave, the color resets.
+
+---
+
+### Key Features of Attribute Directives
+- **Dynamic Behavior**: You can use them to apply logic like hover effects, validation styles, etc.
+- **Host Listeners**: React to DOM events (e.g., mouseenter, click).
+- **ElementRef**: Access the DOM element the directive is applied to.
+- **Inputs**: Pass data to the directive for customization.
+
+Attribute directives are a powerful tool to extend the functionality and styling of Angular applications in a reusable and maintainable way!
