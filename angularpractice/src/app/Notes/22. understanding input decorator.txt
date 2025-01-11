@@ -1,0 +1,113 @@
+In Angular, the **`@Input()` decorator** is used to pass data from a parent component to a child component. This allows components to share data and interact with each other in a structured way.
+
+### Key Features of `@Input()`
+1. **Parent-to-Child Communication**:
+   The `@Input()` decorator enables a parent component to pass values to the properties of a child component.
+
+2. **Property Binding**:
+   You use property binding in the parent component's template to bind a value to the child component's `@Input()` property.
+
+3. **Dynamic Updates**:
+   If the value bound to the `@Input()` property changes in the parent component, the child component automatically receives the updated value.
+
+### How to Use `@Input()`
+
+#### 1. Define the Child Component
+Declare a property with the `@Input()` decorator in the child component:
+
+```typescript
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<p>Message from parent: {{ message }}</p>`,
+})
+export class ChildComponent {
+  @Input() message: string = ''; // The parent will pass this value
+}
+```
+
+#### 2. Use the Child Component in the Parent Component
+In the parent component's template, bind a value to the `@Input()` property:
+
+```typescript
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child [message]="parentMessage"></app-child>
+  `,
+})
+export class ParentComponent {
+  parentMessage = 'Hello from Parent!';
+}
+```
+
+#### Result:
+When the parent component is rendered, the `message` property in the child component will receive the value `'Hello from Parent!'`.
+
+---
+
+### Advanced Use Cases
+
+#### 1. **Renaming the Input Property**
+You can alias the `@Input()` property to use a different name in the parent template:
+
+```typescript
+@Component({
+  selector: 'app-child',
+  template: `<p>Alias Example: {{ message }}</p>`,
+})
+export class ChildComponent {
+  @Input('aliasName') message: string = '';
+}
+```
+
+In the parent template:
+```html
+<app-child [aliasName]="'Aliased message'"></app-child>
+```
+
+#### 2. **Passing Complex Data**
+You can pass objects, arrays, or any data structure:
+
+```typescript
+@Component({
+  selector: 'app-child',
+  template: `<p>Data: {{ data | json }}</p>`,
+})
+export class ChildComponent {
+  @Input() data: { name: string; age: number } = { name: '', age: 0 };
+}
+```
+
+Parent Component:
+```typescript
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child [data]="parentData"></app-child>
+  `,
+})
+export class ParentComponent {
+  parentData = { name: 'John', age: 30 };
+}
+```
+
+---
+
+### Things to Keep in Mind
+1. **Data Flow**:
+   `@Input()` facilitates one-way data binding, meaning the data flows from parent to child. Any changes to the input property in the child will not affect the parent.
+
+2. **Type Safety**:
+   Use TypeScript types to ensure the correct data is passed to the child component.
+
+3. **Default Values**:
+   You can define default values for `@Input()` properties, which are used if no value is passed from the parent.
+
+4. **Change Detection**:
+   Angular automatically detects changes to `@Input()` properties and updates the child component accordingly.
+
+---
+
+By using the `@Input()` decorator effectively, you can create modular, reusable components with clear communication between parent and child components.
