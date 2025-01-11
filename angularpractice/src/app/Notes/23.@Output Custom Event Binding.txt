@@ -1,0 +1,28 @@
+1 step
+
+define the @OutPut in the child component
+2 -> create custom event for the @OutPut and make the constructor define
+3 -> in the child component call the filterdevent and that, when the event called raise the event 
+    in the custom event 
+
+    [// 
+  @Output()
+  selectedFilterRadioButtonChange: EventEmitter<string> = new EventEmitter<string>()
+  // created the custome event and raised the whenever the cange in the filter
+
+  // custom , bind this custom event in the parent component
+
+  selectedFilterRadioButton: string = 'all';
+  OnSelectedFilterRadioButtonChange(){
+    console.log(this.selectedFilterRadioButton)
+    this.selectedFilterRadioButtonChange.emit(this.selectedFilterRadioButton)
+  }
+   ]
+
+   4. in the parent component create the property and define the selectedFilterRadioButtonChange in the event binding in the parent class
+        and the 
+        5. in the event parent component have some data and that get the event value and assign to the selectedRadioButton and same this bind in the parent component
+
+          <div *ngFor="let prod of products" >
+        <app-product  [product]="prod" *ngIf="selectedFilterRadioButton === 'all' || prod.is_in_inventory.toString() === selectedFilterRadioButton" ></app-product>
+    </div>

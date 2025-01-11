@@ -538,5 +538,13 @@ export class ProductListComponent {
   totalProductInStock = this.products.filter( p => p.is_in_inventory === true).length;
   totalProductOutOfStock = this.products.filter(p => p.is_in_inventory !== true).length;
 
+  // 
+  selectedFilterRadioButton: string = 'all'
+  onFilterChanged(event:string){
+    console.log('filtered called')
+    this.selectedFilterRadioButton = event;
+    console.log(this.selectedFilterRadioButton)
+  }
+
 
 }
