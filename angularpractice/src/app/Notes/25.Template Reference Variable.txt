@@ -1,0 +1,242 @@
+A template reference variable is a variable which stores to a DOM element,
+component or directive on which it is used
+============
+In Angular, a **template reference variable** is a way to access a DOM element or a directive within your template. These variables are defined using the `#` symbol, followed by the variable name. They are often used to refer to elements, retrieve their properties, or call their methods directly in the template.
+
+### Syntax
+```html
+<element #variableName="directiveName"></element>
+```
+
+- `#variableName` is the name of the template reference variable.
+- `"directiveName"` is optional and is used when you want to access a specific directive or component instance.
+
+---
+
+### Examples of Usage
+
+#### 1. Accessing Native DOM Elements
+You can create a reference to a DOM element and use it within the template or in the component class.
+
+```html
+<input #inputRef type="text">
+<button (click)="logInputValue(inputRef)">Log Value</button>
+```
+
+In the component class:
+```typescript
+logInputValue(input: HTMLInputElement) {
+  console.log(input.value);
+}
+```
+
+---
+
+#### 2. Using Template Reference Variables with Angular Directives
+You can use reference variables to interact with Angular directives like `ngForm`, `ngModel`, etc.
+
+```html
+<form #myForm="ngForm">
+  <input name="email" ngModel>
+  <button (click)="submitForm(myForm)">Submit</button>
+</form>
+```
+
+In the component class:
+```typescript
+submitForm(form: NgForm) {
+  console.log(form.value); // Logs the form data
+}
+```
+
+---
+
+#### 3. Accessing a Child Component
+You can use a template reference variable to interact with a child component.
+
+```html
+<app-child #childComp></app-child>
+<button (click)="childComp.someMethod()">Call Child Method</button>
+```
+
+In the child component:
+```typescript
+export class ChildComponent {
+  someMethod() {
+    console.log('Method in Child Component called!');
+  }
+}
+```
+
+---
+
+### Points to Note
+1. Template reference variables are local to the template they are defined in. They cannot be accessed in the component class directly.
+2. If you need to use a variable across templates or in the component, consider using `ViewChild` or `ContentChild` decorators.
+3. A template reference variable can reference:
+   - A DOM element.
+   - An Angular directive.
+   - An Angular component.
+   - A template element (e.g., `<ng-template>`).
+
+---
+
+### Advanced: Using `ViewChild` to Access the Variable in the Component Class
+If you need access to the referenced element or directive in the component class:
+
+Template:
+```html
+<input #inputRef type="text">
+```
+
+Component:
+```typescript
+import { Component, ViewChild, ElementRef } from '@angular/core';
+
+export class AppComponent {
+  @ViewChild('inputRef') inputElement!: ElementRef;
+
+  ngAfterViewInit() {
+    console.log(this.inputElement.nativeElement.value);
+  }
+}
+```
+
+By using `ViewChild`, you can access and manipulate the DOM element or directive in the component class.
+===========================================================
+In Angular, **template reference variables** can be used to refer to various types of objects. Here's an overview of the types of objects a template reference variable can point to:
+
+---
+
+### 1. **Native DOM Elements**
+You can refer to a native HTML element and access its properties, methods, and events.
+
+**Example:**
+```html
+<input #inputRef type="text">
+<button (click)="logValue(inputRef)">Log Value</button>
+```
+
+**Type in Component:**
+```typescript
+logValue(input: HTMLInputElement) {
+  console.log(input.value);
+}
+```
+
+---
+
+### 2. **Angular Components**
+A template reference variable can refer to a child component, giving you access to its public properties and methods.
+
+**Example:**
+```html
+<app-child #childComp></app-child>
+<button (click)="childComp.someMethod()">Call Child Method</button>
+```
+
+**Type in Component:**
+```typescript
+@ViewChild('childComp') childComponent!: ChildComponent;
+```
+
+---
+
+### 3. **Directives**
+You can reference directives applied to elements and interact with their public APIs.
+
+**Example:**
+```html
+<div #dir="ngModel" ngModel></div>
+<button (click)="logDirectiveValue(dir)">Log Directive Value</button>
+```
+
+**Type in Component:**
+```typescript
+logDirectiveValue(dir: NgModel) {
+  console.log(dir.valid); // Access NgModel properties
+}
+```
+
+---
+
+### 4. **Template Elements**
+Angular allows you to use template reference variables with structural directives like `<ng-template>` and `<ng-container>`.
+
+**Example:**
+```html
+<ng-template #templateRef>
+  <p>This is a template!</p>
+</ng-template>
+<button (click)="useTemplate(templateRef)">Use Template</button>
+```
+
+**Type in Component:**
+```typescript
+useTemplate(template: TemplateRef<any>) {
+  console.log(template);
+}
+```
+
+---
+
+### 5. **Forms and Form Controls**
+Template reference variables can refer to forms and their controls, such as `ngForm`, `ngModel`, and `FormControl`.
+
+**Example:**
+```html
+<form #formRef="ngForm">
+  <input name="email" ngModel>
+</form>
+<button (click)="logFormValue(formRef)">Log Form Value</button>
+```
+
+**Type in Component:**
+```typescript
+logFormValue(form: NgForm) {
+  console.log(form.value); // Logs the form values
+}
+```
+
+---
+
+### 6. **Event Emitters**
+You can bind a template reference variable to an event emitter and access it when events are emitted.
+
+**Example:**
+```html
+<app-custom (event)="handleEvent($event)" #customComp></app-custom>
+```
+
+---
+
+### 7. **Other Angular Elements**
+Template reference variables can also refer to other Angular-specific elements like:
+
+- **Pipes** (if referenced within a directive or service)
+- **Structural Directives** (e.g., `*ngIf`, `*ngFor`)
+
+---
+
+### **Usage in Component**
+If you need to access the referenced object in the component class, use the `@ViewChild` or `@ViewChildren` decorators.
+
+**Example with `ViewChild`:**
+```typescript
+@ViewChild('inputRef') inputElement!: ElementRef;
+
+ngAfterViewInit() {
+  console.log(this.inputElement.nativeElement.value);
+}
+```
+
+---
+
+### Commonly Used Types for Template Reference Variables
+1. **DOM Elements:** `HTMLInputElement`, `HTMLElement`, `HTMLDivElement`, etc.
+2. **Directives:** `NgModel`, `NgForm`, etc.
+3. **Angular Components:** Child component types.
+4. **Template Elements:** `TemplateRef`, `ViewContainerRef`. 
+5. **Custom Types:** Any custom type that matches the variable's context.
+
+By specifying appropriate types, you can leverage TypeScript's strong typing to avoid runtime errors and improve code readability.

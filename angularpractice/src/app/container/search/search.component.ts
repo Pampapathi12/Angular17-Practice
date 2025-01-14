@@ -19,4 +19,13 @@ export class SearchComponent {
   updateSearchText(event: any){
       this.searchText = event.target.value;
   }
+
+  SetsearchText(InputEL:HTMLInputElement){
+    // this.searchText = event.target.value;
+
+    // console.log(InputEL.value)
+    this.searchText = InputEL.value;
+    this.onSearchTextChanges.emit(this.searchText)
+
+  }
 }
