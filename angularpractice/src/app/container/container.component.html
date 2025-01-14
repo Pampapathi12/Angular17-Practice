@@ -28,7 +28,7 @@
  <div *ngFor="let Item of listOfString">
     <p> Current element of an araay is : {{Item}}</p>
  </div> -->
- <product-detail *ngIf="productListComponent.selectedProduct"></product-detail>
+ <product-detail *ngIf="productListComponent.selectedProduct" [productListComp]="productListComponent"></product-detail>
  
 </div>
  <!-- <input bind-value="name"> -->

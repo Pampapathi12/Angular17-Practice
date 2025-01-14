@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ProductListComponent } from './product-list/product-list.component';
 
 @Component({
   selector: 'app-container',
@@ -8,6 +9,9 @@ import { Component } from '@angular/core';
 export class containerComponent {
 
   searchText: string = "";
+
+  // passing the compoent instead of template  reference varibale
+ @ViewChild(ProductListComponent) productListComponent :ProductListComponent
 
   listOfString: string[] = ['mark', 'steve', 'reddy', 'manoj', 'pampapathi']
 
