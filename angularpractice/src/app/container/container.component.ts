@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class containerComponent {
 
+  searchText: string = "";
+
   listOfString: string[] = ['mark', 'steve', 'reddy', 'manoj', 'pampapathi']
 
   // name: string = 'IPhone';
@@ -22,6 +24,11 @@ export class containerComponent {
     discount: 8.5,
     inStock: 5,
     pImage: '/assets/images/iphone.png'
+  }
+
+  SetsearchText(event:string){
+    this.searchText = event;
+
   }
 
 
