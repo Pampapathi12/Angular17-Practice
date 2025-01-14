@@ -1,0 +1,2 @@
+Definition :- the ViewChildren decorators is used to get the reference to the list of DOM
+                element from the view template in the component class . it return the matching element
