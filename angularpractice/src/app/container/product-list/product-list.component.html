@@ -21,7 +21,7 @@
             {{prod.is_in_inventory ? 'Available in stock' : 'Not Available in Stock'}} </div>
     </div> -->
     <!-- (selectedFilterRadioButton === 'all' || prod.is_in_inventory.toString() === selectedFilterRadioButton)  || -->
-    <div *ngFor="let prod of products" >
+    <div *ngFor="let prod of products" (click)="selectedProduct = prod" >
         <app-product  [product]="prod" *ngIf="(searchText === '' || prod.name.toLowerCase().includes(searchText))"></app-product>
     </div>
    
