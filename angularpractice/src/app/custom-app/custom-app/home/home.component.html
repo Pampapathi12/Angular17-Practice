@@ -10,9 +10,33 @@
 
 </ng-template>
 
-<div *ngTemplateOutlet="myTemplate">
+<div *ngTemplateOutlet="myTemplate">myTemplate
 
 </div>
+<!-- ng-container 2nd case -->
+
+<ng-container *ngTemplateOutlet="myTemplate">myTemplate1</ng-container>
+
+
+
+<!-- ng-container 1stcase -->
+
+<ng-container *ngIf="toggle; else toggleOf">
+
+    <p>the toggle is on</p>
+
+</ng-container>
+<!-- here else showin Any HTML element. Some elements directly implement this interface, while others implement it via an interface that inherits it.
+ so we need to use the ng-template not the ng-container-->
+
+<ng-template #toggleOf>
+
+    <p>the toggle is of</p>
+
+</ng-template>
+<button (click)="onToggle()"> toggle</button>
+ <!-- end -->
+
 <!-- template refrernce varibale -->
 
 <div class="input-container">

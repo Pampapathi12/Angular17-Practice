@@ -31,4 +31,12 @@ fullName: string = '';
 
   }
 
+  toggle: boolean = true;
+
+  onToggle(){
+
+    this.toggle = !this.toggle;
+
+  }
+
 }
