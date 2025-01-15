@@ -29,6 +29,30 @@
     <p> Current element of an araay is : {{Item}}</p>
  </div> -->
  <product-detail *ngIf="productListComponent.selectedProduct" [productListComp]="productListComponent"></product-detail>
+
+
+ <div class="ekart-featured-products">
+   <div class="ekart-featured-products-heading">
+      <h1> Latest Arrival in poular brands</h1>
+   </div>
+   <!-- start -->
+   
+<app-featured-brands>
+   <h3 class="title">New Arrivals in Nike</h3>
+   <button class="call-to-action" >show new arrival to nike</button>
+</app-featured-brands>
+<app-featured-brands>
+   <h3 class="title">New Arrivals in adidas</h3>
+   <button class="call-to-action" >show new arrival to nike</button>
+</app-featured-brands>
+<app-featured-brands>
+   <h3 class="title">New Arrivals in rebox</h3>
+   <button class="call-to-action" >show new arrival to nike</button>
+</app-featured-brands>
+
+    
+    <!-- end -->
+ </div>
  
 </div>
  <!-- <input bind-value="name"> -->
