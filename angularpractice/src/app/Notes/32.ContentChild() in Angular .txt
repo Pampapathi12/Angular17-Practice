@@ -1,0 +1,151 @@
+The @ContentChild decorator is used to access a reference of a dom element or a component or directive from the projrcted content into child coponent class
+
+
+
+### `@ContentChild()` in Angular
+
+The `@ContentChild()` decorator in Angular is used to access a single child element or directive that is projected into the component using **content projection** (via `<ng-content>`). It is particularly useful for interacting with components, templates, or directives passed from the parent into the child component.
+
+Here’s an in-depth explanation, covering all its aspects:
+
+---
+
+### **1. Purpose**
+- To get a reference to a projected child element or directive.
+- It enables interaction with the child (e.g., manipulating its properties or calling its methods).
+- It works with the Angular **content projection** mechanism (`<ng-content>`).
+
+---
+
+### **2. Syntax**
+```typescript
+@ContentChild(selector, options)
+```
+
+- **`selector`**: The directive, component, or template reference variable to query.
+- **`options`** *(optional)*:
+  - `read`: Specifies what to read (e.g., the directive instance, `ElementRef`, or `TemplateRef`).
+  - `static`: Determines when the query is resolved (`true` for before change detection and `false` for after).
+
+---
+
+### **3. Usage Examples**
+
+#### **Example 1: Accessing a Projected Component**
+Parent Component Template:
+```html
+<app-child>
+  <p #contentParagraph>This is projected content</p>
+</app-child>
+```
+
+Child Component:
+```typescript
+import { Component, ContentChild, ElementRef } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<ng-content></ng-content>`,
+})
+export class ChildComponent {
+  @ContentChild('contentParagraph', { static: true }) paragraph!: ElementRef;
+
+  ngAfterContentInit() {
+    console.log(this.paragraph.nativeElement.textContent); // Outputs: "This is projected content"
+  }
+}
+```
+
+#### **Example 2: Accessing a Projected Directive**
+Directive:
+```typescript
+import { Directive } from '@angular/core';
+
+@Directive({
+  selector: '[highlight]',
+})
+export class HighlightDirective {
+  color = 'blue';
+}
+```
+
+Parent Component Template:
+```html
+<app-child>
+  <p highlight>This is highlighted content</p>
+</app-child>
+```
+
+Child Component:
+```typescript
+import { Component, ContentChild } from '@angular/core';
+import { HighlightDirective } from './highlight.directive';
+
+@Component({
+  selector: 'app-child',
+  template: `<ng-content></ng-content>`,
+})
+export class ChildComponent {
+  @ContentChild(HighlightDirective) highlightDirective!: HighlightDirective;
+
+  ngAfterContentInit() {
+    console.log(this.highlightDirective.color); // Outputs: "blue"
+  }
+}
+```
+
+---
+
+### **4. `read` Option**
+
+The `read` option allows you to specify what to retrieve:
+- The directive instance.
+- The `ElementRef`.
+- The `TemplateRef`.
+
+#### Example:
+```typescript
+@ContentChild('contentParagraph', { read: ElementRef })
+paragraphRef!: ElementRef;
+```
+
+Here, the `ElementRef` of the paragraph is retrieved, rather than any directive instance applied to it.
+
+---
+
+### **5. Lifecycle Hooks**
+
+- `@ContentChild()` is resolved after content projection is complete, i.e., in the **`ngAfterContentInit`** lifecycle hook.
+- For changes to the content, use the **`ngAfterContentChecked`** lifecycle hook.
+
+---
+
+### **6. `static` Option**
+
+- **`static: true`**: The query is resolved once during the component's initialization (before `ngOnInit`).
+- **`static: false`**: The query is resolved after change detection runs for the first time (in `ngAfterContentInit`).
+
+---
+
+### **7. Limitations**
+- Only works with projected content, not with content inside the component's own template.
+- If there are multiple matching elements, `@ContentChild()` retrieves only the first one. Use `@ContentChildren()` for multiple elements.
+
+---
+
+### **8. Differences Between `@ContentChild` and `@ViewChild`**
+| Feature             | `@ContentChild`               | `@ViewChild`                |
+|---------------------|-------------------------------|-----------------------------|
+| Scope               | Access projected content.     | Access template elements of the component itself. |
+| Lifecycle Hook      | `ngAfterContentInit`          | `ngAfterViewInit`           |
+
+---
+
+### **9. Common Use Cases**
+- Access and manipulate projected templates or components.
+- Retrieve custom directives applied to projected elements.
+- Interact with projected content dynamically.
+
+---
+
+Let me know if you need more examples or further explanation! 😊

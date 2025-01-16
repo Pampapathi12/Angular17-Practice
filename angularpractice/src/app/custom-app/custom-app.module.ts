@@ -4,11 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { CustomAppRoutingModule } from './custom-app-routing.module';
 import { HomeComponent } from './custom-app/home/home.component';
+import { ParentComponent } from './parent/parent.component';
+import { ChildComponent } from './parent/child/child.component';
+import { TestComponent } from './test/test.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    ParentComponent,
+    ChildComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
