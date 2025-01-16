@@ -1,0 +1,11 @@
+[1]. here when the dom render started the component selector
+    that time first it instaitate class of component or directive or pipe
+    next it call the constructor for class intiated and
+    note:- if we not difine explicityly then also in angular call the defaut no parameters constructor
+
+[2]. when the component is class called that time component intiated and constructor will call and property initialized will initiali, but
+the updated data fromthe any child component will not show
+
+this will directive,
+
+[3]. 

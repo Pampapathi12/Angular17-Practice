@@ -7,6 +7,12 @@ import { Component, ElementRef, ViewChildren, ViewChild, QueryList } from '@angu
 })
 export class HomeComponent {
 
+  title: string = ' compoennt intialiaztion'
+
+  constructor(){
+    console.log('home compoennt called')
+  }
+
 
 // retunr singel elemtn and first elemnt the which matches the selector
 //  @ViewChild('inputEl') inputElements : ElementRef;

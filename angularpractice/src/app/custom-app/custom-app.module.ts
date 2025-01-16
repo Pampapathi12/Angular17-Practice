@@ -7,6 +7,7 @@ import { HomeComponent } from './custom-app/home/home.component';
 import { ParentComponent } from './parent/parent.component';
 import { ChildComponent } from './parent/child/child.component';
 import { TestComponent } from './test/test.component';
+import { DemoComponent } from './demo/demo.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { TestComponent } from './test/test.component';
     HomeComponent,
     ParentComponent,
     ChildComponent,
-    TestComponent
+    TestComponent,
+    DemoComponent
   ],
   imports: [
     BrowserModule,
