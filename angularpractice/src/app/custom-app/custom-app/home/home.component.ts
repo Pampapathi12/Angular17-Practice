@@ -9,6 +9,8 @@ export class HomeComponent {
 
   title: string = ' compoennt intialiaztion'
 
+  inputVal: string = '';
+
   constructor(){
     console.log('home compoennt called')
   }
@@ -43,6 +45,11 @@ fullName: string = '';
 
     this.toggle = !this.toggle;
 
+  }
+  onBtnClick(inputEl: HTMLInputElement){
+
+
+    this.inputVal = inputEl.value;
   }
 
 }

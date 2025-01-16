@@ -1,10 +1,14 @@
 <div class="container">
+    <input type="text" #inputEl>
+    <!-- <button>show/hide</button> -->
+
+    <button (click)="onBtnClick(inputEl)"> Submit</button>
     
-    <app-demo [message]="'Hello world'"></app-demo>
+    <app-demo [message]="inputVal"></app-demo>
     <!-- <app-demo></app-demo>
     <app-demo></app-demo> -->
     <!-- here 3 times compoennt is intialized and constructor will call 3 time instances -->
-    <button>show/hide</button>
+    <!-- <button>show/hide</button> -->
 
 
 </div>

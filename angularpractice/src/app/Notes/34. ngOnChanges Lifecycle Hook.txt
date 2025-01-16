@@ -1,0 +1,14 @@
+the angular life cycle hooks are the methods that angular invokes on a directive
+or a component, as it created, changes and destroy them
+
+[1]. whenever the changes in the view it 
+
+{{ name}}. name component property, whwnever the property chnages, that changes in the web apge
+when the value will change, that value will refle
+how does know angular value are changed
+for theat it run changedetction run, every event happens in the dom
+
+click event or change event
+setTimeOut, setInterval
+whenever an HTTP request is made
+whenever the @input property of a component changes
