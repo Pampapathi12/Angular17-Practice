@@ -1,0 +1,143 @@
+[1]. ngoninit only call at after the constructor and ngonchanges after that once the
+    ngoninit executed when input changes then it will not call again.
+
+
+
+    ### **Understanding `ngOnInit` in Angular**
+
+The `ngOnInit` lifecycle hook is part of Angular's component lifecycle. It is called **once** after the component is initialized and its data-bound input properties are set.
+
+#### **Key Points about `ngOnInit`:**
+1. **Execution Timing:**  
+   - It is invoked after the constructor, once Angular has finished setting the component’s input properties.
+   - Ideal for component initialization that requires external data or setup logic.
+
+2. **Use Cases:**  
+   - Fetching data from a service or API.
+   - Initializing local properties or preparing the component’s state.
+   - Setting up subscriptions to observables.
+
+3. **Code Example:**
+   ```typescript
+   import { Component, OnInit } from '@angular/core';
+
+   @Component({
+     selector: 'app-example',
+     template: `<p>{{ data }}</p>`,
+   })
+   export class ExampleComponent implements OnInit {
+     data: string;
+
+     constructor() {
+       console.log('Constructor called!');
+     }
+
+     ngOnInit(): void {
+       console.log('ngOnInit called!');
+       this.data = 'Component Initialized!';
+     }
+   }
+   ```
+
+   **Output:**
+   ```
+   Constructor called!
+   ngOnInit called!
+   ```
+
+---
+
+### **Understanding `ngOnChanges` in Angular**
+
+The `ngOnChanges` lifecycle hook is called **every time an input property’s value changes**. It is triggered before `ngOnInit` if input bindings exist.
+
+#### **Key Points about `ngOnChanges`:**
+1. **Execution Timing:**  
+   - Called before `ngOnInit` for the first time, and subsequently every time an input property changes.
+
+2. **Parameters:**  
+   - Accepts a `SimpleChanges` object, which is a map of property names to `SimpleChange` objects containing:
+     - **currentValue**: The new value of the input property.
+     - **previousValue**: The old value of the input property.
+     - **firstChange**: A boolean indicating if it’s the first change.
+
+3. **Use Cases:**  
+   - Responding to changes in input properties.
+   - Resetting or updating component logic based on property changes.
+
+4. **Code Example:**
+   ```typescript
+   import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+   @Component({
+     selector: 'app-child',
+     template: `<p>{{ data }}</p>`,
+   })
+   export class ChildComponent implements OnChanges {
+     @Input() data: string;
+
+     ngOnChanges(changes: SimpleChanges): void {
+       console.log('ngOnChanges called!');
+       console.log('Changes:', changes);
+     }
+   }
+   ```
+
+   **Usage in Parent Component:**
+   ```html
+   <app-child [data]="parentData"></app-child>
+   <button (click)="changeData()">Change Data</button>
+   ```
+
+   **Output when `parentData` changes:**
+   ```
+   ngOnChanges called!
+   Changes: { data: { currentValue: 'new value', previousValue: 'old value', firstChange: false } }
+   ```
+
+---
+
+### **Differences between `ngOnInit` and `ngOnChanges`**
+
+| Feature                | `ngOnInit`                                      | `ngOnChanges`                                       |
+|------------------------|-------------------------------------------------|----------------------------------------------------|
+| **When it is called**  | Once after the component is initialized.        | Every time an input property value changes.        |
+| **Input Property Check** | Not triggered by input property changes.       | Triggered on input property changes.              |
+| **Parameters**         | No parameters.                                  | Receives a `SimpleChanges` object with details.   |
+| **Use Case**           | Component initialization and setup.             | Responding to input property changes dynamically. |
+| **Execution Order**    | Called after the constructor and `ngOnChanges`. | Called before `ngOnInit` for the first time.      |
+
+---
+
+### **Trick Questions and Answers**
+
+1. **Q:** Can `ngOnInit` be called multiple times during the lifecycle of a component?  
+   **A:** No, `ngOnInit` is called only once after the component is initialized.
+
+2. **Q:** What happens if you try to access an input property in the constructor?  
+   **A:** The input property might not be set yet. Input properties are initialized before `ngOnChanges` and `ngOnInit`, not in the constructor.
+
+3. **Q:** What will happen if you define `ngOnInit` but not `ngOnChanges` in a component with input bindings?  
+   **A:** The component will still work. Changes in input properties will not trigger any lifecycle hook unless `ngOnChanges` is implemented.
+
+4. **Q:** Does `ngOnChanges` trigger if the input property is updated with the same value?  
+   **A:** No, `ngOnChanges` only triggers when the new value is **different** from the old value.
+
+5. **Q:** What is the order of execution for lifecycle hooks during initialization?  
+   **A:** The order is:
+   - `constructor()`
+   - `ngOnChanges()` (if there are input bindings)
+   - `ngOnInit()`
+
+6. **Q:** Can `ngOnChanges` be triggered before `ngOnInit`?  
+   **A:** Yes, `ngOnChanges` is called before `ngOnInit` if input bindings are present.
+
+7. **Q:** How would you optimize a component that has frequent changes in input properties?  
+   **A:** Implement checks inside `ngOnChanges` to act only on specific changes, or use `OnPush` change detection strategy to optimize performance.
+
+8. **Q:** What if there’s no input property in the component, but `ngOnChanges` is implemented?  
+   **A:** `ngOnChanges` will never be triggered since it relies on input property changes.
+
+---
+
+Let me know if you’d like deeper examples or more tricky questions! 😊

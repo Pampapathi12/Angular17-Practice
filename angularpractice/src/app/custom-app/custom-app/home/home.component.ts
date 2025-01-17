@@ -9,7 +9,8 @@ export class HomeComponent {
 
   title: string = ' compoennt intialiaztion'
 
-  inputVal: string = '';
+  // inputVal: string = '';
+  inputVal: string[] = ['hello', 'hi there'];
 
   constructor(){
     console.log('home compoennt called')
@@ -49,7 +50,7 @@ fullName: string = '';
   onBtnClick(inputEl: HTMLInputElement){
 
 
-    this.inputVal = inputEl.value;
+    this.inputVal.push(inputEl.value);
   }
 
 }

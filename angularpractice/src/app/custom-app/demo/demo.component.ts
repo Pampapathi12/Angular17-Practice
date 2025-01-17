@@ -1,14 +1,16 @@
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges {
+export class DemoComponent implements OnChanges,OnInit {
 
   title: string = " demo compoentt"
-  @Input() message: string;
+  // @Input() message: string;
+  @Input() message: string[]; // array is refrence type, reference not changed, message propertty not changes thats why ngonchanges hook not cllaed, refernce of message type is changed the ngonchanges life cycle will called
+   @ViewChild('temp') tempPara : ElementRef
 
   // input component are not updated by doing properpty binding from the parent compoennt to child component, 
   //  by the time constructor is called , value initilization will show
@@ -34,6 +36,16 @@ export class DemoComponent implements OnChanges {
     console.log('ngonchages hook called')
     console.log(this.message)
     console.log('p/u', changes['message'].previousValue, changes['message'].currentValue)
+
+  }
+
+  ngOnInit(){
+    // its provide by onInit interface
+    // called first change detections
+    // 
+
+    console.log('ng on init called')
+    console.log('tep',this.tempPara.nativeElement)// it retirning undefined// by the view is not created, child, projected content or not created
 
   }
 
