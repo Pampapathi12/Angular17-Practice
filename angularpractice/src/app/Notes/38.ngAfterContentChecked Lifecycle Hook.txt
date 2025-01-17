@@ -1,0 +1,151 @@
+The `ngAfterContentChecked` lifecycle hook is a part of Angular's component lifecycle and is triggered every time the content projected into a component has been checked by the Angular change detection mechanism. This hook is especially useful for scenarios where you need to perform actions based on changes in projected content.
+
+---
+
+### Syntax:
+```typescript
+ngAfterContentChecked(): void {
+  // Logic to execute after content check
+}
+```
+
+---
+
+### Key Points:
+
+1. **When It Runs:**
+   - It is called **after Angular checks the content** projected into the component for changes.
+   - Runs after the `ngAfterContentInit` lifecycle hook.
+
+2. **Use Cases:**
+   - Performing actions based on changes to the content projected into the component.
+   - Triggering additional logic or validations after content updates.
+   - Detecting dynamic changes in the content (though heavy logic here can lead to performance issues).
+
+3. **Sequence in Lifecycle Hooks:**
+   - `ngAfterContentChecked` is executed **after the content of child components** has been checked.
+   - Lifecycle order:
+     1. `ngOnChanges`
+     2. `ngOnInit`
+     3. `ngDoCheck`
+     4. **`ngAfterContentInit`**
+     5. **`ngAfterContentChecked`**
+     6. `ngAfterViewInit`
+     7. `ngAfterViewChecked`
+     8. `ngOnDestroy`
+
+4. **Performance Consideration:**
+   - Avoid heavy logic inside `ngAfterContentChecked` as it is called frequently during Angular's change detection cycle, potentially causing performance bottlenecks.
+
+5. **Example:**
+```typescript
+import { Component, AfterContentChecked } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  template: `
+    <ng-content></ng-content>
+  `
+})
+export class ExampleComponent implements AfterContentChecked {
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked called!');
+    // Perform actions based on content changes
+  }
+}
+```
+
+6. **Common Pitfall:**
+   - Do not update component data inside this hook as it can trigger an infinite loop due to Angular's change detection cycle.
+
+---
+
+### Practical Scenarios:
+- **Dynamic Content Updates:** If you are embedding content dynamically and need to react to those changes.
+- **Custom Validations:** Ensuring certain rules or constraints are applied to the projected content.
+- **Debugging Changes:** Logging or debugging changes in projected content during development.
+
+This hook is rarely needed in routine development but can be essential for certain advanced use cases involving dynamic or projected content.
+=================================================================
+
+
+The `ngAfterContentInit` and `ngAfterContentChecked` lifecycle hooks in Angular are part of the component lifecycle and are related to **projected content** (content passed into the component via `<ng-content>`). However, they serve different purposes and are triggered at different points.
+
+---
+
+### **Key Differences**
+
+| **Aspect**                  | **ngAfterContentInit**                                   | **ngAfterContentChecked**                            |
+|-----------------------------|--------------------------------------------------------|----------------------------------------------------|
+| **Trigger Timing**          | Called **once**, after Angular has initialized the content projected into the component. | Called **after every change detection cycle**, including the first one, for the projected content. |
+| **Purpose**                 | Used for initialization tasks related to projected content. | Used to perform checks or actions every time projected content changes. |
+| **Frequency**               | Invoked **only once** during the component's lifecycle. | Invoked **multiple times** after each change detection run. |
+| **Use Case**                | Perform setup or initialization tasks when the content is projected for the first time. | Check and act on changes to the projected content after every change detection cycle. |
+| **Performance Impact**      | Minimal, as it runs only once.                          | Can impact performance if used for heavy computations, as it runs frequently. |
+| **Lifecycle Order**         | Comes **before** `ngAfterContentChecked`.               | Comes **after** `ngAfterContentInit`.             |
+
+---
+
+### **Lifecycle Order**
+1. `ngAfterContentInit` (once)
+2. `ngAfterContentChecked` (after every content check)
+
+---
+
+### **Example**
+
+#### Component with `<ng-content>`:
+```typescript
+import { Component, AfterContentInit, AfterContentChecked } from '@angular/core';
+
+@Component({
+  selector: 'app-content',
+  template: `
+    <ng-content></ng-content>
+  `
+})
+export class ContentComponent implements AfterContentInit, AfterContentChecked {
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit: Content projected for the first time.');
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked: Content checked.');
+  }
+}
+```
+
+#### Parent Component:
+```typescript
+@Component({
+  selector: 'app-root',
+  template: `
+    <app-content>
+      <p>Dynamic Content</p>
+    </app-content>
+  `
+})
+export class AppComponent {
+  // Parent logic
+}
+```
+
+#### Output:
+1. `ngAfterContentInit: Content projected for the first time.` (runs once)
+2. `ngAfterContentChecked: Content checked.` (runs multiple times during change detection)
+
+---
+
+### **When to Use**
+
+| **Scenario**                                   | **Use ngAfterContentInit**                 | **Use ngAfterContentChecked**                  |
+|-----------------------------------------------|-------------------------------------------|-----------------------------------------------|
+| **Initial Setup**                             | Initialize variables, perform one-time setup when projected content is ready. | Not applicable.                              |
+| **Monitoring Changes in Projected Content**   | Not applicable.                           | Perform actions based on content changes over time. |
+| **Debugging Projected Content Issues**        | Log or check the initial state of content. | Debug how content evolves during updates.     |
+
+---
+
+### **Summary**
+- Use `ngAfterContentInit` for **one-time initialization** of projected content.
+- Use `ngAfterContentChecked` for **monitoring and responding to changes** in projected content after every change detection cycle.

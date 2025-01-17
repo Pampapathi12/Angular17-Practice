@@ -5,7 +5,9 @@
     <button (click)="onBtnClick(inputEl)"> Submit</button>
     
     <app-demo [message]="inputVal">
-        <p #temp>this is projected content</p>
+        <!-- <p #temp>this is projected content</p> -->
+        <p #temp>user has entered following text {{inputVal}} </p>
+        <!-- projectted content will change then it will call ngaftercontentchecked -->
     </app-demo>
     <!-- <app-demo></app-demo>
     <app-demo></app-demo> -->

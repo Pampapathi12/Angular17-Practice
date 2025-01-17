@@ -1,11 +1,13 @@
-import { AfterContentInit, Component, ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, Component, 
+  ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, 
+  SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit {
+export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked {
 
   title: string = " demo compoentt"
   @Input() message: string;
@@ -70,6 +72,14 @@ export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentIni
 
     console.log('ngafter content init called')
     console.log('in do check123', this.paraConten.nativeElement)// before hook called the projected
+
+  }
+
+  ngAfterContentChecked(){
+
+    console.log('ngafter content checked')
+    console.log('ngAfterContentChecked', this.paraConten.nativeElement) // each change detection will call
+
 
   }
 
