@@ -12,11 +12,12 @@
             <h2>{{product.name}} </h2>
         </div>
         <div class="ekart-product-detail-gbc">
-            <span>MEN</span>
-            <span>NIKE</span>
-            <span>SPORTS</span>
+            <span setBackground>{{product.gender}}</span>
+            <span setBackground>{{product.brand}}</span>
+            <span setBackground>{{product.category}}</span>
+            <!-- when setBackground selector, an instance of setBackground instance class will create, in order create instance will call constructor, whichever element we use selector of directive refrence of that element that will injected and element of will assing to elementRef  :- this is called dependency injections   -->
         </div>
-        <div class="ekart-product-detail-price">
+        <div class="ekart-product-detail-price" setBackground>
             <p>
                 <b>Price Each Pair:</b>
                 <span style="background-color: red; color:white"><s>$699</s></span>
