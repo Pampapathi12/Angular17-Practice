@@ -1,0 +1,1 @@
+[1]. its called after the every view or prpjected conteted is rendered

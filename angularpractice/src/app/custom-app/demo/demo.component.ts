@@ -1,16 +1,18 @@
-import { Component, DoCheck, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit, DoCheck {
+export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit {
 
   title: string = " demo compoentt"
   @Input() message: string;
   // @Input() message: string[]; // array is refrence type, reference not changed, message propertty not changes thats why ngonchanges hook not cllaed, refernce of message type is changed the ngonchanges life cycle will called
    @ViewChild('temp') tempPara : ElementRef
+
+  @ContentChild('temp') paraConten: ElementRef;
 
   // input component are not updated by doing properpty binding from the parent compoennt to child component, 
   //  by the time constructor is called , value initilization will show
@@ -56,6 +58,19 @@ export class DemoComponent implements OnChanges,OnInit, DoCheck {
 
 
     console.log('ngDocheck hook called')
+
+    console.log('in do check', this.paraConten)// projectted content not intialized 
+  }
+
+  ngAfterContentInit(){
+
+    // after those projected content initalized then will it call
+
+    // if dont have projected content then also it will call
+
+    console.log('ngafter content init called')
+    console.log('in do check123', this.paraConten.nativeElement)// before hook called the projected
+
   }
 
 }

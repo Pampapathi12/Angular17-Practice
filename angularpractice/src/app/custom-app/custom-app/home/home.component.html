@@ -4,7 +4,9 @@
 
     <button (click)="onBtnClick(inputEl)"> Submit</button>
     
-    <app-demo [message]="inputVal"></app-demo>
+    <app-demo [message]="inputVal">
+        <p #temp>this is projected content</p>
+    </app-demo>
     <!-- <app-demo></app-demo>
     <app-demo></app-demo> -->
     <!-- here 3 times compoennt is intialized and constructor will call 3 time instances -->
