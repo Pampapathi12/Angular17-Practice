@@ -9,6 +9,8 @@ export class HomeComponent {
 
   title: string = ' compoennt intialiaztion'
 
+  destroy: boolean = false;
+
   inputVal: string = '';
   // inputVal: string[] = ['hello', 'hi there'];
 
@@ -76,6 +78,14 @@ fullName: string = '';
 
     // when the value tempPara wii chang we can get the updated vlue
     // console.log( 'ngAfterViewChecked called13', this.tempPara.nativeElement)
+
+  }
+  destroyComponent(){
+    this.destroy = !this.destroy
+  }
+  ngOnDestroy(){
+
+    console.log('ngOnDestroy parent called')
 
   }
 

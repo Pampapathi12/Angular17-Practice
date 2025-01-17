@@ -1,5 +1,5 @@
 import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, 
-  ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, 
+  ContentChild, DoCheck, ElementRef, Input, OnChanges, OnDestroy, OnInit, 
   SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked{
+export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy{
 
   title: string = " demo compoentt"
   @Input() message: string;
@@ -105,6 +105,11 @@ export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentIni
 
     // when the value tempPara wii chang we can get the updated vlue
     console.log( 'ngAfterViewChecked called13', this.tempPara.nativeElement)
+
+  }
+  ngOnDestroy(){
+
+    console.log('ngOnDestroy called')
 
   }
 

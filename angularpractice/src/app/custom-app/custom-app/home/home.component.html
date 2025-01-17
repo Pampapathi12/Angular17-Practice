@@ -3,13 +3,16 @@
     <!-- change detection will call focus event -->
     <!-- <button>show/hide</button> -->
 
-    <button (click)="onBtnClick(inputEl)"> Submit</button>
+    <button (click)="onBtnClick(inputEl)" > Submit</button>
     
-    <app-demo [message]="inputVal">
+    <app-demo [message]="inputVal" *ngIf="!destroy">
         <!-- <p #temp>this is projected content</p> -->
         <p #temp>user has entered following text {{inputVal}} </p>
         <!-- projectted content will change then it will call ngaftercontentchecked -->
     </app-demo>
+    <br><br>
+    <button (click)="destroyComponent()">show/hide componenet</button>
+    <!-- ngdestroy will just before compoennt is destroyed -->
     <!-- <app-demo></app-demo>
     <app-demo></app-demo> -->
     <!-- here 3 times compoennt is intialized and constructor will call 3 time instances -->
