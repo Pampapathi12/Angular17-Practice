@@ -1,0 +1,107 @@
+[1]. ngDocheck wil call every change detections, no matter if any value changes or not but any event
+occur or change detection hook called then the ngDocheck will call.
+
+### **Understanding `ngDoCheck` Lifecycle Hook in Angular**
+
+The `ngDoCheck` lifecycle hook is a powerful but rarely needed hook in Angular. It is triggered **during every change detection cycle** and provides a way to perform custom change detection logic.
+
+#### **Key Points about `ngDoCheck`:**
+1. **Execution Timing:**  
+   - It is called **after `ngOnChanges` (if implemented)** and during every change detection run, including initialization and subsequent updates.
+   - Useful when Angular's default change detection is not sufficient.
+
+2. **Custom Change Detection:**  
+   - You can write your logic to detect changes that Angular might not detect by itself (e.g., changes in deep object properties, array mutations).
+
+3. **Performance Implications:**  
+   - Since `ngDoCheck` is called frequently, any heavy logic in it can significantly impact performance. Use it sparingly and optimize the logic.
+
+---
+
+### **Use Cases**
+- Monitoring changes to mutable objects (arrays, objects) that Angular cannot detect directly.
+- Implementing custom checks when the `@Input` changes are not sufficient.
+
+---
+
+### **Code Example**
+#### **Component Using `ngDoCheck`:**
+```typescript
+import { Component, DoCheck, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-check-demo',
+  template: `
+    <p>Array Content: {{ items }}</p>
+    <button (click)="addItem()">Add Item</button>
+  `,
+})
+export class CheckDemoComponent implements DoCheck {
+  @Input() items: string[] = [];
+
+  private previousItems: string[] = [];
+
+  ngDoCheck(): void {
+    if (this.items.length !== this.previousItems.length) {
+      console.log('Array length has changed!');
+      this.previousItems = [...this.items]; // Update snapshot
+    }
+  }
+
+  addItem(): void {
+    this.items.push(`Item ${this.items.length + 1}`);
+  }
+}
+```
+
+#### **Explanation:**
+- `ngDoCheck` is used to monitor changes to the `items` array.
+- Angular's default change detection might miss changes caused by direct mutations, such as `.push()`.
+- The snapshot of the array (`previousItems`) helps detect and log length changes.
+
+---
+
+### **Difference Between `ngDoCheck` and `ngOnChanges`**
+
+| Feature                | `ngOnChanges`                                      | `ngDoCheck`                                       |
+|------------------------|-----------------------------------------------------|--------------------------------------------------|
+| **When It Is Called**  | Called whenever an input property value changes.    | Called during every change detection cycle.      |
+| **Triggered By**       | Angular when an input property changes.             | Angular during every change detection run.       |
+| **Parameters**         | Receives a `SimpleChanges` object with details.     | No parameters; relies on custom logic for checks.|
+| **Use Case**           | Responding to input property changes.               | Detecting deep or custom changes manually.       |
+| **Performance Impact** | Lightweight, triggered only on input changes.       | Can be heavy if not optimized.                   |
+
+---
+
+### **Best Practices for Using `ngDoCheck`**
+1. **Minimize Heavy Operations:**  
+   - Avoid complex calculations or expensive operations. Optimize the checks to minimize performance impact.
+
+2. **Use Snapshots:**  
+   - Use a snapshot of the object or array to compare the current state with the previous state efficiently.
+
+3. **Consider `OnPush` Change Detection:**  
+   - If you're frequently relying on `ngDoCheck`, you might need to reconsider your change detection strategy. Using `OnPush` can reduce unnecessary checks.
+
+---
+
+### **Trick Questions and Answers**
+
+1. **Q:** Will `ngDoCheck` detect deep changes in an object or array automatically?  
+   **A:** No, `ngDoCheck` does not automatically detect changes. You must implement custom logic to track and detect these changes.
+
+2. **Q:** How many times is `ngDoCheck` called during a single change detection cycle?  
+   **A:** It depends on the number of components and the complexity of the component tree. `ngDoCheck` is called for every component during each change detection cycle.
+
+3. **Q:** Can `ngDoCheck` replace `ngOnChanges`?  
+   **A:** Technically, you could use `ngDoCheck` for similar purposes, but it's not recommended. `ngOnChanges` is simpler, more efficient, and specifically designed for detecting input property changes.
+
+4. **Q:** Does `ngDoCheck` run in components with `OnPush` change detection?  
+   **A:** Yes, `ngDoCheck` is called even in components with `OnPush` strategy if Angular detects changes that require the component to update.
+
+5. **Q:** What is the difference between `ngDoCheck` and the default Angular change detection?  
+   **A:** Angular's default change detection compares component input properties. `ngDoCheck` allows you to write custom logic to handle changes that Angular cannot detect automatically.
+
+---
+
+Let me know if you want more examples or tricky scenarios involving `ngDoCheck`! 😊

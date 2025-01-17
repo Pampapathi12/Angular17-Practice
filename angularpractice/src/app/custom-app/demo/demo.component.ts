@@ -1,15 +1,15 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit {
+export class DemoComponent implements OnChanges,OnInit, DoCheck {
 
   title: string = " demo compoentt"
-  // @Input() message: string;
-  @Input() message: string[]; // array is refrence type, reference not changed, message propertty not changes thats why ngonchanges hook not cllaed, refernce of message type is changed the ngonchanges life cycle will called
+  @Input() message: string;
+  // @Input() message: string[]; // array is refrence type, reference not changed, message propertty not changes thats why ngonchanges hook not cllaed, refernce of message type is changed the ngonchanges life cycle will called
    @ViewChild('temp') tempPara : ElementRef
 
   // input component are not updated by doing properpty binding from the parent compoennt to child component, 
@@ -26,6 +26,7 @@ export class DemoComponent implements OnChanges,OnInit {
   // beginng it undefeind showing, if any event happen then the ngoncgnages will call every time
   //
   ngOnChanges(changes: SimpleChanges){
+    // will call when the input propeort chnages
 
     // ngOnchanged will call only the when the previous if value if changed that time it will called
 
@@ -45,8 +46,16 @@ export class DemoComponent implements OnChanges,OnInit {
     // 
 
     console.log('ng on init called')
-    console.log('tep',this.tempPara.nativeElement)// it retirning undefined// by the view is not created, child, projected content or not created
+    // console.log('tep',this.tempPara.nativeElement)// it retirning undefined// by the view is not created, child, projected content or not created
 
+  }
+
+  ngDoCheck(){
+
+    // change Detection cycle run then ngDoCheck will call
+
+
+    console.log('ngDocheck hook called')
   }
 
 }
