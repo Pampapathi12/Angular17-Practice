@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewInit, Component, 
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, 
   ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, 
   SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
@@ -7,7 +7,7 @@ import { AfterContentChecked, AfterContentInit, AfterViewInit, Component,
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit{
+export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked{
 
   title: string = " demo compoentt"
   @Input() message: string;
@@ -93,6 +93,18 @@ export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentIni
     console.log('ngAfterViewInit called')
     console.log('ngafterviewnint123', this.paraConten.nativeElement)
 
+
+  }
+
+  ngAfterViewChecked(){
+
+    // when the view changed, ngafterviewchkecd will call
+    // child compoennt alos changed then 
+    // each change detection it will even if the value not changed
+    console.log('ngAfterViewChecked called')
+
+    // when the value tempPara wii chang we can get the updated vlue
+    console.log( 'ngAfterViewChecked called13', this.tempPara.nativeElement)
 
   }
 

@@ -1,5 +1,6 @@
 <div class="container">
     <input type="text" #inputEl (focus)="0">
+    <!-- change detection will call focus event -->
     <!-- <button>show/hide</button> -->
 
     <button (click)="onBtnClick(inputEl)"> Submit</button>
