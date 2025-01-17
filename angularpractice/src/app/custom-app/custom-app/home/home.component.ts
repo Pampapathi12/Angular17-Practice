@@ -54,4 +54,17 @@ fullName: string = '';
     this.inputVal =inputEl.value;
   }
 
+  ngAfterViewInit(){
+
+    // after view template of component and view template of child component is initialized
+    // this will call only the changed deection at first time
+
+
+   
+    console.log('ngAfterViewInit called parent')// all the life and child component projected
+    // console.log('ngafterviewnint123', this.paraConten.nativeElement)
+
+
+  }
+
 }

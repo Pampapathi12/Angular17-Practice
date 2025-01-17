@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, Component, 
+import { AfterContentChecked, AfterContentInit, AfterViewInit, Component, 
   ContentChild, DoCheck, ElementRef, Input, OnChanges, OnInit, 
   SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 
@@ -7,12 +7,12 @@ import { AfterContentChecked, AfterContentInit, Component,
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']
 })
-export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked {
+export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit{
 
   title: string = " demo compoentt"
   @Input() message: string;
   // @Input() message: string[]; // array is refrence type, reference not changed, message propertty not changes thats why ngonchanges hook not cllaed, refernce of message type is changed the ngonchanges life cycle will called
-   @ViewChild('temp') tempPara : ElementRef
+   @ViewChild('temp') tempPara : ElementRef // this temp para tempPara will assing just before ngafterviewinit called
 
   @ContentChild('temp') paraConten: ElementRef;
 
@@ -79,6 +79,19 @@ export class DemoComponent implements OnChanges,OnInit, DoCheck, AfterContentIni
 
     console.log('ngafter content checked')
     console.log('ngAfterContentChecked', this.paraConten.nativeElement) // each change detection will call
+
+
+  }
+
+  ngAfterViewInit(){
+
+    // after view template of component and view template of child component is initialized
+    // this will call only the changed deection at first time
+
+
+   
+    console.log('ngAfterViewInit called')
+    console.log('ngafterviewnint123', this.paraConten.nativeElement)
 
 
   }
