@@ -58,7 +58,8 @@
         </div>
     </div>
     <div class="ekart-product-detail-addtoCart">
-        <button class="btn-add-to-cart" *ngIf="product.is_in_inventory; else notiFy">ADD TO CART</button>
+        <button class="btn-add-to-cart" *ngIf="product.is_in_inventory; else notiFy" appAppHover>ADD TO CART</button>
+        <!-- the button element is host eleent appAppHover -->
         <ng-template #notiFy>
             <button class="btn-add-to-cart" >Notify Me</button>
         </ng-template>
