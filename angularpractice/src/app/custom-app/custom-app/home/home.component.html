@@ -1,3 +1,57 @@
+<!-- How a Structural Directive Works -->
+
+<div class="notice-container">
+    <div class="notice-header">
+        <button (click)="displayTerm()" >+</button>
+    </div>
+    <div class="notice-info" >
+        <p> read terms of sercives and primary policy</p>
+    </div>
+    <ng-template [ngIf]="display" [ngIfElse]="myTempVar">
+        <!-- we can use the ngIf as attribute directive -->
+        <div class="notice-body"  > 
+            <!-- *ngIf="display; else myTempVar" telling this directive structural directive *ngIf wrap within ngtemplate-->
+            <h1> terms of services and privacy policy</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    
+            </p>
+            <h2> terms of services</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    
+            </p>
+            <h2>privacy policy</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    
+            </p>
+    
+        </div>
+
+    </ng-template>
+
+    <ng-template #myTempVar>
+        <div class="notice-body">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+
+            </p>
+        </div>
+    </ng-template>
+    
+</div>
+
+<!-- end -->
+
 <!-- Creating a Custom Class Directive -->
 
 <h2> Custom class and style directives</h2>

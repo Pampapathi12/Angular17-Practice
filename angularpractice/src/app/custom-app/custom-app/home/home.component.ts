@@ -7,6 +7,8 @@ import { Component, ElementRef, ViewChildren, ViewChild, QueryList } from '@angu
 })
 export class HomeComponent {
 
+  display: boolean = false
+
   active: boolean = true;
  
 
@@ -91,6 +93,9 @@ fullName: string = '';
 
     console.log('ngOnDestroy parent called')
 
+  }
+  displayTerm(){
+    this.display = true;
   }
 
 }

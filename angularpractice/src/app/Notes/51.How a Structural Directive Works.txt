@@ -1,0 +1,4 @@
+[1]. how to create custom attribute directive
+[2]. how to use custom attribute directive
+[3]. how to apply custom attribute directive
+[4]. how to pass data to custom attribute directive
