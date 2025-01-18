@@ -1,9 +1,11 @@
-import { Component, ElementRef, ViewChildren, ViewChild, QueryList } from '@angular/core';
+import { Component, ElementRef, ViewChildren, ViewChild, QueryList, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'], // it should apply only this copoent and another view template componentcd
+  // encapsulation: ViewEncapsulation.None // button elemnt css will apply the child component
+  encapsulation: ViewEncapsulation.ShadowDom 
 })
 export class HomeComponent {
 

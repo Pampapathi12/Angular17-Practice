@@ -13,6 +13,8 @@ import { SampleDirective } from './CustomDirective1/sample.directive';
 import { Class1Directive } from './CustomDirective1/class1.directive';
 import { StyleDirective } from './CustomDirective1/style.directive';
 import { IfDirective } from './CustomDirective1/if.directive';
+import { Comp1Component } from './custom-app/comp1/comp1.component';
+import { Comp2Component } from './custom-app/comp2/comp2.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { IfDirective } from './CustomDirective1/if.directive';
     SampleDirective,
     Class1Directive,
     StyleDirective,
-    IfDirective
+    IfDirective,
+    Comp1Component,
+    Comp2Component
   ],
   imports: [
     BrowserModule,

@@ -131,3 +131,24 @@ h2{
     text-align: justify; /* Justify paragraph text for alignment */
     color: #666; /* Medium gray for text */
 }
+
+.app-component{
+    text-align: center;
+    border: #bbb 2px solid;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.component-container{
+    display: flex;
+    text-align: center;
+}
+button{
+    width: 120px;
+    height: 30px;
+    border: none;
+    text-align: center;
+    background-color: coral;
+}
