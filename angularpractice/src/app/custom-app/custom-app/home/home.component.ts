@@ -7,6 +7,9 @@ import { Component, ElementRef, ViewChildren, ViewChild, QueryList } from '@angu
 })
 export class HomeComponent {
 
+  active: boolean = true;
+ 
+
   title: string = ' compoennt intialiaztion'
 
   destroy: boolean = false;
@@ -16,6 +19,7 @@ export class HomeComponent {
 
   constructor(){
     console.log('home compoennt called')
+    // this.active = false
   }
 
 

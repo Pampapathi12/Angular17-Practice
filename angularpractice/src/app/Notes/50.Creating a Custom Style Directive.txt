@@ -1,0 +1,119 @@
+Creating a custom style directive in Angular allows you to dynamically apply or modify styles to elements. Here's a step-by-step guide to creating a custom style directive:
+
+---
+
+### 1. **Generate the Directive**
+Use the Angular CLI to create a new directive:
+```bash
+ng generate directive customStyle
+```
+This generates two files: `custom-style.directive.ts` and `custom-style.directive.spec.ts`.
+
+---
+
+### 2. **Define the Directive Logic**
+Edit the `custom-style.directive.ts` file to include logic for applying custom styles.
+
+Here’s an example of a directive that changes the background color of an element:
+
+#### `custom-style.directive.ts`
+```typescript
+import { Directive, ElementRef, Renderer2, Input, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appCustomStyle]'
+})
+export class CustomStyleDirective {
+  @Input() appCustomStyle: string = ''; // Accepts the style value from the template
+  @Input() hoverColor: string = '';     // Optional hover color
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    // Set a default style
+    this.setStyle('backgroundColor', 'lightgray');
+  }
+
+  private setStyle(styleName: string, value: string): void {
+    this.renderer.setStyle(this.el.nativeElement, styleName, value);
+  }
+
+  @HostListener('mouseenter') onMouseEnter() {
+    // Apply hover color when mouse enters
+    if (this.hoverColor) {
+      this.setStyle('backgroundColor', this.hoverColor);
+    }
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    // Reset to the initial style or default
+    this.setStyle('backgroundColor', this.appCustomStyle || 'lightgray');
+  }
+
+  ngOnChanges() {
+    // Apply the custom style when the input changes
+    if (this.appCustomStyle) {
+      this.setStyle('backgroundColor', this.appCustomStyle);
+    }
+  }
+}
+```
+
+---
+
+### 3. **Use the Directive**
+You can now use the directive in any component's template. For example:
+
+#### `app.component.html`
+```html
+<div appCustomStyle="lightblue" hoverColor="lightgreen" style="padding: 20px; border: 1px solid black;">
+  Hover over me to see the color change!
+</div>
+```
+
+---
+
+### 4. **Explanation**
+- **Inputs**: The directive uses `@Input()` to accept custom colors (`appCustomStyle` and `hoverColor`).
+- **Renderer2**: Safely applies styles to elements.
+- **HostListener**: Listens to DOM events (`mouseenter` and `mouseleave`) to dynamically change styles.
+- **ngOnChanges**: Ensures the styles update whenever the `@Input` properties change.
+
+---
+
+### 5. **Test the Directive**
+Write unit tests in the `custom-style.directive.spec.ts` file to verify the directive's behavior.
+
+#### Example Test Case
+```typescript
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { CustomStyleDirective } from './custom-style.directive';
+
+@Component({
+  template: `<div appCustomStyle="yellow" hoverColor="red">Test</div>`
+})
+class TestComponent {}
+
+describe('CustomStyleDirective', () => {
+  let fixture: ComponentFixture<TestComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestComponent, CustomStyleDirective]
+    });
+    fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+  });
+
+  it('should apply initial style', () => {
+    const div: HTMLElement = fixture.nativeElement.querySelector('div');
+    expect(div.style.backgroundColor).toBe('yellow');
+  });
+});
+```
+
+---
+
+### Benefits of Using a Directive for Styles
+- **Reusability**: Apply the same styling logic across multiple elements.
+- **Separation of Concerns**: Keeps your styles dynamic and independent from the component logic.
+- **Maintainability**: Easier to manage and update styles for multiple elements.

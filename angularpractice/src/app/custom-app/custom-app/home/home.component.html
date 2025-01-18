@@ -18,6 +18,31 @@
         dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
     </p>
 </div>
+<hr>
+<!-- creating a custom style directive -->
+
+<h2> creating a custom style directive </h2>
+
+
+<!-- <div class="app-container" [ngStyle]="{backgroundColor: active ? 'green' : 'red', color:active ? 'white': 'black'}"> -->
+    <!-- based on the active property value set color change the dynamically -->
+<!-- <div class="app-container" appStyle [style]="{backgroundColor: 'red', color: 'white'}"> -->
+
+    <!-- css style dyna,ically -->
+    <!-- <div class="app-container" appStyle [style]="{backgroundColor: active? 'green': 'red', color: active? 'white' : 'black'}"> -->
+
+        <!-- selector directive direclty as property -->
+        <div class="app-container"  [appStyle]="{backgroundColor: active? 'green': 'red', color: active? 'white' : 'black'}">
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    </p>
+</div>
+
+<hr>
+ 
+
+<!-- end -->
 
 
 <div class="demo-container">
