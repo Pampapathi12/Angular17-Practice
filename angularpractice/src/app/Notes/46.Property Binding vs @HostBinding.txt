@@ -1,0 +1,67 @@
+[1]. property binding in component and HostBinding in directive### **Property Binding vs `@HostBinding`**
+
+#### **Property Binding**
+- **Definition**: Binds a property of an HTML element or a component to a value or variable in the component.
+- **Scope**: Used in templates to bind a property dynamically.
+- **Syntax**: 
+  ```html
+  <input [value]="username" />
+  ```
+- **Usage**:
+  - Useful when binding a DOM element’s property (e.g., `class`, `style`, `disabled`) to a value.
+  - Happens in the template file (`HTML`) and applies only to the element where the binding is defined.
+
+#### **`@HostBinding`**
+- **Definition**: Binds a class or style property of the host element of a directive/component to a value in the directive/component class.
+- **Scope**: Applied within the directive or component class to modify the properties of the host element.
+- **Syntax**:
+  ```typescript
+  @HostBinding('class.is-active') isActive = true;
+  ```
+- **Usage**:
+  - Allows direct manipulation of the host element’s properties like `class`, `style`, or any attribute from the directive/component class.
+  - Particularly useful in custom directives where the directive modifies the host element.
+
+---
+
+### **Event Binding vs `@HostListener`**
+
+#### **Event Binding**
+- **Definition**: Binds a DOM event (e.g., `click`, `keyup`, `mouseover`) to a method in the component class.
+- **Scope**: Used in templates for specific elements.
+- **Syntax**: 
+  ```html
+  <button (click)="handleClick()">Click Me</button>
+  ```
+- **Usage**:
+  - Handles events directly in the template and delegates the logic to a method in the component.
+  - The binding is limited to the element where the event is defined.
+
+#### **`@HostListener`**
+- **Definition**: Listens to events on the host element or other elements (like `window`, `document`) and binds them to a method in the directive/component class.
+- **Scope**: Used within a directive or component to listen to events affecting the host element or global elements.
+- **Syntax**:
+  ```typescript
+  @HostListener('click') onClick() {
+    console.log('Host element clicked');
+  }
+  ```
+- **Usage**:
+  - Useful in custom directives to respond to events on the host element or global elements (like `window` scroll, key events).
+  - Simplifies listening to events without adding event listeners in the template.
+
+---
+
+### **Comparison Table**
+
+| Aspect                  | Property Binding                | `@HostBinding`              | Event Binding                | `@HostListener`             |
+|-------------------------|----------------------------------|-----------------------------|------------------------------|-----------------------------|
+| **Definition**          | Binds element property to value | Binds host element property | Binds element event to method| Listens to host/global events |
+| **Scope**               | Template                       | Directive/component class   | Template                    | Directive/component class   |
+| **Syntax**              | `[property]="value"`           | `@HostBinding('property')` | `(event)="method()"`         | `@HostListener('event')`    |
+| **Usage**               | Modify DOM element property     | Modify host element property| Handle events on elements    | Handle host/global events   |
+| **Example**             | `[class.active]="isActive"`     | `@HostBinding('class.active')` | `(click)="doSomething()"` | `@HostListener('click')`    |
+
+**Summary**:
+- Use **property binding** and **event binding** for elements within templates.
+- Use **`@HostBinding`** and **`@HostListener`** for host element manipulations or handling global events in custom directives/components.

@@ -8,6 +8,8 @@ import { ParentComponent } from './parent/parent.component';
 import { ChildComponent } from './parent/child/child.component';
 import { TestComponent } from './test/test.component';
 import { DemoComponent } from './demo/demo.component';
+import { Demo1Component } from './demo1/demo1.component';
+import { SampleDirective } from './CustomDirective1/sample.directive';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { DemoComponent } from './demo/demo.component';
     ParentComponent,
     ChildComponent,
     TestComponent,
-    DemoComponent
+    DemoComponent,
+    Demo1Component,
+    SampleDirective
   ],
   imports: [
     BrowserModule,
