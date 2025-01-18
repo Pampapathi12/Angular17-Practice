@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit } from "@angular/core";
+import { Directive, ElementRef, OnInit, Renderer2 } from "@angular/core";
 
 @Directive({
     selector: '[setBackground]' // attribute selector
@@ -8,8 +8,11 @@ export class SetBackground implements OnInit{
 
 
     // private element: ElementRef
+    private renderer2 : Renderer2
 
-    constructor( private element: ElementRef){
+    constructor( private element: ElementRef,private renderer: Renderer2){
+
+        // this.renderer2 = renderer;
 
     //    this.element = element // store the html eleemnt
     //    this.element = element
@@ -21,8 +24,22 @@ export class SetBackground implements OnInit{
 
     ngOnInit(){
         // will call the compoent properyty initilized
-       this.element.nativeElement.style.backgroundColor = '#36454F'; // store the html eleemnt
-      this.element.nativeElement.style.color = 'white';
+    //    this.element.nativeElement.style.backgroundColor = '#36454F'; // store the html eleemnt
+    //   this.element.nativeElement.style.color = 'white';
+
+    // renderer2
+    this.renderer.setStyle(this.element.nativeElement, 'backgroundColor','#36454F');
+    this.renderer.setStyle(this.element.nativeElement, 'color','white');
+
+    this.renderer.setAttribute(this.element.nativeElement, 'title','This is paragraphe example')
+
+    // this.renderer.removeClass()
+
+    // render2 create the abstraction between the dom and style using the native element
+    // not accesing the the direct dom element
     }
+
+    // nativeelemtn property its gives the direct access to the DOM
+    // but it gives acccess the direct access
 
 }
