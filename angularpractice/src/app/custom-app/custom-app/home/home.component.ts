@@ -7,6 +7,9 @@ import { Component, ElementRef, ViewChildren, ViewChild, QueryList } from '@angu
 })
 export class HomeComponent {
 
+
+  tab: string = '';
+
   display: boolean = false
 
   active: boolean = true;
@@ -96,6 +99,23 @@ fullName: string = '';
   }
   displayTerm(){
     this.display = true;
+  }
+  onInfoClick(){
+
+    this.tab = 'Info'
+
+  }
+  onServiceClicked(){
+    this.tab = 'sercives'
+
+  }
+  onPrivacyClicked(){
+    this.tab = 'privacy'
+
+  }
+  onUser(){
+    this.tab = 'User'
+
   }
 
 }

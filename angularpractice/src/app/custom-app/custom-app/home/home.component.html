@@ -1,3 +1,70 @@
+<!-- ngSwitch Directive  -->
+<div class="notice-container">
+    <div class="notice-header">
+        <button (click)="onInfoClick()">Info</button>
+        <button  (click)="onServiceClicked()">services</button>
+        <button (click)="onPrivacyClicked()" >Privacy</button>
+        <button  (click)="onUser()" >User Agreement</button>
+    </div>
+    <div class="notice-body" [ngSwitch]="tab">
+        <!-- *ngIf="display; else myTempVar" telling this directive structural directive *ngIf wrap within ngtemplate-->
+
+        <div *ngSwitchCase="'Info'">
+            <h1> terms of services and privacy policy</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        
+            </p>
+        </div>
+        <div *ngSwitchCase="'sercives'"> 
+        
+            <h2> terms of services</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        
+            </p>
+        </div>
+        <div *ngSwitchCase="'privacy'">
+            <h2>privacy policy</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        
+            </p>
+        </div>
+        <div *ngSwitchCase="'User'">
+            <h2>User Agreement</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        
+            </p>
+        </div>
+        <div *ngSwitchDefault="''">
+            <h2>terms of services and privacy policy</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<!-- end -->
 <!-- How a Structural Directive Works -->
 
 <div class="notice-container">
