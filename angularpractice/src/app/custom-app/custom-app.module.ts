@@ -12,6 +12,7 @@ import { Demo1Component } from './demo1/demo1.component';
 import { SampleDirective } from './CustomDirective1/sample.directive';
 import { Class1Directive } from './CustomDirective1/class1.directive';
 import { StyleDirective } from './CustomDirective1/style.directive';
+import { IfDirective } from './CustomDirective1/if.directive';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { StyleDirective } from './CustomDirective1/style.directive';
     Demo1Component,
     SampleDirective,
     Class1Directive,
-    StyleDirective
+    StyleDirective,
+    IfDirective
   ],
   imports: [
     BrowserModule,

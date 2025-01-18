@@ -7,9 +7,9 @@
     <div class="notice-info" >
         <p> read terms of sercives and primary policy</p>
     </div>
-    <ng-template [ngIf]="display" [ngIfElse]="myTempVar">
+    <!-- <ng-template [ngIf]="display" [ngIfElse]="myTempVar"> -->
         <!-- we can use the ngIf as attribute directive -->
-        <div class="notice-body"  > 
+        <div class="notice-body"  *appIf="display"> 
             <!-- *ngIf="display; else myTempVar" telling this directive structural directive *ngIf wrap within ngtemplate-->
             <h1> terms of services and privacy policy</h1>
             <p>
@@ -35,9 +35,9 @@
     
         </div>
 
-    </ng-template>
+    <!-- </ng-template> -->
 
-    <ng-template #myTempVar>
+    <!-- <ng-template #myTempVar>
         <div class="notice-body">
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
@@ -46,7 +46,9 @@
 
             </p>
         </div>
-    </ng-template>
+    </ng-template> -->
+
+    <p *appIf="10 > 5"> ekart--add--to--wishlist </p>
     
 </div>
 

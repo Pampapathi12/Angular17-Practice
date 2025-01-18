@@ -1,0 +1,111 @@
+A **custom structural directive** in Angular is a directive that can change the structure of the DOM. It is used to add, remove, or manipulate DOM elements dynamically, based on some condition or logic. Structural directives in Angular are prefixed with an asterisk (`*`) when used in templates.
+
+Here’s a step-by-step guide to creating a custom structural directive:
+
+---
+
+### Example: Creating a `*appUnless` Directive
+
+#### 1. **Generate the Directive**
+You can generate the directive using the Angular CLI:
+```bash
+ng generate directive appUnless
+```
+
+#### 2. **Directive Code**
+Update the generated directive file (`app-unless.directive.ts`) as follows:
+
+```typescript
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
+  selector: '[appUnless]',
+})
+export class AppUnlessDirective {
+  private hasView = false;
+
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set appUnless(condition: boolean) {
+    if (!condition && !this.hasView) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+      this.hasView = true;
+    } else if (condition && this.hasView) {
+      this.viewContainer.clear();
+      this.hasView = false;
+    }
+  }
+}
+```
+
+#### Explanation:
+- **`TemplateRef`**: Refers to the template that the directive is applied to.
+- **`ViewContainerRef`**: Represents the container where the template will be rendered.
+- The `appUnless` input property determines whether the element should be displayed (`!condition`) or removed (`condition`).
+
+---
+
+#### 3. **Use the Directive in a Component**
+Add the directive to the module where it will be used:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { AppUnlessDirective } from './app-unless.directive';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    AppUnlessDirective
+  ],
+  imports: [BrowserModule],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+---
+
+#### 4. **HTML Usage**
+Use the directive in your component's template:
+
+```html
+<div *appUnless="show">This text is shown when 'show' is false.</div>
+<button (click)="toggle()">Toggle</button>
+```
+
+---
+
+#### 5. **Component Logic**
+In the component (`app.component.ts`):
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  show = true;
+
+  toggle() {
+    this.show = !this.show;
+  }
+}
+```
+
+---
+
+### Key Points:
+- Structural directives always modify the DOM by adding or removing elements.
+- The `*` syntax is a shorthand for specifying the directive and a template (`<ng-template>` under the hood).
+- Use `TemplateRef` and `ViewContainerRef` for DOM manipulations.
+  
+By following these steps, you can create and use any custom structural directive in Angular!
+==================================
