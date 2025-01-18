@@ -1,0 +1,65 @@
+Property binding in directives allows you to dynamically bind values from a component to a directive's input properties. This feature is commonly used in Angular to configure the behavior of a directive based on the values provided by the component.
+
+### How Property Binding Works in Directives
+1. **Define Input Property in Directive**:
+   Use the `@Input()` decorator to declare a property in the directive that can receive data from the component.
+
+2. **Bind the Property in the Component**:
+   Use property binding in the template to pass data to the directive's input property.
+
+### Example: Property Binding in Directives
+#### Step 1: Create a Directive
+```typescript
+import { Directive, Input, ElementRef, Renderer2, OnChanges } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective implements OnChanges {
+  @Input() appHighlight: string = ''; // Input property for the directive
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngOnChanges() {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', this.appHighlight);
+  }
+}
+```
+
+#### Step 2: Use the Directive in a Component
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1 [appHighlight]="color">Highlight this text</h1>
+    <button (click)="changeColor()">Change Color</button>
+  `,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  color: string = 'yellow';
+
+  changeColor() {
+    const colors = ['yellow', 'blue', 'green', 'pink', 'orange'];
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+}
+```
+
+### Explanation
+1. **Directive Definition**:
+   - The `@Input()` property `appHighlight` allows the component to pass a color value to the directive.
+   - When the `appHighlight` value changes, the `ngOnChanges` lifecycle hook updates the element's background color.
+
+2. **Component Usage**:
+   - The `[appHighlight]="color"` syntax binds the `color` property from the component to the directive's `appHighlight` property.
+   - Clicking the button updates the `color` property, which triggers the directive to update the background color dynamically.
+
+### Key Points
+- **Dynamic Behavior**: Property binding in directives allows for dynamic behavior, as input properties can change over time.
+- **Two-way Interaction**: You can use event emitters (`@Output`) along with property binding to create two-way interactions between the directive and the component.
+- **Encapsulation**: Directives encapsulate behavior and styling logic, making the application modular and maintainable.
+
+Would you like further assistance or another example of property binding in directives?

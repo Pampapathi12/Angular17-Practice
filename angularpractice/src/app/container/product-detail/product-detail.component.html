@@ -12,12 +12,24 @@
             <h2>{{product.name}} </h2>
         </div>
         <div class="ekart-product-detail-gbc">
-            <span setBackground>{{product.gender}}</span>
-            <span setBackground>{{product.brand}}</span>
-            <span setBackground>{{product.category}}</span>
+            <!-- <span setBackground [backColor]="'red'" [textColor]="'white'">{{product.gender}}</span>
+            <span setBackground [backColor]="'yellow'" [textColor]="'black'">{{product.brand}}</span>
+            <span setBackground [backColor]="'black'" [textColor]="'white'">{{product.category}}</span> -->
+
+            <!-- using directie alias -->
+            <!-- <span [setBackground]="'red'"  [setBackground1]="'white'" >{{product.gender}}</span>
+            <span [setBackground]="'yellow'" [setBackground1]="'black'">{{product.brand}}</span>
+            <span [setBackground]="'black'" [setBackground1]="'white'">{{product.category}}</span> -->
+
+            <!-- using tthe multiple -->
+
+            <span [setBackground] ="{backColor: 'red', textColor: 'white'}" >{{product.gender}}</span>
+            <span [setBackground] ="{backColor: 'yellow', textColor: 'black'}">{{product.brand}}</span>
+            <span [setBackground] ="{backColor: 'black', textColor: 'white'}">{{product.category}}</span>
             <!-- when setBackground selector, an instance of setBackground instance class will create, in order create instance will call constructor, whichever element we use selector of directive refrence of that element that will injected and element of will assing to elementRef  :- this is called dependency injections   -->
         </div>
-        <div class="ekart-product-detail-price" setBackground>
+        <!-- <div class="ekart-product-detail-price" setBackground> -->
+            <div class="ekart-product-detail-price" [setBackground] ="{backColor: 'red', textColor: 'white'}">
             <p>
                 <b>Price Each Pair:</b>
                 <span style="background-color: red; color:white"><s>$699</s></span>

@@ -1,10 +1,20 @@
-import { Directive, ElementRef, OnInit, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from "@angular/core";
 
 @Directive({
     selector: '[setBackground]' // attribute selector
 })
 
 export class SetBackground implements OnInit{
+
+
+//    @Input('setBackground') backColor: string = '#36454F'; // here setBackground as alias
+//    @Input('setBackground1') textColor: string = 'white'
+//    @Input() title: string = 'My Title'
+
+
+
+  @Input('setBackground') changeTextAndBackColor: {backColor: string, textColor: string}
+
 
 
     // private element: ElementRef
@@ -28,10 +38,20 @@ export class SetBackground implements OnInit{
     //   this.element.nativeElement.style.color = 'white';
 
     // renderer2
-    this.renderer.setStyle(this.element.nativeElement, 'backgroundColor','#36454F');
-    this.renderer.setStyle(this.element.nativeElement, 'color','white');
+    // this.renderer.setStyle(this.element.nativeElement, 'backgroundColor','#36454F');
+    // this.renderer.setStyle(this.element.nativeElement, 'color','white');// here its color are hardcoed
 
-    this.renderer.setAttribute(this.element.nativeElement, 'title','This is paragraphe example')
+    // this.renderer.setAttribute(this.element.nativeElement, 'title','This is paragraphe example')
+
+    // property binding in directives
+
+    // this.renderer.setStyle(this.element.nativeElement, 'backgroundColor',this.backColor);
+    // this.renderer.setStyle(this.element.nativeElement, 'color',this.textColor);// here its color are hardcoed
+
+    this.renderer.setStyle(this.element.nativeElement, 'backgroundColor',this.changeTextAndBackColor.backColor);
+    this.renderer.setStyle(this.element.nativeElement, 'color',this. changeTextAndBackColor.textColor);// here its color are hardcoed
+
+    // this.renderer.setAttribute(this.element.nativeElement, 'title','This is paragraphe example')
 
     // this.renderer.removeClass()
 
