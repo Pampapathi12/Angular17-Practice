@@ -1,0 +1,117 @@
+**View Encapsulation** in Angular determines how the styles applied to components affect other parts of the application and vice versa. It ensures that the styles and templates of a component are encapsulated in such a way that they don't accidentally interfere with the styles of other components.
+
+Angular provides three strategies for view encapsulation, controlled by the `encapsulation` property in the `@Component` decorator:
+
+---
+
+### 1. **Emulated Encapsulation (Default)**
+   - **Behavior**: Angular emulates native Shadow DOM behavior by adding unique attribute selectors to the component's host and its DOM elements. This ensures styles are scoped to the component.
+   - **How it works**:
+     - Angular adds a unique attribute (e.g., `_ngcontent-xyz`) to all elements inside the component template.
+     - Styles defined in the component are scoped to elements with this attribute, ensuring they don't leak out.
+
+   - **Generated HTML Example**:
+     ```html
+     <app-example _nghost-xyz>
+       <div _ngcontent-xyz>Example content</div>
+     </app-example>
+     ```
+
+     - The component's styles are applied only to elements with `_ngcontent-xyz`.
+
+   - **Use Case**: This is the default and most commonly used strategy. It balances compatibility with older browsers while providing scoped styles.
+
+---
+
+### 2. **Shadow DOM Encapsulation (ShadowDom)**
+   - **Behavior**: Uses the browser's native Shadow DOM to encapsulate styles. The component’s styles are scoped using the Shadow DOM boundary.
+   - **How it works**:
+     - A Shadow DOM is created for the component's host.
+     - Styles defined in the component are applied only within the Shadow DOM.
+
+   - **Generated HTML Example**:
+     ```html
+     <app-example>
+       #shadow-root (open)
+       <div>Example content</div>
+     </app-example>
+     ```
+
+     - Styles inside the `#shadow-root` do not affect other parts of the application.
+
+   - **Browser Support**: Requires modern browsers that support Shadow DOM.
+   - **Use Case**: Use this strategy if you want strict style encapsulation and you're targeting modern browsers.
+
+---
+
+### 3. **None (Global Styling)**
+   - **Behavior**: Styles defined in the component are not scoped and are applied globally.
+   - **How it works**:
+     - Styles are added directly to the `<head>` of the document and can affect the entire application.
+
+   - **Generated HTML Example**:
+     ```html
+     <app-example>
+       <div>Example content</div>
+     </app-example>
+     ```
+
+     - Styles from the component are applied globally.
+
+   - **Use Case**: Use this strategy when you intentionally want to define global styles, such as themes or utility classes.
+
+---
+
+### Setting View Encapsulation
+You can specify the encapsulation mode in the `@Component` decorator using the `encapsulation` property:
+
+```typescript
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  template: `<div>Example content</div>`,
+  styles: [`
+    div {
+      color: blue;
+    }
+  `],
+  encapsulation: ViewEncapsulation.Emulated // Default
+})
+export class ExampleComponent {}
+```
+
+---
+
+### Comparison of Encapsulation Modes
+
+| Feature                 | Emulated                | ShadowDom               | None                    |
+|-------------------------|-------------------------|-------------------------|-------------------------|
+| **Style Isolation**     | Scoped to the component | Strictly scoped         | No isolation            |
+| **Browser Support**     | All browsers            | Modern browsers only    | All browsers            |
+| **Performance**         | Moderate overhead       | Slightly higher overhead| Minimal overhead        |
+| **Style Leakage**       | No                     | No                     | Yes                     |
+| **Usage**               | Default for most cases  | Strict isolation needed | Global styles           |
+
+---
+
+### Practical Scenarios
+1. **Using Emulated**:
+   - Most Angular applications use `Emulated` because it provides a good balance of style encapsulation and browser compatibility.
+   - Example: Styling individual components without affecting the rest of the application.
+
+2. **Using ShadowDom**:
+   - When working on a component that must have strict style encapsulation, such as a third-party widget or library.
+   - Example: A reusable calendar component.
+
+3. **Using None**:
+   - Useful for defining application-wide styles or global themes.
+   - Example: A CSS framework or utility classes for the entire application.
+
+---
+
+### Key Points to Remember
+- **Encapsulation Mode affects only styles, not templates or behavior.**
+- You can mix and match encapsulation modes across components in your application.
+- Shadow DOM provides the strictest encapsulation, while `None` provides no encapsulation at all.
+- The choice of encapsulation depends on the component's use case and the application requirements.
