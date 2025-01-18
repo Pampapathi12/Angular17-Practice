@@ -1,0 +1,151 @@
+### Conditional Attribute Directive in Angular
+
+A **directive** in Angular is a class annotated with the `@Directive` decorator that can modify the behavior or appearance of a DOM element. Among directives, a **Conditional Attribute Directive** is a custom directive that adds, modifies, or removes an attribute on an element based on a condition.
+
+Let’s break down the concept:
+
+---
+
+### 1. **What is a Conditional Attribute Directive?**
+It is a directive that dynamically changes the attributes of a DOM element based on specific conditions in your Angular application. For instance, you may want to add a `disabled`, `hidden`, or custom attribute based on the state of a variable.
+
+---
+
+### 2. **Use Cases**
+- Dynamically enable/disable buttons.
+- Add or remove custom attributes.
+- Set class or style attributes conditionally.
+- Change behavior of elements like forms or buttons.
+
+---
+
+### 3. **How to Create a Conditional Attribute Directive**
+
+#### Step-by-Step Explanation:
+
+#### a. **Generate the Directive**
+Use the Angular CLI to generate a directive:
+```bash
+ng generate directive conditionalAttr
+```
+
+This creates the following files:
+- `conditional-attr.directive.ts`  
+- Test files if applicable.
+
+---
+
+#### b. **Implement the Directive**
+
+Here’s an example of a conditional attribute directive that toggles the `disabled` attribute of a button based on a condition.
+
+##### Code: `conditional-attr.directive.ts`
+```typescript
+import { Directive, Input, Renderer2, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+
+@Directive({
+  selector: '[appConditionalAttr]' // Selector to apply the directive
+})
+export class ConditionalAttrDirective implements OnChanges {
+  @Input() appConditionalAttr!: boolean; // Input property to accept the condition
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['appConditionalAttr']) {
+      if (this.appConditionalAttr) {
+        this.renderer.setAttribute(this.el.nativeElement, 'disabled', 'true'); // Add 'disabled' attribute
+      } else {
+        this.renderer.removeAttribute(this.el.nativeElement, 'disabled'); // Remove 'disabled' attribute
+      }
+    }
+  }
+}
+```
+
+---
+
+#### c. **Apply the Directive in HTML**
+
+In the HTML template, apply the directive as an attribute and pass the condition:
+
+```html
+<button [appConditionalAttr]="isDisabled">Submit</button>
+```
+
+In the component file:
+```typescript
+export class AppComponent {
+  isDisabled = true; // Controls the button's disabled state
+}
+```
+
+---
+
+### 4. **Key Concepts**
+
+#### a. **Renderer2**
+- The `Renderer2` service is used for safe DOM manipulation.
+- Methods:
+  - `setAttribute`: Adds an attribute to the element.
+  - `removeAttribute`: Removes an attribute.
+
+#### b. **Input Property**
+- The directive accepts an input property (`appConditionalAttr` in this case) to determine whether the condition is met.
+
+#### c. **Lifecycle Hook: OnChanges**
+- The `OnChanges` lifecycle hook listens for changes in the input property and updates the DOM dynamically.
+
+---
+
+### 5. **Advanced Example: Multiple Attributes**
+
+You can extend the directive to handle multiple attributes conditionally:
+
+```typescript
+@Directive({
+  selector: '[appConditionalAttrs]'
+})
+export class ConditionalAttrsDirective implements OnChanges {
+  @Input() appConditionalAttrs: { [key: string]: boolean } = {};
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngOnChanges(): void {
+    for (const [attr, condition] of Object.entries(this.appConditionalAttrs)) {
+      if (condition) {
+        this.renderer.setAttribute(this.el.nativeElement, attr, 'true');
+      } else {
+        this.renderer.removeAttribute(this.el.nativeElement, attr);
+      }
+    }
+  }
+}
+```
+
+Usage:
+```html
+<div [appConditionalAttrs]="{ 'hidden': isHidden, 'disabled': isDisabled }">Content</div>
+```
+
+---
+
+### 6. **Best Practices**
+- Always clean up added attributes when the directive is destroyed to prevent memory leaks.
+- Use `Renderer2` for DOM manipulation instead of directly accessing `nativeElement` for better security and compatibility.
+- Use meaningful directive names (`appConditionalAttr`) to clearly indicate its functionality.
+
+---
+
+### 7. **Common Questions**
+
+#### Q1: Why use `Renderer2` instead of directly manipulating `nativeElement`?
+`Renderer2` ensures that DOM manipulation is safe, consistent, and compatible with server-side rendering (Angular Universal).
+
+#### Q2: Can this be used for styles and classes too?
+Yes, you can use `Renderer2` methods like `addClass`, `removeClass`, or `setStyle` for similar conditional logic.
+
+---
+
+### Summary
+A Conditional Attribute Directive is a powerful way to dynamically control the behavior or appearance of DOM elements. By encapsulating logic in a reusable directive, you maintain cleaner templates and improve the maintainability of your Angular application.

@@ -78,3 +78,8 @@
     transform: scale(1.05);
 
 }
+
+.disable-out-of-stock-product{
+    background-color: #282828;
+    opacity: 0.5;
+}
