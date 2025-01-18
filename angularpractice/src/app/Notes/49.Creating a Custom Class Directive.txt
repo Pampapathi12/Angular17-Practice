@@ -1,0 +1,158 @@
+In Angular, a **custom class directive** is used to apply specific logic or behavior to elements in the DOM, typically by adding, modifying, or listening to class-related properties.
+
+Here’s a **step-by-step deep explanation** of creating and using a custom class directive:
+
+---
+
+### **What Is a Directive?**
+A directive in Angular is a class with a `@Directive` decorator that extends the functionality of DOM elements. Angular provides three types of directives:
+1. **Component Directives**: Have a template.
+2. **Structural Directives**: Change DOM structure (e.g., `*ngIf`).
+3. **Attribute Directives**: Change behavior or appearance (e.g., `ngClass`, `ngStyle`).
+
+A custom **class directive** is a specialized attribute directive focused on manipulating CSS classes.
+
+---
+
+### **When to Use a Custom Class Directive**
+- To conditionally add/remove CSS classes.
+- To toggle styles dynamically based on logic.
+- To handle complex class-related behaviors in a reusable way.
+
+---
+
+### **Steps to Create a Custom Class Directive**
+
+#### 1. **Create the Directive**
+Use the Angular CLI or manually define a class.
+
+```bash
+ng generate directive custom-class
+```
+
+This creates:
+- `custom-class.directive.ts`
+- Updates the `AppModule` to include the new directive.
+
+---
+
+#### 2. **Implement the Directive Logic**
+
+**Code Example: `custom-class.directive.ts`**
+
+```typescript
+import { Directive, ElementRef, Input, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
+
+@Directive({
+  selector: '[appCustomClass]', // Selector to use this directive
+})
+export class CustomClassDirective implements OnChanges {
+  // Accept input for class name(s)
+  @Input('appCustomClass') classNames: string | string[] = [];
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['classNames']) {
+      this.updateClasses(changes['classNames'].currentValue);
+    }
+  }
+
+  private updateClasses(classNames: string | string[]) {
+    // Clear existing classes first
+    this.clearClasses();
+
+    // Apply new classes
+    if (Array.isArray(classNames)) {
+      classNames.forEach((className) => {
+        this.renderer.addClass(this.el.nativeElement, className);
+      });
+    } else if (typeof classNames === 'string') {
+      this.renderer.addClass(this.el.nativeElement, classNames);
+    }
+  }
+
+  private clearClasses() {
+    const classes = (Array.isArray(this.classNames) ? this.classNames : [this.classNames]) || [];
+    classes.forEach((className) => {
+      this.renderer.removeClass(this.el.nativeElement, className);
+    });
+  }
+}
+```
+
+---
+
+#### 3. **Use the Directive in a Template**
+
+You can now use this directive in templates to dynamically apply classes.
+
+```html
+<div [appCustomClass]="'highlight'">Single Class Example</div>
+<div [appCustomClass]="['highlight', 'bold']">Multiple Classes Example</div>
+```
+
+Here:
+- **`[appCustomClass]`**: Binds to the directive and passes class(es).
+- Classes `highlight` and `bold` will be dynamically added to the `<div>` element.
+
+---
+
+### **How It Works**
+1. **Input Binding**: The `@Input` decorator allows binding dynamic data (class names).
+2. **Lifecycle Hook**: The `ngOnChanges` lifecycle hook listens for input changes.
+3. **Renderer2**: Safely manipulates DOM elements without directly interacting with them (for cross-platform compatibility).
+
+---
+
+### **Advanced Features**
+1. **Conditionally Add/Remove Classes**
+   Modify the `updateClasses` method to check conditions before applying/removing classes.
+
+   ```typescript
+   if (someCondition) {
+     this.renderer.addClass(this.el.nativeElement, 'conditional-class');
+   }
+   ```
+
+2. **Listen to Events**
+   Add event listeners to interact with user actions (e.g., hover, click).
+
+   ```typescript
+   @HostListener('mouseenter') onMouseEnter() {
+     this.renderer.addClass(this.el.nativeElement, 'hover-class');
+   }
+
+   @HostListener('mouseleave') onMouseLeave() {
+     this.renderer.removeClass(this.el.nativeElement, 'hover-class');
+   }
+   ```
+
+3. **Support Dynamic Styles**
+   Combine with Angular's `@Input` to dynamically apply styles along with classes.
+
+---
+
+### **Testing the Directive**
+Write unit tests to verify functionality:
+- Ensure the directive adds/removes classes correctly.
+- Test edge cases like passing `null`, `undefined`, or invalid class names.
+- Use Angular's `TestBed` to isolate and test the directive.
+
+```typescript
+it('should add a single class', () => {
+  const directive = new CustomClassDirective(mockElementRef, mockRenderer);
+  directive.classNames = 'highlight';
+  directive.ngOnChanges({ classNames: new SimpleChange(null, 'highlight', false) });
+  expect(mockRenderer.addClass).toHaveBeenCalledWith(mockElementRef.nativeElement, 'highlight');
+});
+```
+
+---
+
+### **Benefits of Using Custom Class Directives**
+1. **Reusability**: Encapsulate class-related logic into a reusable piece.
+2. **Readability**: Simplify templates by offloading complex logic to directives.
+3. **Dynamic Behavior**: Easily toggle or conditionally apply classes.
+
+This approach enables clean, maintainable, and testable code for styling and DOM manipulation in Angular applications.

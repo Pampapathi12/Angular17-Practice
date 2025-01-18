@@ -19,6 +19,7 @@ import { HighlightComponent } from './customDirectives/highlight/highlight.compo
 import { HighlightDirective } from './customDirectives/highlight.directive';
 import { AppHoverDirective } from './CustomDirectives/app-hover.directive';
 import { DisableProductDirective } from './CustomDirectives/disable-product.directive';
+import { ClassDirective } from './CustomDirectives/class.directive';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DisableProductDirective } from './CustomDirectives/disable-product.dire
     HighlightComponent,
     HighlightDirective,
     AppHoverDirective,
-    DisableProductDirective
+    DisableProductDirective,
+    ClassDirective
   ],// declare the compoents
   imports: [
     BrowserModule,

@@ -1,3 +1,25 @@
+<!-- Creating a Custom Class Directive -->
+
+<h2> Custom class and style directives</h2>
+<!-- <div [ngClass]="{appHighLight: 10 >7, 'app-container': true}">  -->
+     <!-- appHighLight -> css class will if the boolean value is true -->
+     <!-- in javascript object property name cannot have hypen if hypen ake it has '' -->
+      <!-- custom own class directive -->
+    <!-- <div appClass1 [display]="{'app-container': true,appHighLight: true, appFont: 5 >2}">  -->
+
+        <!-- directive as propety -->
+
+        <div  [appClass1]="{'app-container': true,appHighLight: true, appFont: 5 >2}"> 
+
+        
+   
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    </p>
+</div>
+
+
 <div class="demo-container">
     <app-demo1></app-demo1>
 </div>

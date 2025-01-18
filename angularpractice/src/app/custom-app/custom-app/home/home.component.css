@@ -32,3 +32,30 @@ button{
     border-radius: 2px;
     margin-left: 11px;
 }
+/*  */
+/* Creating a Custom Class Directive */
+
+h2{
+    margin: 20px 50px;
+    font-size: 'Lucida Sans';
+    color: #28282B;
+}
+
+.app-container{
+
+    margin: 20px 20px;
+    padding: 10px 10px;
+
+
+}
+.appHighLight{
+    border: #28282B 3px solid;
+    background-color: gold;
+
+
+}
+
+.appFont{
+    font-family: 'Lucida Sans';
+    font-size: 18px;
+}
