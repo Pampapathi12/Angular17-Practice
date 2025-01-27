@@ -6,9 +6,14 @@ import { SubscribeService } from 'src/app/Serive/subscribe.service';
   selector: 'app-sidebar1',
   templateUrl: './sidebar1.component.html',
   styleUrls: ['./sidebar1.component.css'],
-  providers: [SubscribeService] // multiple dependency we can use tell to angular what type dependency injections
+  // providers: [SubscribeService] // multiple dependency we can use tell to angular what type dependency injections
 })
 export class Sidebar1Component {
+
+
+  // override the dependency injection in the child compoent
+  // child compoennt use the parent compoennt dependency injection instance and and overiride the another instance in the exist instance
+  
 
   constructor(private service: SubscribeService){
 

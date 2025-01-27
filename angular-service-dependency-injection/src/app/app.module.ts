@@ -8,6 +8,7 @@ import { AdminComponent } from './header1/admin/admin.component';
 import { Home1Component } from './header1/home1/home1.component';
 import { Sidebar1Component } from './header1/home1/sidebar1/sidebar1.component';
 import { Hero1Component } from './header1/home1/hero1/hero1.component';
+import { SubscribeService } from './Serive/subscribe.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { Hero1Component } from './header1/home1/hero1/hero1.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [SubscribeService], // same instace will available in the modulw level
   bootstrap: [AppComponent]
 })
 export class AppModule { }

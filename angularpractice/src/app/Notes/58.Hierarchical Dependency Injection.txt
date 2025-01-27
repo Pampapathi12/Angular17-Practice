@@ -1,0 +1,159 @@
+using the [provider] array in the component , get the unique instance of dependency injection
+and sam service using different not effect the other component
+
+
+
+**Hierarchical Dependency Injection (DI)** in Angular refers to the way Angular's dependency injection system allows different **injectors** to be nested or hierarchical. This system enables Angular to manage dependencies at multiple levels of an application, offering flexibility in how services are provided and injected.
+
+### **How Hierarchical DI Works in Angular**
+
+In Angular, there are multiple injectors that form a hierarchy. These injectors are responsible for managing the lifecycle of services, and when a service is requested, Angular looks through the hierarchy of injectors to find the appropriate instance.
+
+- **Root Injector**: The root injector is the topmost injector and is available throughout the entire application. Services that are provided at this level are shared across all components and modules in the app.
+  
+- **Module Injector**: Every **NgModule** in Angular has its own injector. If a service is provided in a specific module, Angular will use that module's injector when resolving dependencies within that module.
+
+- **Component Injector**: Every component has its own injector. Services provided at the component level are specific to that component and its view hierarchy (i.e., they are only available to the component and its child components).
+
+When Angular tries to resolve a dependency, it searches for the provider in the following order:
+1. **Component Injector** (local to the component)
+2. **Module Injector** (local to the module)
+3. **Root Injector** (global, accessible throughout the app)
+
+### **Key Concepts of Hierarchical DI**
+
+1. **Service Provided in Different Levels:**
+   - Services can be **provided at the root level**, **module level**, or **component level**.
+   - If a service is provided at the component level, it is only available within that component and its child components.
+   - If provided at the module level, it is available to all components within that module but not outside of it.
+   - A service provided at the root level is a singleton and is available throughout the entire application.
+
+2. **Injectors**: 
+   - Every Angular module and component has its own injector.
+   - The injectors form a **hierarchical structure**, with the component's injector being a child of the module's injector, and the module's injector being a child of the root injector.
+
+3. **Providers**:
+   - Providers are used to configure Angular's DI system and specify how instances of services should be created.
+   - You can configure providers at the root, module, or component level using `providedIn: 'root'`, `providedIn: 'module'`, or `providers` arrays, respectively.
+
+### **Hierarchical DI Example**
+
+Consider a scenario where you want to use a service at the root level, but also want a different instance of the service at the component level.
+
+#### **Step 1: Creating the Service**
+First, let’s create a simple service that we will provide at different levels.
+
+```typescript
+// data.service.ts
+@Injectable({
+  providedIn: 'root', // Provided globally in the root injector
+})
+export class DataService {
+  private data: string[] = [];
+
+  addData(item: string) {
+    this.data.push(item);
+  }
+
+  getData() {
+    return this.data;
+  }
+}
+```
+
+In this example, `DataService` is provided globally via the root injector (`providedIn: 'root'`), meaning the same instance will be used throughout the app unless overridden.
+
+#### **Step 2: Providing the Service in a Module**
+If you want to limit the scope of this service to a specific module, you can declare it inside a module’s `providers` array.
+
+```typescript
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [DataService], // Provided at the module level
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Now, `DataService` is provided at the module level, and any component within this module will use this instance. However, this service is still available globally if needed by other modules as well.
+
+#### **Step 3: Providing the Service in a Component**
+If you want a **different instance of the service** specific to a component (or component’s subtree), you can provide it in the component’s `providers` array.
+
+```typescript
+@Component({
+  selector: 'app-child',
+  template: '<button (click)="addData()">Add Data</button>',
+  providers: [DataService]  // Provided at the component level (creates a new instance)
+})
+export class ChildComponent {
+  constructor(private dataService: DataService) {}
+
+  addData() {
+    this.dataService.addData('New Item');
+  }
+}
+```
+
+Now, the `DataService` is provided **only to this component and its child components**, and a new instance will be created whenever the component is instantiated.
+
+#### **Step 4: Using the Service in Different Components**
+
+```typescript
+@Component({
+  selector: 'app-parent',
+  template: '<button (click)="addData()">Add Data in Parent</button>',
+})
+export class ParentComponent {
+  constructor(private dataService: DataService) {}
+
+  addData() {
+    this.dataService.addData('Parent Item');
+  }
+}
+```
+
+In this example, the `ParentComponent` uses the **root or module level** instance of `DataService`, while `ChildComponent` uses its **own instance** due to the `providers` array in its metadata.
+
+#### **Step 5: Observing the Data in Different Components**
+
+If you display the data in both `ParentComponent` and `ChildComponent`, you will see that they maintain separate instances of `DataService`:
+
+```html
+<!-- parent.component.html -->
+<button (click)="addData()">Add Data in Parent</button>
+<div>{{ dataService.getData() | json }}</div>
+```
+
+```html
+<!-- child.component.html -->
+<button (click)="addData()">Add Data in Child</button>
+<div>{{ dataService.getData() | json }}</div>
+```
+
+Now, if you add data in `ParentComponent`, the `ChildComponent`’s `DataService` instance won’t be affected, and vice versa.
+
+### **Hierarchy and Injector Lookup**
+
+1. **Root Injector**: This is the global injector used for services that should be shared across the entire application (e.g., services provided with `providedIn: 'root'`).
+   
+2. **Module Injector**: If a service is provided in a module, Angular uses the injector for that module, making the service available to all components declared in that module.
+   
+3. **Component Injector**: If a service is provided within a component, Angular uses the component’s injector, giving that service a unique instance only for the component and its view hierarchy.
+
+### **Advantages of Hierarchical DI**
+
+1. **Scoped Instances**: The ability to define the scope of services allows for creating separate instances of a service within different parts of the application, which can be useful in cases where a service's state should be isolated.
+   
+2. **Modularization**: By providing services at the module level, Angular allows the organization of services based on features, making the application more modular and maintainable.
+
+3. **Lazy Loading**: Hierarchical DI works well with **lazy-loaded modules**, as each lazy-loaded module can have its own injector, ensuring that services within that module are isolated from the rest of the app.
+
+4. **Performance Optimization**: Hierarchical DI helps in optimizing performance by reducing the number of unnecessary service instances and allowing for more fine-grained control over which services are instantiated and reused.
+
+### **Conclusion**
+
+Hierarchical Dependency Injection in Angular provides a flexible and powerful way to manage services at different levels of the application. It ensures that Angular can create, share, or isolate service instances depending on the needs of your components, modules, and the application as a whole. By understanding this feature, you can better manage the scope of services and ensure that your app remains modular and maintainable.
+
+Feel free to ask if you need more examples or deeper clarification on any specific aspect of Hierarchical DI!

@@ -5,7 +5,7 @@ import { SubscribeService } from '../Serive/subscribe.service';
   selector: 'app-header1',
   templateUrl: './header1.component.html',
   styleUrls: ['./header1.component.css'],
-  providers: [SubscribeService]
+  // providers: [SubscribeService]// instance of service into header compoennt and same instance can available child compoennt
 })
 export class Header1Component {
 
