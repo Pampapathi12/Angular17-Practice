@@ -9,6 +9,9 @@ import { Home1Component } from './header1/home1/home1.component';
 import { Sidebar1Component } from './header1/home1/sidebar1/sidebar1.component';
 import { Hero1Component } from './header1/home1/hero1/hero1.component';
 import { SubscribeService } from './Serive/subscribe.service';
+import { UserListComponent } from './header1/admin/user-list/user-list.component';
+import { FormsModule } from '@angular/forms';
+import { UserService } from './Serive/user.service';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,15 @@ import { SubscribeService } from './Serive/subscribe.service';
     AdminComponent,
     Home1Component,
     Sidebar1Component,
-    Hero1Component
+    Hero1Component,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [SubscribeService], // same instace will available in the modulw level
+  providers: [SubscribeService, UserService], // same instace will available in the modulw level
   bootstrap: [AppComponent]
 })
 export class AppModule { }
