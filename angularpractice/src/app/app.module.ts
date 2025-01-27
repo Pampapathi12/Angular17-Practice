@@ -17,10 +17,10 @@ import { FeaturedBrandsComponent } from './container/featured-brands/featured-br
 import { SetBackground } from './CustomDirectives/SetBackground.directive';
 import { HighlightComponent } from './customDirectives/highlight/highlight.component';
 import { HighlightDirective } from './customDirectives/highlight.directive';
+
 import { AppHoverDirective } from './CustomDirectives/app-hover.directive';
 import { DisableProductDirective } from './CustomDirectives/disable-product.directive';
 import { ClassDirective } from './CustomDirectives/class.directive';
-
 @NgModule({
   declarations: [
     AppComponent,
