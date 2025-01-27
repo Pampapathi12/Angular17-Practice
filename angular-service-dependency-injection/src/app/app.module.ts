@@ -12,6 +12,7 @@ import { SubscribeService } from './Serive/subscribe.service';
 import { UserListComponent } from './header1/admin/user-list/user-list.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './Serive/user.service';
+import { LoggerService } from './Serive/logger.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { UserService } from './Serive/user.service';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [SubscribeService, UserService], // same instace will available in the modulw level
+  providers: [SubscribeService, UserService, LoggerService], // same instace will available in the modulw level, all the directive, component and pipes
   bootstrap: [AppComponent]
 })
 export class AppModule { }
