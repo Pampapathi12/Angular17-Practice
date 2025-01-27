@@ -4,9 +4,14 @@ import { SubscribeService } from '../Serive/subscribe.service';
 @Component({
   selector: 'app-header1',
   templateUrl: './header1.component.html',
-  styleUrls: ['./header1.component.css']
+  styleUrls: ['./header1.component.css'],
+  providers: [SubscribeService]
 })
 export class Header1Component {
+
+  constructor(private service: SubscribeService){
+
+  }
 
 
   selectedTab: string = 'home';
@@ -35,9 +40,13 @@ export class Header1Component {
 
     // creating instance of service class
 
-    let subService = new SubscribeService();
+    // let subService = new SubscribeService();
+    // SubscribeService tightly couple with this compoennt , so if any change subscribe service class will get the error
     // pass the parementer to server
-    subService.OnSubscribeClicked('Monthly')
+    // subService.OnSubscribeClicked('Monthly')
+
+
+    this.service.OnSubscribeClicked('quaterly')
 
   }
 

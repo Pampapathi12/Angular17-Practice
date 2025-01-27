@@ -1,0 +1,958 @@
+A Dependency is a relationship betwenn two software component where one component relies on the 
+other component to work properly
+
+=> if we are using the dependency injection then the ge the error for class is tightly coupled
+=> using the injectore tell to angular  create the instance of service implicity and inject into constructor using the instance
+   then use it in  the our code
+
+
+Dependency Injection (DI) in Angular is a design pattern that allows you to inject dependencies (services or other objects) into components, directives, pipes, or services. DI is one of Angular's core features and is used extensively throughout Angular applications for better code organization, testability, and reusability.
+
+Here are some common use cases of Dependency Injection in Angular:
+
+---
+
+### **1. Services and Business Logic**
+Services are typically used to handle business logic, data fetching, or state management. These services are injected into components or other services to provide the necessary data or functionality.
+
+#### **Use Case: Data Service**
+You might create a service to manage API calls. This service can be injected into multiple components to fetch or save data from an API.
+
+**Example:**
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class DataService {
+  constructor(private http: HttpClient) {}
+
+  getData() {
+    return this.http.get('https://api.example.com/data');
+  }
+}
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  data: any;
+
+  constructor(private dataService: DataService) {
+    this.dataService.getData().subscribe((result) => {
+      this.data = result;
+    });
+  }
+}
+```
+
+---
+
+### **2. Logging Service**
+You can create a logging service that can be injected into various components to log messages or errors. This approach makes the logging behavior reusable and centralized.
+
+#### **Use Case: Centralized Logging**
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class LoggingService {
+  log(message: string) {
+    console.log(`Log: ${message}`);
+  }
+
+  error(message: string) {
+    console.error(`Error: ${message}`);
+  }
+}
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  constructor(private loggingService: LoggingService) {
+    this.loggingService.log('Component loaded');
+  }
+}
+```
+
+---
+
+### **3. HTTP Interceptors**
+You can use Dependency Injection to create HTTP interceptors, which are responsible for modifying outgoing HTTP requests or handling responses globally. 
+
+#### **Use Case: Adding Authorization Token**
+```typescript
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.authService.getAuthToken();
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return next.handle(clonedRequest);
+  }
+}
+
+@NgModule({
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
+})
+export class AppModule {}
+```
+
+---
+
+### **4. Configurations and Environment Settings**
+Configuration settings (such as API endpoints, feature flags, etc.) are often injected as services. This allows the app to behave differently in various environments (development, production, etc.).
+
+#### **Use Case: App Config Service**
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class AppConfigService {
+  private config = {
+    apiUrl: 'https://api.example.com',
+  };
+
+  get apiUrl() {
+    return this.config.apiUrl;
+  }
+}
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  constructor(private appConfigService: AppConfigService) {
+    console.log('API URL:', this.appConfigService.apiUrl);
+  }
+}
+```
+
+---
+
+### **5. User Authentication and Authorization**
+Services managing user authentication or authorization can be injected throughout your app. For example, you can inject an authentication service into a component to handle login, logout, or user role checks.
+
+#### **Use Case: User Auth Service**
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  constructor(private http: HttpClient) {}
+
+  login(username: string, password: string) {
+    return this.http.post('https://api.example.com/login', { username, password });
+  }
+
+  logout() {
+    // Logic to log out the user
+  }
+
+  getUser() {
+    // Logic to get the current authenticated user
+  }
+}
+```
+
+---
+
+### **6. Guards and Route Resolving**
+DI is commonly used in route guards or resolvers to fetch data or check authentication status before navigating to a route.
+
+#### **Use Case: Route Guard**
+```typescript
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+}
+```
+
+---
+
+### **7. Custom Pipes**
+Custom pipes can also depend on services, and you can inject those services into the pipe constructor for accessing data or logic that is needed for transformation.
+
+#### **Use Case: Custom Pipe**
+```typescript
+@Pipe({
+  name: 'currencyFormatter',
+})
+export class CurrencyFormatterPipe implements PipeTransform {
+  constructor(private currencyService: CurrencyService) {}
+
+  transform(value: number, currencyCode: string): string {
+    const currencySymbol = this.currencyService.getCurrencySymbol(currencyCode);
+    return `${currencySymbol} ${value.toFixed(2)}`;
+  }
+}
+```
+
+---
+
+### **8. Testing Components or Services**
+DI is critical in Angular’s testing environment. You can inject mock services or dependencies into components during testing.
+
+#### **Use Case: Testing with Mock Service**
+```typescript
+describe('MyComponent', () => {
+  let component: MyComponent;
+  let fixture: ComponentFixture<MyComponent>;
+  let mockDataService: jasmine.SpyObj<DataService>;
+
+  beforeEach(() => {
+    mockDataService = jasmine.createSpyObj('DataService', ['getData']);
+    TestBed.configureTestingModule({
+      declarations: [MyComponent],
+      providers: [{ provide: DataService, useValue: mockDataService }],
+    });
+    fixture = TestBed.createComponent(MyComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should load data', () => {
+    mockDataService.getData.and.returnValue(of(['data1', 'data2']));
+    fixture.detectChanges();
+    expect(component.data).toEqual(['data1', 'data2']);
+  });
+});
+```
+
+==============
+Sure! Let's dive deep into each of these Dependency Injection (DI) use cases in Angular to better understand their practical applications and the underlying concepts. I'll explain how each of them works, how to implement them in Angular, and provide detailed examples where necessary.
+
+---
+
+### **1. Services and Business Logic**
+
+In Angular, **services** are used to encapsulate business logic and data-fetching code. A service can be injected into multiple components, reducing duplication and ensuring that the logic is centralized in one place.
+
+#### **Use Case: Data Service**
+
+Services can handle fetching data from an API and managing state. Angular's DI allows you to inject these services into components or other services that need this functionality.
+
+**How it works:**
+1. **Service creation:** You create a service that contains methods for data manipulation.
+2. **Injection into components:** The service is injected into components using DI.
+
+#### **Example:**
+```typescript
+// data.service.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class DataService {
+  constructor(private http: HttpClient) {}
+
+  // Fetching data from an API
+  getData() {
+    return this.http.get('https://api.example.com/data');
+  }
+}
+```
+
+```typescript
+// my-component.component.ts
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  data: any;
+
+  // Injecting the DataService using DI
+  constructor(private dataService: DataService) {
+    this.dataService.getData().subscribe((result) => {
+      this.data = result;
+    });
+  }
+}
+```
+
+- **`@Injectable({ providedIn: 'root' })`** makes the service available globally.
+- The `DataService` is injected into `MyComponent`, and when the component is initialized, it fetches the data using the service.
+
+---
+
+### **2. Logging Service**
+
+A logging service can be injected into components, services, or other parts of the application. This service helps to centralize logging and error handling. It is especially useful for debugging and tracking application behavior.
+
+#### **Use Case: Centralized Logging**
+
+Centralizing logs allows you to manage logging levels, output destinations (like console, server, etc.), and ensure consistency.
+
+**Example:**
+```typescript
+// logging.service.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class LoggingService {
+  log(message: string) {
+    console.log(`Log: ${message}`);
+  }
+
+  error(message: string) {
+    console.error(`Error: ${message}`);
+  }
+}
+```
+
+```typescript
+// my-component.component.ts
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  constructor(private loggingService: LoggingService) {
+    this.loggingService.log('Component loaded');
+  }
+}
+```
+
+- **`LoggingService`** is injected into `MyComponent`.
+- The service is used to log messages to the console, which is useful for debugging purposes.
+
+---
+
+### **3. HTTP Interceptors**
+
+HTTP interceptors are used to intercept and modify HTTP requests or responses globally before they reach the server or the component. DI is used to inject services into interceptors.
+
+#### **Use Case: Adding Authorization Token**
+
+When making HTTP requests, you often need to add an authorization token (JWT) to the request headers. Instead of adding the token in every HTTP call, you can use an HTTP interceptor.
+
+**Example:**
+```typescript
+// auth.interceptor.ts
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.authService.getAuthToken(); // Retrieve token from auth service
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return next.handle(clonedRequest); // Continue with the modified request
+  }
+}
+```
+
+```typescript
+// app.module.ts
+@NgModule({
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
+})
+export class AppModule {}
+```
+
+- **`AuthInterceptor`** modifies outgoing HTTP requests to add the `Authorization` header.
+- The `AuthService` is injected into the interceptor to get the token, which is used to clone and modify the request before sending it to the server.
+
+---
+
+### **4. Configurations and Environment Settings**
+
+Configuration services help manage application-wide settings, such as API URLs, feature flags, and other environment-specific values. These values can be injected into components, services, and other parts of the application.
+
+#### **Use Case: App Config Service**
+
+This service could store environment-specific variables, such as API endpoints, so you don’t hard-code them in each component or service.
+
+**Example:**
+```typescript
+// app-config.service.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class AppConfigService {
+  private config = {
+    apiUrl: 'https://api.example.com',
+  };
+
+  get apiUrl() {
+    return this.config.apiUrl;
+  }
+}
+```
+
+```typescript
+// my-component.component.ts
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponent {
+  constructor(private appConfigService: AppConfigService) {
+    console.log('API URL:', this.appConfigService.apiUrl);
+  }
+}
+```
+
+- **`AppConfigService`** holds configuration values that can be injected into any component or service.
+- The **`apiUrl`** is retrieved from the service, allowing you to centralize and easily manage URLs or other settings.
+
+---
+
+### **5. User Authentication and Authorization**
+
+Services managing user authentication or authorization can be injected throughout the app. For instance, an `AuthService` can be injected into components to handle login, logout, or user role checks.
+
+#### **Use Case: User Auth Service**
+
+The `AuthService` manages user authentication and authorization, ensuring that users have the right permissions to access certain parts of the application.
+
+**Example:**
+```typescript
+// auth.service.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private isAuthenticated = false;
+
+  login(username: string, password: string): Observable<boolean> {
+    // Simulate an API call to authenticate the user
+    return of(true).pipe(
+      tap(() => (this.isAuthenticated = true)),
+    );
+  }
+
+  logout() {
+    this.isAuthenticated = false;
+  }
+
+  get isAuthenticated(): boolean {
+    return this.isAuthenticated;
+  }
+}
+```
+
+```typescript
+// login.component.ts
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+})
+export class LoginComponent {
+  constructor(private authService: AuthService) {}
+
+  login(username: string, password: string) {
+    this.authService.login(username, password).subscribe((result) => {
+      if (result) {
+        console.log('Logged in successfully!');
+      }
+    });
+  }
+}
+```
+
+- The **`AuthService`** handles login, logout, and authentication state.
+- It is injected into the `LoginComponent` to manage the authentication flow.
+
+---
+
+### **6. Guards and Route Resolving**
+
+Guards are used to protect routes in Angular. A guard is a service that can control navigation, preventing or allowing access to certain routes based on conditions such as authentication.
+
+#### **Use Case: Route Guard**
+
+You can create an **AuthGuard** that prevents unauthorized users from accessing specific routes.
+
+**Example:**
+```typescript
+// auth.guard.ts
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+}
+```
+
+```typescript
+// app-routing.module.ts
+const routes: Routes = [
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard], // Protect route with AuthGuard
+  },
+];
+```
+
+- **`AuthGuard`** ensures that only authenticated users can access certain routes.
+- The `AuthService` is injected into the guard to check whether the user is authenticated.
+
+---
+
+### **7. Custom Pipes**
+
+Custom pipes are used to transform data in the templates. DI can be used to inject services into pipes if the transformation requires data or logic from a service.
+
+#### **Use Case: Currency Formatter Pipe**
+
+A pipe that formats numbers into a currency string can inject a **currency service** to retrieve the appropriate currency symbol.
+
+**Example:**
+```typescript
+// currency-formatter.pipe.ts
+@Pipe({
+  name: 'currencyFormatter',
+})
+export class CurrencyFormatterPipe implements PipeTransform {
+  constructor(private currencyService: CurrencyService) {}
+
+  transform(value: number, currencyCode: string): string {
+    const currencySymbol = this.currencyService.getCurrencySymbol(currencyCode);
+    return `${currencySymbol} ${value.toFixed(2)}`;
+  }
+}
+```
+
+- The **`CurrencyService`** is injected into the custom pipe to get the symbol for a given currency code.
+
+---
+
+### **8. Testing Components or Services**
+
+In unit tests, DI allows you to inject mock services or dependencies into components and services. This makes it easier to test without relying on real implementations, improving test isolation and speed.
+
+#### **Use Case: Testing with Mock Service**
+
+In tests, you can inject a mock service to simulate behavior, such as fetching data, without making actual HTTP requests.
+
+**Example:**
+```typescript
+// my-component.component.spec.ts
+describe('MyComponent', () => {
+  let component: MyComponent;
+  let mockDataService: jasmine.SpyObj<DataService>;
+
+  beforeEach(() => {
+    mockDataService = jasmine.createSpyObj('DataService', ['getData']);
+    TestBed.configureTestingModule({
+      declarations: [MyComponent],
+      providers: [{ provide: DataService, useValue: mockDataService }],
+    });
+    component = TestBed.createComponent(MyComponent).componentInstance;
+  });
+
+  it('should load data', () => {
+    mockDataService.getData.and.returnValue(of(['data1', 'data2']));
+    component.ngOnInit();
+    expect(component.data).toEqual(['data1', 'data2']);
+  });
+});
+```
+
+- **Mock services** allow you to simulate real service behavior during tests.
+- This makes it easier to isolate components and test them without external dependencies.
+
+---
+
+### **Conclusion**
+Dependency Injection in Angular is a powerful and flexible pattern that enables developers to write maintainable, testable, and scalable applications. Whether you're working with services, interceptors, route guards, or custom pipes, DI helps in managing dependencies in a structured manner, allowing you to write more modular code.
+
+These use cases, from centralized logging to HTTP interceptors and testing, highlight how DI can simplify your application's architecture, promote reusability, and streamline testing.
+==========================================================
+
+
+**Hierarchical Dependency Injection (DI)** in Angular refers to the way Angular's dependency injection system allows different **injectors** to be nested or hierarchical. This system enables Angular to manage dependencies at multiple levels of an application, offering flexibility in how services are provided and injected.
+
+### **How Hierarchical DI Works in Angular**
+
+In Angular, there are multiple injectors that form a hierarchy. These injectors are responsible for managing the lifecycle of services, and when a service is requested, Angular looks through the hierarchy of injectors to find the appropriate instance.
+
+- **Root Injector**: The root injector is the topmost injector and is available throughout the entire application. Services that are provided at this level are shared across all components and modules in the app.
+  
+- **Module Injector**: Every **NgModule** in Angular has its own injector. If a service is provided in a specific module, Angular will use that module's injector when resolving dependencies within that module.
+
+- **Component Injector**: Every component has its own injector. Services provided at the component level are specific to that component and its view hierarchy (i.e., they are only available to the component and its child components).
+
+When Angular tries to resolve a dependency, it searches for the provider in the following order:
+1. **Component Injector** (local to the component)
+2. **Module Injector** (local to the module)
+3. **Root Injector** (global, accessible throughout the app)
+
+### **Key Concepts of Hierarchical DI**
+
+1. **Service Provided in Different Levels:**
+   - Services can be **provided at the root level**, **module level**, or **component level**.
+   - If a service is provided at the component level, it is only available within that component and its child components.
+   - If provided at the module level, it is available to all components within that module but not outside of it.
+   - A service provided at the root level is a singleton and is available throughout the entire application.
+
+2. **Injectors**: 
+   - Every Angular module and component has its own injector.
+   - The injectors form a **hierarchical structure**, with the component's injector being a child of the module's injector, and the module's injector being a child of the root injector.
+
+3. **Providers**:
+   - Providers are used to configure Angular's DI system and specify how instances of services should be created.
+   - You can configure providers at the root, module, or component level using `providedIn: 'root'`, `providedIn: 'module'`, or `providers` arrays, respectively.
+
+### **Hierarchical DI Example**
+
+Consider a scenario where you want to use a service at the root level, but also want a different instance of the service at the component level.
+
+#### **Step 1: Creating the Service**
+First, let’s create a simple service that we will provide at different levels.
+
+```typescript
+// data.service.ts
+@Injectable({
+  providedIn: 'root', // Provided globally in the root injector
+})
+export class DataService {
+  private data: string[] = [];
+
+  addData(item: string) {
+    this.data.push(item);
+  }
+
+  getData() {
+    return this.data;
+  }
+}
+```
+
+In this example, `DataService` is provided globally via the root injector (`providedIn: 'root'`), meaning the same instance will be used throughout the app unless overridden.
+
+#### **Step 2: Providing the Service in a Module**
+If you want to limit the scope of this service to a specific module, you can declare it inside a module’s `providers` array.
+
+```typescript
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [DataService], // Provided at the module level
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Now, `DataService` is provided at the module level, and any component within this module will use this instance. However, this service is still available globally if needed by other modules as well.
+
+#### **Step 3: Providing the Service in a Component**
+If you want a **different instance of the service** specific to a component (or component’s subtree), you can provide it in the component’s `providers` array.
+
+```typescript
+@Component({
+  selector: 'app-child',
+  template: '<button (click)="addData()">Add Data</button>',
+  providers: [DataService]  // Provided at the component level (creates a new instance)
+})
+export class ChildComponent {
+  constructor(private dataService: DataService) {}
+
+  addData() {
+    this.dataService.addData('New Item');
+  }
+}
+```
+
+Now, the `DataService` is provided **only to this component and its child components**, and a new instance will be created whenever the component is instantiated.
+
+#### **Step 4: Using the Service in Different Components**
+
+```typescript
+@Component({
+  selector: 'app-parent',
+  template: '<button (click)="addData()">Add Data in Parent</button>',
+})
+export class ParentComponent {
+  constructor(private dataService: DataService) {}
+
+  addData() {
+    this.dataService.addData('Parent Item');
+  }
+}
+```
+
+In this example, the `ParentComponent` uses the **root or module level** instance of `DataService`, while `ChildComponent` uses its **own instance** due to the `providers` array in its metadata.
+
+#### **Step 5: Observing the Data in Different Components**
+
+If you display the data in both `ParentComponent` and `ChildComponent`, you will see that they maintain separate instances of `DataService`:
+
+```html
+<!-- parent.component.html -->
+<button (click)="addData()">Add Data in Parent</button>
+<div>{{ dataService.getData() | json }}</div>
+```
+
+```html
+<!-- child.component.html -->
+<button (click)="addData()">Add Data in Child</button>
+<div>{{ dataService.getData() | json }}</div>
+```
+
+Now, if you add data in `ParentComponent`, the `ChildComponent`’s `DataService` instance won’t be affected, and vice versa.
+
+### **Hierarchy and Injector Lookup**
+
+1. **Root Injector**: This is the global injector used for services that should be shared across the entire application (e.g., services provided with `providedIn: 'root'`).
+   
+2. **Module Injector**: If a service is provided in a module, Angular uses the injector for that module, making the service available to all components declared in that module.
+   
+3. **Component Injector**: If a service is provided within a component, Angular uses the component’s injector, giving that service a unique instance only for the component and its view hierarchy.
+
+### **Advantages of Hierarchical DI**
+
+1. **Scoped Instances**: The ability to define the scope of services allows for creating separate instances of a service within different parts of the application, which can be useful in cases where a service's state should be isolated.
+   
+2. **Modularization**: By providing services at the module level, Angular allows the organization of services based on features, making the application more modular and maintainable.
+
+3. **Lazy Loading**: Hierarchical DI works well with **lazy-loaded modules**, as each lazy-loaded module can have its own injector, ensuring that services within that module are isolated from the rest of the app.
+
+4. **Performance Optimization**: Hierarchical DI helps in optimizing performance by reducing the number of unnecessary service instances and allowing for more fine-grained control over which services are instantiated and reused.
+
+### **Conclusion**
+
+Hierarchical Dependency Injection in Angular provides a flexible and powerful way to manage services at different levels of the application. It ensures that Angular can create, share, or isolate service instances depending on the needs of your components, modules, and the application as a whole. By understanding this feature, you can better manage the scope of services and ensure that your app remains modular and maintainable.
+
+Feel free to ask if you need more examples or deeper clarification on any specific aspect of Hierarchical DI!
+
+=========================
+
+In Angular, when you want to **tell Angular which type of instance to inject** into a component, directive, pipe, or service, you use **providers** and the **dependency injection system**.
+
+To specify the type of instances Angular should inject, you can configure **providers** in different ways. These configurations help Angular decide:
+
+1. **What type of object to create or use as a service?**
+2. **How to create that object?**
+3. **At what level (root, module, or component) the instance should exist?**
+
+Here are the main ways to inform Angular about which instances to inject:
+
+---
+
+### 1. **Using `@Injectable` with `providedIn`**
+The simplest way to tell Angular to inject a type is by marking a class with `@Injectable` and specifying where it should be provided using `providedIn`.
+
+```typescript
+@Injectable({
+  providedIn: 'root', // Singleton instance, available globally
+})
+export class MyService {
+  constructor() {}
+}
+```
+
+- `providedIn: 'root'`: Angular injects a single, shared instance throughout the application.
+- `providedIn: 'any'`: A new instance is created for each lazy-loaded module.
+- `providedIn: null`: Angular does not register the service automatically; you must add it manually in the `providers` array.
+
+---
+
+### 2. **Using `providers` in Modules, Components, or Directives**
+You can manually register a service in the `providers` array to create an instance specific to a particular scope.
+
+#### **At Module Level:**
+```typescript
+@NgModule({
+  providers: [MyService], // Instance available to all components declared in this module
+})
+export class AppModule {}
+```
+
+#### **At Component Level:**
+```typescript
+@Component({
+  selector: 'app-example',
+  providers: [MyService], // Creates a new instance for this component and its children
+})
+export class ExampleComponent {
+  constructor(private myService: MyService) {}
+}
+```
+
+---
+
+### 3. **Using `useClass` to Inject Alternative Implementations**
+If you want to inject a specific implementation of an interface or abstract class, you can use the `useClass` provider.
+
+```typescript
+export abstract class Logger {
+  abstract log(message: string): void;
+}
+
+@Injectable()
+export class ConsoleLogger extends Logger {
+  log(message: string) {
+    console.log(message);
+  }
+}
+
+@Injectable()
+export class FileLogger extends Logger {
+  log(message: string) {
+    // Log message to a file
+    console.log(`Logged to file: ${message}`);
+  }
+}
+
+// In the module or component:
+providers: [{ provide: Logger, useClass: FileLogger }]
+```
+
+In this case, whenever `Logger` is injected, Angular will provide an instance of `FileLogger`.
+
+---
+
+### 4. **Using `useValue` to Inject Static Values**
+You can provide a static value instead of a service class.
+
+```typescript
+const APP_CONFIG = {
+  apiUrl: 'https://api.example.com',
+  timeout: 5000,
+};
+
+providers: [{ provide: 'APP_CONFIG', useValue: APP_CONFIG }]
+```
+
+Injection:
+```typescript
+constructor(@Inject('APP_CONFIG') private config: any) {
+  console.log(config.apiUrl); // Outputs: https://api.example.com
+}
+```
+
+---
+
+### 5. **Using `useFactory` for Dynamic Creation**
+When the instance of a service needs to be dynamically created based on certain conditions or logic, use the `useFactory` option.
+
+```typescript
+export function configFactory(env: string) {
+  if (env === 'production') {
+    return { apiUrl: 'https://prod.api.com' };
+  } else {
+    return { apiUrl: 'https://dev.api.com' };
+  }
+}
+
+providers: [
+  { provide: 'APP_CONFIG', useFactory: () => configFactory('production') }
+]
+```
+
+---
+
+### 6. **Using Aliases with `useExisting`**
+You can create an alias for an existing service.
+
+```typescript
+@Injectable()
+export class AuthService {
+  // Some logic
+}
+
+providers: [
+  AuthService,
+  { provide: 'AuthenticationService', useExisting: AuthService }
+];
+```
+
+Injection:
+```typescript
+constructor(@Inject('AuthenticationService') private authService: AuthService) {}
+```
+
+Here, `AuthenticationService` is an alias for `AuthService`.
+
+---
+
+### 7. **Using `multi: true` for Multiple Instances**
+Sometimes, you want to allow multiple providers for the same token, such as for creating a list of handlers.
+
+```typescript
+export class NotificationHandler {
+  handle(message: string): void {}
+}
+
+@Injectable()
+export class EmailNotificationHandler extends NotificationHandler {
+  handle(message: string) {
+    console.log(`Email: ${message}`);
+  }
+}
+
+@Injectable()
+export class SmsNotificationHandler extends NotificationHandler {
+  handle(message: string) {
+    console.log(`SMS: ${message}`);
+  }
+}
+
+providers: [
+  { provide: NotificationHandler, useClass: EmailNotificationHandler, multi: true },
+  { provide: NotificationHandler, useClass: SmsNotificationHandler, multi: true }
+]
+```
+
+Injection:
+```typescript
+constructor(private handlers: NotificationHandler[]) {
+  this.handlers.forEach(handler => handler.handle('Hello!'));
+}
+```
+
+Here, both `EmailNotificationHandler` and `SmsNotificationHandler` will be injected as an array.
+
+---
+
+### Summary of Provider Types
+
+| **Provider Type**     | **Usage**                                                                                     |
+|------------------------|---------------------------------------------------------------------------------------------|
+| `providedIn`          | Used in `@Injectable` to define the scope (`root`, `any`, or `module`) automatically.         |
+| `useClass`            | Use a specific implementation of a service.                                                 |
+| `useValue`            | Provide a static value to be injected.                                                      |
+| `useFactory`          | Provide a service instance dynamically based on logic.                                      |
+| `useExisting`         | Create an alias for an existing provider.                                                   |
+| `multi: true`         | Allow multiple instances for a single token (inject them as an array).                      |
+
+By specifying these configurations, **you can precisely tell Angular which type of instances to inject**, where to provide them, and how they should be instantiated.

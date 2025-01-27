@@ -7,6 +7,11 @@ export class SubscribeService {
 
   constructor() { }
 
+  // constructor(name: string) { }
+
+  // here using the constructor parameter, it will get the error in the wherever service using
+  // becasue there paremter not passing
+
   OnSubscribeClicked( type:string){
 
     // this.selectedTab = 'admin';

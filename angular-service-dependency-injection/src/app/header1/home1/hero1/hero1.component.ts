@@ -5,9 +5,14 @@ import { SubscribeService } from 'src/app/Serive/subscribe.service';
 @Component({
   selector: 'app-hero1',
   templateUrl: './hero1.component.html',
-  styleUrls: ['./hero1.component.css']
+  styleUrls: ['./hero1.component.css'],
+  providers: [SubscribeService]
 })
 export class Hero1Component {
+
+  constructor(private service: SubscribeService){
+
+  }
 
 
   // OnSubscribe(){
@@ -38,9 +43,11 @@ export class Hero1Component {
   
       // creating instance of service class
   
-      let subService = new SubscribeService();
+      // let subService = new SubscribeService();
       // pass the parementer to server
-      subService.OnSubscribeClicked('Monthly')
+      // subService.OnSubscribeClicked('Monthly')
+
+      this.service.OnSubscribeClicked('hero')
   
     }
 
