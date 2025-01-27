@@ -13,3 +13,78 @@
 13. event binding
 14. two way data binding
 15. understanding Directives
+
+=========================
+
+Here is a detailed explanation of the keys used in your Angular `providers` array and `schemas` in the `@NgModule` decorator:
+
+---
+
+### **`providers`**
+
+The `providers` array is used to define the services or dependencies that are available for injection in the Angular Dependency Injection system. Below is an explanation of each item:
+
+1. **`LoginService`**  
+   - This is a custom service that you have created, likely responsible for managing login-related functionality such as authentication, user session management, and login requests to the backend.
+
+2. **`MessageService`**  
+   - A service provided by PrimeNG.  
+   - Used to manage messages such as toast notifications or growls for user feedback.  
+   - Example: Success or error notifications for actions like login or form submissions.
+
+3. **`ConfirmationService`**  
+   - A service provided by PrimeNG.  
+   - Used to manage confirmation dialogs in the application, such as asking the user for confirmation before performing an action (e.g., deleting a record).  
+   - Provides methods for displaying and handling user responses in the confirmation dialog.
+
+4. **`HTTP_INTERCEPTORS`**  
+   - A special Angular InjectionToken that allows you to define HTTP interceptors. Interceptors are used to intercept and manipulate HTTP requests or responses.
+   - **`useClass: TokenHttpInterceptorInterceptor`**:
+     - Specifies the class that implements the interceptor logic (`TokenHttpInterceptorInterceptor` in this case).
+     - This interceptor might be handling tasks such as:
+       - Adding an authorization token (JWT) to HTTP headers.
+       - Logging HTTP requests or responses.
+       - Handling errors globally.
+   - **`multi: true`**:
+     - Indicates that multiple interceptors can be added to the HTTP client pipeline.  
+     - Ensures that this interceptor is added alongside others instead of replacing them.
+
+5. **`Keepalive`**  
+   - This is likely a service used for session management to keep the user session alive.  
+   - It might work by periodically pinging the server to prevent session expiration.
+
+---
+
+### **`schemas`**
+
+The `schemas` array defines the schemas that Angular uses to validate the HTML templates in your application. 
+
+1. **`CUSTOM_ELEMENTS_SCHEMA`**  
+   - This allows the use of custom web components or elements not recognized by Angular.  
+   - Use this schema when:
+     - You're working with third-party libraries or frameworks that include custom elements (e.g., `<my-custom-element>`).
+     - You're using web components that are not part of Angular's recognized set of standard HTML elements or Angular components.
+   - Without this, Angular will throw template errors when encountering unknown elements.
+
+---
+
+### **`bootstrap`**
+
+The `bootstrap` property specifies the root component of the application that Angular should use to bootstrap (initialize) the application.
+
+1. **`AppComponent`**  
+   - This is the root component of your application.
+   - The `AppComponent` is usually the starting point for rendering the application's UI.
+   - It acts as the entry point for the component tree.
+
+---
+
+### How It All Fits Together
+
+When the application starts:
+1. The `providers` array makes the listed services (`LoginService`, `MessageService`, etc.) available for Dependency Injection throughout the app.
+2. `HTTP_INTERCEPTORS` ensures HTTP requests and responses are intercepted by your custom logic.
+3. `CUSTOM_ELEMENTS_SCHEMA` allows your templates to include custom elements without Angular throwing errors.
+4. `AppComponent` serves as the root of the app and is bootstrapped to start rendering the UI.
+
+If you have more specific questions about any of these, feel free to ask!

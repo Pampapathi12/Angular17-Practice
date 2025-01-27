@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SubscribeService } from 'src/app/Serive/subscribe.service';
 
@@ -9,9 +9,17 @@ import { SubscribeService } from 'src/app/Serive/subscribe.service';
 })
 export class Hero1Component {
 
-  constructor(private service: SubscribeService){
 
-  }
+
+  // inject service in the class
+  //1. using the constrctor
+  // use the property and call method as inject()
+
+  // constructor(private service: SubscribeService){
+
+  // }
+
+  service = inject(SubscribeService)
 
 
   // OnSubscribe(){

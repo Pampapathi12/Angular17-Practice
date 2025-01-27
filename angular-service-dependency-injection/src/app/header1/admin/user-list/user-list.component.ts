@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Injectable } from '@angular/core';
 import { UserService } from 'src/app/Serive/user.service';
+import { USER_TOKEN } from 'src/app/app.module';
 
 @Component({
   selector: 'app-user-list',
@@ -18,7 +19,7 @@ export class UserListComponent {
   // userList: any = []
 
 
-  constructor(private userSerive: UserService ){
+  constructor(@Inject(USER_TOKEN) private userSerive: UserService ){
     
   }
 

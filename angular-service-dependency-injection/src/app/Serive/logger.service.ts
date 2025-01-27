@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core"
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'// we want provide this service in module level so no need to provode in the app module
+})
 export class LoggerService{
 
 
