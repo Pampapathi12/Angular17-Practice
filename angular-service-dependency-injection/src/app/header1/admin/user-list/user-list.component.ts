@@ -1,4 +1,5 @@
 import { Component, Inject, Injectable } from '@angular/core';
+import { User } from 'src/app/Models/User';
 import { UserService } from 'src/app/Serive/user.service';
 import { USER_TOKEN } from 'src/app/app.module';
 
@@ -16,6 +17,10 @@ import { USER_TOKEN } from 'src/app/app.module';
 export class UserListComponent {
 
 
+
+  // in ther user-list and user-detail doesnt have any parent child relationship, 2 compoent are siblings of admin folder
+
+
   // userList: any = []
 
 
@@ -24,6 +29,15 @@ export class UserListComponent {
   }
 
   userList = this.userSerive.GetAllUsers();
+
+  ShowUserDetail(user:User){
+
+
+    this.userSerive.OnShowUserDetails(user);
+
+    // we want emit the data when the mthod called
+
+  }
   // ngOnInit(){
   //   this.userList = this.userSerive.GetAllUsers();
 
