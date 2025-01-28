@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,24 @@ export class AppComponent {
 
   title = 'angular-observable';
   data: any [] = [];
+
+  // of operator create a observable
+
+  array1 = [1,3,5,7,9]
+  array2 = ['A', 'B','C','D']
+
+
+  myObservable1 = of(this.array1, this.array2, 20,30,'hello')
+  promiseData = new Promise((resolve, reject) =>{
+    resolve([10,20,30,40,50])
+  })
+
+  // convert promise to observable
+ 
+
+
+  // from operator
+  myObservable2 = from(this.promiseData)
 
   // 1 . create an observable
 
@@ -78,6 +96,8 @@ export class AppComponent {
 
  
 
+ 
+
   //observer parameter using the call back function, injected by rxjs by using call back function
   // subscriber , going to subscribe   myObservable going to recieve the those subscriber observer paremert
   // observer if u want emit some value , call next method
@@ -87,49 +107,30 @@ export class AppComponent {
   // we want subscribe the myObservable
 
   GetAsyncData(){
+  //   this.myObservable.subscribe((val:any) =>{
 
-    // this.service.ViewEmpAppraisalDocument(data).subscribe((res)
-    // observer will notify when the event emmiter
+    
 
-    // myObservable event listner, this code will notify that
-    // here subscribe is  deprecated
-    this.myObservable.subscribe((val:any) =>{
-
-      // 3 call back function pass
-      // next, error, completion
-
-      // observer -> this.myObservable.subscribe
-      
-
-      // pushing the value into the array
-
-      this.data.push(val);// first call back functoin, recive the emit the value and subscribe
+  //     this.data.push(val);
      
 
-    //  [((val:any) =>{
-      
 
-      // pushing the value into the array
+  //   },// second call back functon for the error handling
+  //     (err) => {
 
-    //  this.data.push(val);] event handler
+  //       alert(err.message)
 
-    },// second call back functon for the error handling
-      (err) => {
+  //   },
+  // () =>{
 
-        alert(err.message)
+  //   alert('all the data subscribed')
 
-    },
-  () =>{
-
-    alert('all the data subscribed')
-
-  });
+  // });
 
 
-  this.myObservable.subscribe({
+  this.myObservable1.subscribe({
     next:(val: any) => {
-      this.data.push(val) // Property 'data' does not exist on type 'Partial<Observer<unknown>> | ((value: unknown) => void)'. Property 'data' does not exist on type 'Partial<Observer<unknown>>
-      // => using arrow function this key will point the outer scop
+      this.data.push(val) 
     },
     error(err){
       alert(err.message)
@@ -149,6 +150,59 @@ export class AppComponent {
     // whenever error 
     // whenver complete
     // this call  back function receive the value from observable next event as emittef
+  }
+
+
+  GetAsyncData1(){
+
+   
+    this.myObservable1.subscribe((val:any) =>{
+
+      // once all the data emit then emit the complete signla
+      // here of operator streaming the data one after the another
+
+      // here first data will come and after that complete signal immediate invoking
+
+
+      this.data.push(val);
+    },
+      (err) => {
+
+        alert(err.message)
+
+    },
+  () =>{
+
+    alert('all the data subscribed')
+
+  });
+
+
+  }
+
+  GetAsyncData2(){
+
+   
+    this.myObservable2.subscribe((val:any) =>{
+
+     
+
+      this.data.push(val);
+
+      console.log(this.data)// from operator take each element and iterator one after one the printing
+    },
+      (err) => {
+
+        alert(err.message)
+
+    },
+  () =>{
+
+    alert('all the data subscribed')
+
+  });
+
+
   }
 
   // 1. event emmiter, 2. event listner, 3. event handler
