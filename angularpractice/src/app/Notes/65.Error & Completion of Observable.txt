@@ -1,0 +1,4 @@
+Error & Completion of Observable
+
+=> async data in error , stream of async data, 
+=> how handle the error and how to handle Completion of Observable stream data

@@ -37,6 +37,16 @@ export class AppComponent {
     setTimeout(() =>{
       observer.next(3); // this data will emit the value after the three second
     },3000) 
+
+     // observable  also emit the error 
+
+    //  setTimeout(() =>{
+    //   observer.error(new Error('something went wrong, plrase try again later')); // this data will emit the value after the three second
+    // },3000) 
+    //***once  after that error occured observable not going emit any more value
+    // once the error signal occured ten other data will not emit and completion signal also not emit
+
+
     setTimeout(() =>{
       observer.next(4); // this data will emit the value after the four second
     },4000) 
@@ -48,6 +58,17 @@ export class AppComponent {
     // observer.next(3);
     // observer.next(4);
     // observer.next(5);
+
+
+    // complete signal from observable, it doesnot take any argument
+    setTimeout(() =>{
+      observer.complete(); // this data will emit the value after the five second
+    },6000) 
+
+    // setTimeout(() =>{
+    //   observer.complete(); // this data will emit the value after the five second
+    // },3000) 
+    // once complettion  signal emited data completed if any data not emitthat data not emit value to for subscribe
 
 
     // here myObservable     emit the next event
@@ -71,14 +92,19 @@ export class AppComponent {
     // observer will notify when the event emmiter
 
     // myObservable event listner, this code will notify that
+    // here subscribe is  deprecated
     this.myObservable.subscribe((val:any) =>{
+
+      // 3 call back function pass
+      // next, error, completion
 
       // observer -> this.myObservable.subscribe
       
 
       // pushing the value into the array
 
-      this.data.push(val);
+      this.data.push(val);// first call back functoin, recive the emit the value and subscribe
+     
 
     //  [((val:any) =>{
       
@@ -87,7 +113,31 @@ export class AppComponent {
 
     //  this.data.push(val);] event handler
 
-    });
+    },// second call back functon for the error handling
+      (err) => {
+
+        alert(err.message)
+
+    },
+  () =>{
+
+    alert('all the data subscribed')
+
+  });
+
+
+  this.myObservable.subscribe({
+    next:(val: any) => {
+      this.data.push(val) // Property 'data' does not exist on type 'Partial<Observer<unknown>> | ((value: unknown) => void)'. Property 'data' does not exist on type 'Partial<Observer<unknown>>
+      // => using arrow function this key will point the outer scop
+    },
+    error(err){
+      alert(err.message)
+    },
+    complete(){
+      alert('all data completed')
+    }
+  })
 
     
 
