@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { from, fromEvent, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
  
 
@@ -205,9 +205,42 @@ export class AppComponent {
 
   }
 
+
+
+
   // 1. event emmiter, 2. event listner, 3. event handler
 
   // Observable() -> constructor
+
+// how to create an observable from the dom events, we can use the fromevent operator
+@ViewChild('createbutton')
+createBtn: ElementRef;
+createBtnObs;
+
+buttonClicked(){ // calling this method after ngafterviewinit life cycle
+  // from event is rxjs operator, in that we need pass the 2 argument one target event element and target listen argumwnt
+  let count = 0;
+this.createBtnObs =  fromEvent(this.createBtn.nativeElement, 'click')// it return as observable
+.subscribe((data) =>{
+  console.log('data', data)
+  this.showItem(count++);
+})
+}
+
+ngAfterViewInit(){
+  this.buttonClicked();
+}
+
+showItem(val){
+ let div = document.createElement('div');
+
+ div.innerText = 'Item' + val;
+ div.className = 'data-list'
+ document.getElementById('container').appendChild(div)
+
+}
+
+
 
 
 }
