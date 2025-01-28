@@ -1,0 +1,12 @@
+RxJS Main Players
+==============
+
+
+[obasevable] -> [observer] -> [Handler]
+                               
+
+observable emits the data and observer will notify when the obasevable emits the data and observer will subscribe the data
+observable will know until the  observer subscribe the data
+
+when observable emit the data Observer will notify but it will do anything to data
+only specify handler then  observer will do something with data
