@@ -1,0 +1,341 @@
+### **Explanation of Your Code**
+
+In your code, you're creating an instance of the `Employee` class, and the constructor is called automatically when the `new` keyword is used.
+
+Here’s a breakdown:
+
+1. **Class Declaration:**
+   - The class `Employee` has two data members `name` and `age` declared.
+   - The constructor logs `'pampa'` to the console when the object is created.
+   - The `displayInfo` method logs `'employee'` to the console when invoked.
+
+2. **Object Creation:**
+   - `var emp = new Employee();` creates a new object of `Employee`.
+   - This automatically calls the **constructor** of the class `Employee` when the object is instantiated using the `new` keyword.
+
+3. **Constructor and Method:**
+   - The constructor is called when `new Employee()` is used, logging `'pampa'` to the console.
+   - The method `displayInfo()` is available but is not called in the provided code.
+
+### **Updated Code with Comments**
+```javascript
+class Employee {
+    name; // Data member (property)
+    age;  // Data member (property)
+
+    // Constructor method, called when creating a new instance
+    constructor() {
+        console.log('pampa'); // Logs 'pampa' when a new object is created
+    }
+
+    // Data function (method)
+    displayInfo() {
+        console.log('employee'); // Logs 'employee' when this method is called
+    }
+}
+
+// Creating a new instance of Employee, which automatically calls the constructor
+var emp = new Employee(); // This will log 'pampa'
+
+// You can also call the displayInfo method
+emp.displayInfo(); // This will log 'employee'
+```
+
+### **Key Points:**
+- **`new Employee()`** automatically triggers the constructor.
+- The **constructor** is called when you create an instance of the class with the `new` keyword.
+- **Data members `name` and `age`** are declared inside the class but aren't initialized, so they will be `undefined` unless explicitly set.
+
+### **What Happens When You Run It:**
+- The line `var emp = new Employee();` creates an instance of the `Employee` class, and the constructor logs `'pampa'` to the console.
+- Then, you can call the `displayInfo()` method on the object to log `'employee'`.
+
+### **Output:**
+```bash
+pampa
+employee
+```
+
+Let me know if you'd like to explore more on how classes work in JavaScript!
+====================
+In JavaScript, memory is managed automatically by the **JavaScript engine** (such as V8 for Chrome/Node.js, SpiderMonkey for Firefox, etc.). The engine uses various memory structures and strategies to handle memory allocation and deallocation.
+
+### **Types of Memory in JavaScript**
+
+There are two main types of memory used in JavaScript:
+
+1. **Stack Memory**
+2. **Heap Memory**
+
+#### **1. Stack Memory**
+- **Stack memory** is used for **primitive values** and function call execution contexts.
+- It is **fast and limited** in size.
+- The stack follows the **Last In, First Out (LIFO)** principle. This means the last function or variable pushed onto the stack is the first one to be popped out.
+  
+##### **Characteristics:**
+- Used to store **primitive values** like `number`, `string`, `boolean`, `null`, `undefined`, `symbol`, and `BigInt`.
+- Stores **function execution contexts** (activation records) and **local variables**.
+- When a function is called, its execution context (including variables and parameters) is pushed onto the stack. Once the function finishes, its context is popped off.
+  
+##### **Example:**
+```javascript
+function myFunction() {
+    let a = 10;  // Primitive type stored on the stack
+    let b = 20;
+    return a + b;
+}
+myFunction();
+```
+
+In the above example:
+- The values `a` and `b` are stored on the stack, as they are **primitive values**.
+
+#### **2. Heap Memory**
+- **Heap memory** is used for storing **objects** (arrays, functions, objects, etc.) and **complex data structures**.
+- It is **larger and slower** compared to the stack.
+- Objects are stored in the **heap**, and a reference to the object is stored on the **stack**.
+  
+##### **Characteristics:**
+- Used for **dynamic memory allocation** of complex objects.
+- Objects like arrays, functions, and user-defined objects are stored in the heap.
+- Objects can be created dynamically, and the memory can be resized, unlike the stack, which is more rigid.
+
+##### **Example:**
+```javascript
+let person = { name: "John", age: 30 };  // Object stored in the heap
+```
+
+In this example:
+- The `person` object is stored in the **heap**.
+- A **reference** to the `person` object is stored on the **stack**.
+
+### **How Memory is Managed**
+
+- **Primitive values** are stored directly on the stack, and their value is copied when assigned to another variable.
+  
+  ```javascript
+  let x = 10;
+  let y = x;  // The value 10 is copied from `x` to `y`
+  ```
+
+- **Objects** and **arrays** are stored in the heap, and when you assign one object or array to another variable, it copies the reference (memory address), not the actual object.
+
+  ```javascript
+  let obj1 = { name: "Alice" };
+  let obj2 = obj1;  // `obj2` now points to the same object as `obj1` in the heap
+  ```
+
+### **Garbage Collection in JavaScript**
+JavaScript uses **garbage collection** to manage memory automatically. When an object is no longer in use or there are no references pointing to it, the JavaScript engine will **automatically free up** the memory by reclaiming it.
+
+- **Mark-and-sweep** is a common garbage collection technique. The garbage collector marks objects that are reachable (i.e., there is still a reference to them), and then it sweeps through the memory to remove those that are unreachable.
+
+### **Memory Leaks**
+A **memory leak** occurs when memory that is no longer in use is not freed. In JavaScript, this can happen if:
+- References to objects are unintentionally kept, preventing the garbage collector from reclaiming the memory.
+- Circular references (e.g., object A referencing object B, and object B referencing object A) that are no longer in use.
+
+### **Summary:**
+
+1. **Stack Memory**:
+   - Used for **primitive values** and **function call contexts**.
+   - Fast and has a limited size.
+   - Follows **LIFO** principle.
+  
+2. **Heap Memory**:
+   - Used for **objects** (arrays, functions, etc.).
+   - Slower than stack but has a larger size.
+   - Stores **references** to objects in the stack.
+  
+3. **Garbage Collection**:
+   - JavaScript automatically manages memory using garbage collection to clean up unused memory.
+
+---
+
+Let me know if you'd like more details or further explanations on any of these concepts!
+
+===========
+Here’s a **diagrammatic explanation** of **Stack Memory** and **Heap Memory** in JavaScript.
+
+---
+
+### **1️⃣ Stack Memory (for Primitive Values & Function Calls)**  
+- The **Stack** is used for storing **primitive values** and **execution contexts** (function calls).
+- It follows the **LIFO (Last In, First Out)** principle.
+
+#### **Example Code:**
+```javascript
+function demo() {
+    let a = 10;  // Stored in Stack
+    let b = 20;  // Stored in Stack
+    return a + b;
+}
+demo();
+```
+
+#### **Stack Memory Representation:**
+```
++-----------------+
+| demo() Context  | <- Pushed onto the stack when called
+|  a = 10         |
+|  b = 20         |
++-----------------+
+| Global Context  | <- Always present
++-----------------+
+```
+- When `demo()` is called, a **new execution context** is created and pushed onto the stack.
+- After execution, `demo()` is removed from the stack.
+
+---
+
+### **2️⃣ Heap Memory (for Objects & Arrays)**  
+- **Heap memory** is used to store complex data structures like **objects, arrays, and functions**.
+- References to these objects are stored in the **Stack**.
+
+#### **Example Code:**
+```javascript
+let person = { name: "Alice", age: 30 };  // Stored in Heap
+let employee = person;  // Both variables reference the same object
+```
+
+#### **Memory Representation:**
+```
+Stack:                        Heap:
++-----------------+          +----------------------+
+| person (ref)   |  ----->  | { name: "Alice",     |
+| employee (ref) |  ----->  |   age: 30 }          |
++-----------------+          +----------------------+
+```
+- `person` and `employee` **both point to the same object** in the Heap.
+- If you modify `employee.name`, it also changes `person.name` since both reference the same memory location.
+
+---
+
+### **3️⃣ Stack vs Heap Memory – Side-by-Side**
+| Feature       | Stack Memory       | Heap Memory         |
+|--------------|-------------------|---------------------|
+| **Stores**   | Primitive values, function calls | Objects, arrays, functions |
+| **Size**     | Small & fast | Large but slower |
+| **Access**   | LIFO (Last In, First Out) | Dynamic, scattered memory allocation |
+| **Example**  | `let x = 10;` (Stored directly) | `let obj = {name: "Bob"};` (Stored in heap, reference in stack) |
+
+---
+
+### **4️⃣ Garbage Collection (Automatic Memory Cleanup)**
+- If an object **has no references left**, the **garbage collector** removes it from the heap.
+- Example:
+```javascript
+let obj = { name: "Alice" }; // Stored in Heap
+obj = null; // Garbage Collector removes the object
+```
+**Diagram (Before & After GC)**:
+```
+Before GC:               After GC:
+Stack -> obj (ref)  ---> Heap { name: "Alice" }    Stack -> obj = null
+                          (Object is unreachable, so it's removed)
+```
+
+---
+
+### **Conclusion**
+- **Stack Memory**: Fast, limited size, used for **primitive types & function calls**.
+- **Heap Memory**: Large, stores **objects, arrays, functions**, but slower.
+- **Garbage Collection**: Automatically cleans up unreferenced objects in the heap.
+
+Would you like more diagrams or a deeper explanation on any part? 🚀
+
+========
+When you create an object using `new Employee()`, JavaScript **allocates memory in both the Stack and Heap**. Let’s break this down **step by step** with a **diagrammatic explanation**.  
+
+---
+
+## **Step 1: Code Execution**
+```javascript
+class Employee {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+let emp1 = new Employee("Alice", 30);  // Object created
+let emp2 = new Employee("Bob", 25);    // Another object created
+```
+
+---
+
+## **Step 2: Memory Allocation**  
+When `new Employee("Alice", 30)` is executed:  
+
+1. **A new object is created in Heap Memory.**
+2. **A reference (memory address) to that object is stored in Stack Memory.**
+3. **The constructor assigns properties (`name` and `age`) to the object.**
+
+---
+
+## **Step 3: Diagram of Memory Allocation**  
+
+### **Stack Memory (stores references)**  
+```
+Stack:
++----------------+
+| emp1 (ref) ---> 0x001  (Heap) |
+| emp2 (ref) ---> 0x002  (Heap) |
++----------------+
+```
+- `emp1` and `emp2` store memory **references** (pointers) to their respective objects in the **Heap**.
+
+### **Heap Memory (stores actual objects)**
+```
+Heap:
+0x001  { name: "Alice", age: 30 }  <-- emp1 points here
+0x002  { name: "Bob", age: 25 }    <-- emp2 points here
+```
+- The actual objects `{ name: "Alice", age: 30 }` and `{ name: "Bob", age: 25 }` are stored **inside the Heap**, and the **Stack** contains **references (memory addresses)** to these objects.
+
+---
+
+## **Step 4: What Happens When emp1 = null?**
+If you set `emp1 = null`, it **removes the reference** from the **Stack**, but the object still exists in the **Heap** until **Garbage Collection** removes it.
+
+```javascript
+emp1 = null;  // The object { name: "Alice", age: 30 } is now unreachable
+```
+
+### **Updated Diagram (After Setting `emp1 = null`)**
+```
+Stack:
++----------------+
+| emp1 = null    |
+| emp2 (ref) ---> 0x002 (Heap) |
++----------------+
+
+Heap:
+0x001  { name: "Alice", age: 30 }  <-- (Garbage Collector will clean this)
+0x002  { name: "Bob", age: 25 }
+```
+Now, `{ name: "Alice", age: 30 }` has **no references**, so it will be **removed** by the **Garbage Collector**.
+
+---
+
+## **Summary**
+- `new Employee()` creates an **object in Heap Memory**.
+- A **reference** to the object is stored in **Stack Memory**.
+- If the reference is removed (`null` or reassigned), the object becomes **eligible for Garbage Collection**.
+
+Would you like a **more detailed breakdown** of how the JavaScript engine processes this internally? 🚀
+
+===============================
+// Global Scope
+var globalVar = "I'm a global var"; // Attached to window object
+let globalLet = "I'm a global let"; // Not attached to window
+const globalConst = "I'm a global const"; // Not attached to window
+
+console.log(window.globalVar); // "I'm a global var" (var is attached to window)
+console.log(window.globalLet); // undefined (let/const are not)
+console.log(window.globalConst); // undefined
+
+// Redeclaration
+var globalVar = "Redeclared var allowed"; ✅ Works (no error)
+let globalLet = "Redeclared let not allowed"; ❌ SyntaxError
+const globalConst = "Redeclared const not allowed"; ❌ SyntaxError
