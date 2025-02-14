@@ -1,0 +1,459 @@
+## **Data Types in TypeScript**
+TypeScript provides static typing by defining various data types. These types help developers write cleaner and more maintainable code. The main data types in TypeScript are:
+
+### **1. Primitive Types**
+These types are the basic building blocks:
+- **`number`** → Represents numeric values (integers, floating points, hex, binary, octal).
+- **`string`** → Represents textual data (`'hello'`, `"world"`, `\`typescript\``).
+- **`boolean`** → Represents `true` or `false`.
+- **`null`** → Represents an intentional absence of a value.
+- **`undefined`** → Represents an uninitialized variable.
+- **`symbol`** → Represents a unique identifier.
+- **`bigint`** → Represents large integers (larger than `Number.MAX_SAFE_INTEGER`).
+
+### **2. Object Types**
+- **`object`** → Represents non-primitive values (arrays, functions, objects).
+- **`array`** → A collection of elements of the same type (`number[]`, `string[]`, `Array<number>`).
+- **`tuple`** → Fixed-length array with specific types (`[number, string]`).
+- **`enum`** → Defines a set of named constants (`enum Color { Red, Green, Blue }`).
+
+### **3. Special Types**
+- **`any`** → Disables type checking (`let x: any = 10;`).
+- **`unknown`** → Type-safe alternative to `any` (`let x: unknown = 10;`).
+- **`void`** → Represents functions with no return value (`function log(): void {}`).
+- **`never`** → Represents functions that never return (`throw new Error()`).
+
+---
+
+## **Tricky TypeScript Interview Questions**
+
+### **Q1: What is the difference between `any` and `unknown`?**
+#### **Answer:**
+- **`any`** can hold any type, but it disables type checking.
+- **`unknown`** can hold any type but requires type checking before using its value.
+
+**Example:**
+```typescript
+let a: any = 10;
+a.toUpperCase(); // No error, but runtime failure if it's not a string
+
+let b: unknown = "hello";
+// b.toUpperCase(); // Error: Object is of type 'unknown'
+
+if (typeof b === "string") {
+  console.log(b.toUpperCase()); // Safe
+}
+```
+
+---
+
+### **Q2: What will be the output of the following TypeScript code?**
+```typescript
+let x: never;
+x = "hello"; 
+```
+#### **Answer:**
+Compilation Error: **Type '"hello"' is not assignable to type 'never'**.
+
+`never` represents a type that **never** holds a value. It is typically used for functions that throw errors or never terminate.
+
+---
+
+### **Q3: What happens if you use `const` with `let` in TypeScript?**
+#### **Answer:**
+Using `const` and `let` together is invalid syntax.
+
+```typescript
+const let x = 10; // Syntax Error
+```
+✅ Correct way:
+```typescript
+const x = 10; // Cannot be reassigned
+let y = 20;   // Can be reassigned
+```
+
+---
+
+### **Q4: Can we assign `null` to a variable with type `number`?**
+#### **Answer:**
+By default, **TypeScript does not allow `null` to be assigned to a `number` type** unless `strictNullChecks` is disabled.
+
+```typescript
+let num: number = null; // Error if strictNullChecks is enabled
+let num2: number | null = null; // ✅ Allowed with union type
+```
+
+---
+
+### **Q5: What is the difference between `interface` and `type` in TypeScript?**
+#### **Answer:**
+Both are used to define object shapes but have some key differences:
+
+| Feature        | `interface` | `type` |
+|---------------|------------|--------|
+| Extensibility | Can be extended (`extends`) | Cannot be extended directly |
+| Merging       | Interfaces can merge | Types cannot merge |
+| Usage        | Best for objects and classes | Best for unions and primitives |
+
+**Example:**
+```typescript
+interface Person {
+  name: string;
+  age: number;
+}
+
+type Car = {
+  brand: string;
+  model: string;
+};
+```
+
+---
+
+### **Q6: What is the difference between `readonly` and `const`?**
+#### **Answer:**
+- **`readonly`** is used for object properties, making them immutable.
+- **`const`** is used for variables to prevent reassignment.
+
+**Example:**
+```typescript
+const x = 10;
+x = 20; // Error: Cannot reassign a const variable
+
+class Test {
+  readonly id = 123;
+}
+let obj = new Test();
+obj.id = 456; // Error: Cannot assign to 'id' because it is a read-only property
+```
+
+---
+
+### **Q7: What is the output of the following TypeScript snippet?**
+```typescript
+enum Status {
+  Active,
+  Inactive,
+  Pending
+}
+
+console.log(Status.Active);
+console.log(Status[0]);
+```
+#### **Answer:**
+```
+0
+"Active"
+```
+- Enums in TypeScript are **numeric by default**.
+- `Status.Active` resolves to `0`.
+- `Status[0]` resolves to `"Active"`.
+
+---
+
+### **Q8: What will be the output?**
+```typescript
+let arr: number[] = [1, 2, 3];
+arr[5] = 10;
+console.log(arr);
+```
+#### **Answer:**
+```
+[1, 2, 3, empty × 2, 10]
+```
+- JavaScript allows sparse arrays.
+- The missing indices will be `empty`.
+
+---
+
+### **Q9: How does TypeScript handle function overloading?**
+#### **Answer:**
+TypeScript allows function overloading using multiple signatures.
+
+```typescript
+function add(x: number, y: number): number;
+function add(x: string, y: string): string;
+function add(x: any, y: any): any {
+  return x + y;
+}
+
+console.log(add(5, 10)); // 15
+console.log(add("Hello, ", "World")); // Hello, World
+```
+
+---
+
+### **Q10: What will be the output of the following code?**
+```typescript
+let foo: { bar: number, baz?: string } = { bar: 42 };
+console.log(foo.baz?.toUpperCase());
+```
+#### **Answer:**
+```
+undefined
+```
+- The **optional chaining (`?.`)** prevents errors when accessing `baz`, which is optional.
+- If `baz` is `undefined`, the method is not called.
+
+---
+
+## **Conclusion**
+Understanding TypeScript data types and tricky concepts like `unknown`, `never`, `readonly`, `enum`, and function overloading is crucial for interviews. Mastering these topics will help in writing robust and type-safe code in TypeScript.
+
+Would you like more in-depth explanations on any of these topics? 🚀
+
+
+Here are **more tricky TypeScript interview questions** with detailed answers. These questions cover edge cases, TypeScript quirks, and important concepts like advanced types, generics, and type inference.
+
+---
+
+## **More Tricky TypeScript Interview Questions**
+
+### **Q11: What will be the output of the following code?**
+```typescript
+let value: unknown = "Hello, TypeScript!";
+console.log((value as number) + 10);
+```
+#### **Answer:**
+```
+Runtime Error: NaN (Not a Number)
+```
+- `unknown` requires type checking before performing operations.
+- Type assertion (`as number`) does not change the actual value.
+- `"Hello, TypeScript!"` is **not** a number, so `NaN` is returned.
+
+✅ **Safer Approach:**
+```typescript
+if (typeof value === "number") {
+  console.log(value + 10);
+}
+```
+
+---
+
+### **Q12: What is the difference between `null` and `undefined` in TypeScript?**
+#### **Answer:**
+| Feature     | `null` | `undefined` |
+|------------|--------|-------------|
+| Meaning    | Explicitly set as empty | Value is missing |
+| Type       | `null` type | `undefined` type |
+| Use Case   | Intentional absence of value | Uninitialized variables |
+| `typeof`   | `object` (JS quirk) | `undefined` |
+
+```typescript
+let a: null = null;
+let b: undefined = undefined;
+```
+
+---
+
+### **Q13: What happens if a function does not return a value?**
+#### **Answer:**
+If a function does not return anything, TypeScript assigns it the type `void`.
+
+```typescript
+function logMessage(): void {
+  console.log("Hello");
+}
+```
+
+🚨 **Tricky Part:**
+```typescript
+function test(): void {
+  return null; // Error in strict mode
+}
+```
+- `null` cannot be assigned to `void` in strict mode.
+- If `strictNullChecks` is disabled, it works.
+
+---
+
+### **Q14: What will be the output?**
+```typescript
+const obj = { name: "Alice" } as const;
+obj.name = "Bob";
+console.log(obj.name);
+```
+#### **Answer:**
+❌ **Compilation Error**: `Cannot assign to 'name' because it is a read-only property.`
+
+- **`as const`** makes `obj` a **readonly object**, so its properties cannot be changed.
+- This is useful for defining immutable values.
+
+✅ **Correct Approach:**
+```typescript
+const obj = { name: "Alice" };
+obj.name = "Bob"; // Allowed
+```
+
+---
+
+### **Q15: What is the difference between `type` and `interface` in TypeScript?**
+#### **Answer:**
+- **`type`** is used for primitive types, unions, intersections.
+- **`interface`** is mainly for object shapes and can be extended.
+
+✅ **Example:**
+```typescript
+type Person = { name: string; age: number };
+interface Employee { id: number; salary: number; }
+
+type Developer = Person & Employee; // Intersection
+```
+**Key Difference:**
+- `interface` supports declaration merging.
+- `type` is better for unions (`string | number`).
+
+---
+
+### **Q16: What is the output of this function call?**
+```typescript
+function greet(name = "Guest"): string {
+  return `Hello, ${name.toUpperCase()}!`;
+}
+console.log(greet(null));
+```
+#### **Answer:**
+❌ **Runtime Error: Cannot read properties of null (reading 'toUpperCase')**
+
+- `null` is **not a string**, so calling `.toUpperCase()` fails.
+- TypeScript does **not** enforce the default value if `null` is passed.
+
+✅ **Fix:**
+```typescript
+function greet(name?: string): string {
+  return `Hello, ${(name ?? "Guest").toUpperCase()}!`;
+}
+```
+- Uses **Nullish Coalescing (`??`)** to handle `null`.
+
+---
+
+### **Q17: What is TypeScript’s `keyof` operator?**
+#### **Answer:**
+- `keyof` returns **the keys of an object type as a union**.
+
+```typescript
+type Person = { name: string; age: number };
+type Keys = keyof Person; // "name" | "age"
+```
+
+✅ **Example Use Case:**
+```typescript
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+const person = { name: "Alice", age: 25 };
+console.log(getProperty(person, "name")); // "Alice"
+```
+
+---
+
+### **Q18: What does this generic function do?**
+```typescript
+function identity<T>(value: T): T {
+  return value;
+}
+```
+#### **Answer:**
+- This is a **generic function**.
+- `T` is a **type placeholder**, which is determined at function call time.
+
+✅ **Example Usage:**
+```typescript
+console.log(identity(5)); // Type: number
+console.log(identity("Hello")); // Type: string
+```
+
+---
+
+### **Q19: What is the output?**
+```typescript
+type A = { x: string };
+type B = { y: number };
+type C = A & B;
+
+const obj: C = { x: "hello", y: 42 };
+console.log(obj);
+```
+#### **Answer:**
+```
+{ x: "hello", y: 42 }
+```
+- `A & B` creates an **intersection type** combining both.
+- Object `obj` has both `x` and `y` properties.
+
+---
+
+### **Q20: What will be the output of this `enum`?**
+```typescript
+enum Role {
+  User = "USER",
+  Admin = "ADMIN"
+}
+
+console.log(Role.User);
+console.log(Role[0]);
+```
+#### **Answer:**
+```
+USER
+undefined
+```
+- `Role.User` returns `"USER"`.
+- `Role[0]` is `undefined` because **string enums do not have reverse mappings**.
+
+---
+
+### **Q21: What is the difference between `Partial<T>` and `Readonly<T>`?**
+#### **Answer:**
+| Utility Type  | Description |
+|--------------|-------------|
+| `Partial<T>`  | Makes all properties optional |
+| `Readonly<T>` | Makes all properties immutable |
+
+✅ **Example:**
+```typescript
+type User = { name: string; age: number };
+let p: Partial<User> = {}; // No error
+let r: Readonly<User> = { name: "Alice", age: 30 };
+// r.name = "Bob"; // Error: Read-only property
+```
+
+---
+
+### **Q22: How do you make a deep `readonly` type in TypeScript?**
+#### **Answer:**
+```typescript
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: DeepReadonly<T[P]>;
+};
+```
+- This makes **nested objects** fully immutable.
+
+✅ **Example:**
+```typescript
+type Person = { name: string; address: { city: string } };
+const obj: DeepReadonly<Person> = { name: "Alice", address: { city: "NY" } };
+// obj.address.city = "LA"; // ❌ Error: Readonly
+```
+
+---
+
+### **Q23: What is `infer` in TypeScript?**
+#### **Answer:**
+- `infer` is used in conditional types to **extract a type**.
+
+✅ **Example:**
+```typescript
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+type Example = ReturnType<() => string>; // "string"
+```
+- Extracts **return type** of a function.
+
+---
+
+## **Conclusion**
+TypeScript has many **hidden complexities** that often appear in **interviews**. Understanding these advanced concepts will help you stand out.
+
+Want **even trickier questions** or a **quiz** on TypeScript? 🚀
