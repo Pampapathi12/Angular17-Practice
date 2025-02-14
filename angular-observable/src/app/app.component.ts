@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { from, fromEvent, Observable, of } from 'rxjs';
+import { filter, from, fromEvent, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -217,30 +217,87 @@ export class AppComponent implements AfterViewInit {
 createBtn: ElementRef;
 createBtnObs;
 
-buttonClicked(){ // calling this method after ngafterviewinit life cycle
-  // from event is rxjs operator, in that we need pass the 2 argument one target event element and target listen argumwnt
-  let count = 0;
-this.createBtnObs =  fromEvent(this.createBtn.nativeElement, 'click')// it return as observable
-.subscribe((data) =>{
-  console.log('data', data)
-  this.showItem(count++);
-})
-}
+// buttonClicked(){ // calling this method after ngafterviewinit life cycle
+//   // from event is rxjs operator, in that we need pass the 2 argument one target event element and target listen argumwnt
+//   let count = 0;
+// this.createBtnObs =  fromEvent(this.createBtn.nativeElement, 'click')// it return as observable
+// .subscribe((data) =>{
+//   console.log('data', data)
+//   this.showItem(count++);
+// })
+// }
 
 ngAfterViewInit(){
-  this.buttonClicked();
+  // this.buttonClicked();
 }
 
-showItem(val){
- let div = document.createElement('div');
+// showItem(val){
+//  let div = document.createElement('div');
 
- div.innerText = 'Item' + val;
- div.className = 'data-list'
- document.getElementById('container').appendChild(div)
+//  div.innerText = 'Item' + val;
+//  div.className = 'data-list'
+//  document.getElementById('container').appendChild(div)
+
+// }
+
+
+
+
+
+// 73 RxJS map & filter Operator
+
+// transfrom the data into observable
+
+
+
+
+
+
+myObservable3 = from([1,2,3,4,5,6,7,8,9,12,10])
+transFormObs = this.myObservable3.pipe(map((val) =>{
+
+ return val * 10
+  
+}), (filter((val:number, i) =>{
+  return val % 4 === 0;
+ 
+ })))
+
+// filteredObs = this.transFormObs.pipe(filter((val:number, i) =>{
+//  return val % 4 === 0;
+
+// }))
+
+// pipe operator is compulsory, chain operator, pipe operator return the transform obsevable
+
+
+
+GetAsyncData3(){
+
+   
+  // this.transFormObs.subscribe((val:any) =>{
+
+  this.transFormObs.subscribe((val:any) =>{
+
+   
+
+    this.data.push(val);
+
+    console.log(this.data)// from operator take each element and iterator one after one the printing
+  },
+    (err) => {
+
+      alert(err.message)
+
+  },
+() =>{
+
+  alert('all the data subscribed')
+
+});
+
 
 }
-
-
 
 
 }

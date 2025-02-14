@@ -1,0 +1,8 @@
+-> the typescript compilers compiles the new features of typescript to javascript using some work 
+arounds in javascript
+-> typescript is strongly typed
+-> javascript dynmically change
+
+-> data type is very strictly and canot change
+-> in javascript dynamically change type of the varibale
+-> we can explicity specify the datatype for a varibale, which allows to catch any error and avoid bugs 
