@@ -1,0 +1,3 @@
+npm --version
+npm install -g typescript
+tsc app.ts -> run the typescript code
