@@ -97,35 +97,85 @@ let person12: {
     }
 } */
 /* #07 Arrays in TypeScript */
-var person = ['john', 28, 'male', 1000, true]; // type is number and string
+/* let person = ['john',28,'male',1000,true]// type is number and string
+
 //person.push(true)//Argument of type 'boolean' is not assignable to parameter of type 'string | number'.
-person.push(28);
-var names = ['john', 'mark', 'steve'];
-var brithyear = [1998, 1989, 2007]; // type as inferred, explictiliy assign'
-names.push('pampa');
-var city = [];
-city.push(583114, 'pampa');
-console.log(city);
-console.log(city[0]);
-for (var _i = 0, brithyear_1 = brithyear; _i < brithyear_1.length; _i++) {
-    var year = brithyear_1[_i];
-    console.log(year);
+person.push(28)
+
+
+
+
+let names: string[] = ['john','mark','steve' ]
+let brithyear: number[] = [1998,1989,2007];// type as inferred, explictiliy assign'
+names.push('pampa')
+
+let city: (string | number)[] = []
+
+city.push(583114,'pampa')
+console.log(city)
+console.log(city[0])
+
+for(let year of brithyear){
+    console.log(year)
 }
+
+
 //using the generic type
-var numbers = [1, 2, 3, 4, 5];
-var names1 = ["Alice", "bob", "charlie"];
-console.log(numbers[0]);
-console.log(numbers[2]);
+let numbers: Array<number> = [1,2,3,4,5];
+let names1: Array<string> = ["Alice","bob","charlie"]
+console.log(numbers[0])
+console.log(numbers[2])
+
 // Tuples
-var person12 = ['Alice', 25];
-console.log(person12[0], person12[1]);
+
+let person12 : [string,number] = ['Alice',25]
+console.log(person12[0],person12[1])
+
 // multidimensional array
-var matrix = [
-    [1, 2, 3],
-    [4, 5, 6]
-];
-console.log(matrix[1][2]);
+
+let matrix:  number[][] = [
+    [1,2,3],
+    [4,5,6]
+
+]
+
+console.log(matrix[1][2])
+
 // union types in array
-var mixed = [];
-mixed.push(1, 2, 'pampa', true);
-console.log(mixed[0]);
+let mixed: (number | string | boolean)[] = []
+
+mixed.push(1,2,'pampa',true);
+
+console.log(mixed[0])
+// array with any types
+
+let randomvalue: any[] = [1,2,3 ,'hello', true,{key:'value'}]
+
+//objexts array
+
+interface Student {
+    name: string,
+    age: number;
+}
+
+let students : Student[] = [
+
+    {name: 'pampa', age:22},
+    {name: 'reddy', age:312}
+
+]
+
+console.log(students[0].name)// array of object value accesings */
+/* 08 Tuples in TypeScript */
+var employee = [123, 'pampa', 1234, true];
+// Type '[number, string, number, true, number]' is not assignable to type '[number, string, number, boolean]'.
+//   Source has 5 element(s) but target allows only 4.
+//tuples is fixed length, make each element as type of the data
+console.log(employee); // tuples converted in array of javascript
+employee.push(100); // not showing the error , push time show not error
+console.log(employee);
+// tuple with optional parameter
+var employee12 = ["john", 30];
+console.log(employee12);
+employee12[2] = true;
+console.log(employee);

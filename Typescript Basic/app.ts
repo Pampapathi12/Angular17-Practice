@@ -108,7 +108,7 @@ let person12: {
 
 /* #07 Arrays in TypeScript */
 
-let person = ['john',28,'male',1000,true]// type is number and string
+/* let person = ['john',28,'male',1000,true]// type is number and string
 
 //person.push(true)//Argument of type 'boolean' is not assignable to parameter of type 'string | number'.
 person.push(28)
@@ -176,4 +176,20 @@ let students : Student[] = [
 
 ]
 
-console.log(students[0].name)// array of object value accesings
+console.log(students[0].name)// array of object value accesings */
+
+/* 08 Tuples in TypeScript */
+
+let employee:  [number,string,number,boolean] = [123,'pampa',1234,true]
+// Type '[number, string, number, true, number]' is not assignable to type '[number, string, number, boolean]'.
+//   Source has 5 element(s) but target allows only 4.
+//tuples is fixed length, make each element as type of the data
+console.log(employee)// tuples converted in array of javascript
+
+employee.push(100)// not showing the error , push time show not error
+console.log(employee)
+// tuple with optional parameter
+let employee12: [string,number,boolean?] = ["john", 30]
+console.log(employee12)
+employee12[2] = true;
+console.log(employee)
