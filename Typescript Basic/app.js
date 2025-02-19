@@ -167,15 +167,33 @@ let students : Student[] = [
 
 console.log(students[0].name)// array of object value accesings */
 /* 08 Tuples in TypeScript */
-var employee = [123, 'pampa', 1234, true];
+/* let employee:  [number,string,number,boolean] = [123,'pampa',1234,true]
 // Type '[number, string, number, true, number]' is not assignable to type '[number, string, number, boolean]'.
 //   Source has 5 element(s) but target allows only 4.
 //tuples is fixed length, make each element as type of the data
-console.log(employee); // tuples converted in array of javascript
-employee.push(100); // not showing the error , push time show not error
-console.log(employee);
+console.log(employee)// tuples converted in array of javascript
+
+employee.push(100)// not showing the error , push time show not error
+console.log(employee)
 // tuple with optional parameter
-var employee12 = ["john", 30];
-console.log(employee12);
+let employee12: [string,number,boolean?] = ["john", 30]
+console.log(employee12)
 employee12[2] = true;
-console.log(employee);
+console.log(employee) */
+/* 09 Enums in TypeScript */
+var Roles;
+(function (Roles) {
+    Roles[Roles["ADMIN"] = 0] = "ADMIN";
+    Roles[Roles["READ_ONLY"] = 1] = "READ_ONLY";
+    Roles[Roles["WRITE_ONLY"] = 2] = "WRITE_ONLY";
+    Roles[Roles["READ_WRITE"] = 3] = "READ_WRITE";
+})(Roles || (Roles = {}));
+var user = {
+    name: 'john',
+    age: 30,
+    gender: 'male',
+    role: Roles.ADMIN
+};
+if (user.role === Roles.ADMIN) {
+    console.log('this user is an admin');
+}

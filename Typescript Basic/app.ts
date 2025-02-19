@@ -180,7 +180,7 @@ console.log(students[0].name)// array of object value accesings */
 
 /* 08 Tuples in TypeScript */
 
-let employee:  [number,string,number,boolean] = [123,'pampa',1234,true]
+/* let employee:  [number,string,number,boolean] = [123,'pampa',1234,true]
 // Type '[number, string, number, true, number]' is not assignable to type '[number, string, number, boolean]'.
 //   Source has 5 element(s) but target allows only 4.
 //tuples is fixed length, make each element as type of the data
@@ -192,4 +192,45 @@ console.log(employee)
 let employee12: [string,number,boolean?] = ["john", 30]
 console.log(employee12)
 employee12[2] = true;
-console.log(employee)
+console.log(employee) */
+
+
+/* 09 Enums in TypeScript */
+
+enum Roles {
+    ADMIN,
+    READ_ONLY,
+    WRITE_ONLY,
+    READ_WRITE,// NAMED VALUE, INCREMENT
+}
+
+const  user = {
+    name: 'john',
+    age: 30,
+    gender: 'male',
+    role: Roles.ADMIN
+
+}
+
+if(user.role ===  Roles.ADMIN){
+    console.log('this user is an admin')
+}
+
+enum Direction {
+    Up,
+    Down,
+    Left,
+    RIght
+}
+/* By default, TypeScript assigns numeric values starting from 0.
+Up = 0, Down = 1, Left = 2, Right = 3. */
+
+console.log(Direction.Up, Direction.Down)
+
+enum Status {
+    Pending = 1,
+    InProgress = 5,
+    Completed = 10,
+}
+
+console.log(Status.Pending)
