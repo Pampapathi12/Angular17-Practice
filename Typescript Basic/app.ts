@@ -64,7 +64,7 @@ console.log(n1,n2); */
 /* 06 Object Type in TypeScript  */
 
 
-let person = {
+/* let person = {
     name: 'John',
     age: 30,
     gender: 'female',
@@ -104,5 +104,76 @@ let person12: {
         city: 'london',
         country: 'India'
     }
+} */
+
+/* #07 Arrays in TypeScript */
+
+let person = ['john',28,'male',1000,true]// type is number and string
+
+//person.push(true)//Argument of type 'boolean' is not assignable to parameter of type 'string | number'.
+person.push(28)
+
+
+
+
+let names: string[] = ['john','mark','steve' ]
+let brithyear: number[] = [1998,1989,2007];// type as inferred, explictiliy assign'
+names.push('pampa')
+
+let city: (string | number)[] = []
+
+city.push(583114,'pampa')
+console.log(city)
+console.log(city[0])
+
+for(let year of brithyear){
+    console.log(year)
 }
 
+
+//using the generic type
+let numbers: Array<number> = [1,2,3,4,5];
+let names1: Array<string> = ["Alice","bob","charlie"]
+console.log(numbers[0])
+console.log(numbers[2])
+
+// Tuples
+
+let person12 : [string,number] = ['Alice',25]
+console.log(person12[0],person12[1])
+
+// multidimensional array
+
+let matrix:  number[][] = [
+    [1,2,3],
+    [4,5,6]
+
+]
+
+console.log(matrix[1][2])
+
+// union types in array
+let mixed: (number | string | boolean)[] = []
+
+mixed.push(1,2,'pampa',true);
+
+console.log(mixed[0])
+// array with any types
+
+let randomvalue: any[] = [1,2,3 ,'hello', true,{key:'value'}]
+
+//objexts array
+
+interface Student {
+    name: string,
+    age: number;
+}
+
+let students : Student[] = [
+
+    {name: 'pampa', age:22},
+    {name: 'reddy', age:312}
+
+]
+
+console.log(students[0].name)// array of object value accesings

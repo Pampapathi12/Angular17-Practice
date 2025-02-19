@@ -55,24 +55,77 @@ console.log(n1,n2); */
 //console.log(sum('12',13))// string value and number will continate
 //Argument of type 'string' is not assignable to parameter of type 'number
 /* 06 Object Type in TypeScript  */
-var person = {
+/* let person = {
     name: 'John',
     age: 30,
     gender: 'female',
-}; // type object doing type inference
-// using a object 
-var person1 = {
+}// type object doing type inference
+// using a object
+
+let person1 = {
     name: 'John',
     age: 30,
     gender: 'female',
-};
-var person2 = {
+}
+
+let person2: {name:string,age:number} = { // explicty specifying
     name: 'John',
     age: 30,
     // gender: 'female',
-};
-person = { name: 'mark', age: 32, gender: 'male' }; //Object literal may only specify known properties, and 'gender' does not exist in type '{ name: string; age: number; }
+}
+
+person = {name: 'mark', age: 32, gender: 'male'}//Object literal may only specify known properties, and 'gender' does not exist in type '{ name: string; age: number; }
 //person = {name: 'mark', age: 32}//Property 'gender' is missing in type '{ name: string; age: number; }' but required in type '{ name: string; age: number; gender: string; }'.
+
 //console.log(person2.gender)
-console.log(person1.name); //roperty 'name' does not exist on type 'object'.
-console.log(person["age"]);
+console.log(person1.name)//roperty 'name' does not exist on type 'object'.
+console.log(person["age"])// suare bracket notation for accesing the object key value
+
+let person12: {
+    name: string,
+    age: number,
+    address: {
+        city: string,
+        country: string
+    }
+} = {
+    name: 'John',
+    age: 30,
+    address: {
+        city: 'london',
+        country: 'India'
+    }
+} */
+/* #07 Arrays in TypeScript */
+var person = ['john', 28, 'male', 1000, true]; // type is number and string
+//person.push(true)//Argument of type 'boolean' is not assignable to parameter of type 'string | number'.
+person.push(28);
+var names = ['john', 'mark', 'steve'];
+var brithyear = [1998, 1989, 2007]; // type as inferred, explictiliy assign'
+names.push('pampa');
+var city = [];
+city.push(583114, 'pampa');
+console.log(city);
+console.log(city[0]);
+for (var _i = 0, brithyear_1 = brithyear; _i < brithyear_1.length; _i++) {
+    var year = brithyear_1[_i];
+    console.log(year);
+}
+//using the generic type
+var numbers = [1, 2, 3, 4, 5];
+var names1 = ["Alice", "bob", "charlie"];
+console.log(numbers[0]);
+console.log(numbers[2]);
+// Tuples
+var person12 = ['Alice', 25];
+console.log(person12[0], person12[1]);
+// multidimensional array
+var matrix = [
+    [1, 2, 3],
+    [4, 5, 6]
+];
+console.log(matrix[1][2]);
+// union types in array
+var mixed = [];
+mixed.push(1, 2, 'pampa', true);
+console.log(mixed[0]);
