@@ -36,17 +36,43 @@ console.log(Boolean(100), Boolean(''), Boolean(null), Boolean('hello'));
 let isGreater = 10 > 15;// result as boolean type based on the condition
 console.log(isGreater) */
 /* 05 Type Assignment & Type Inference */
-function sum(num1, num2, isPrint, msg) {
-    if (isPrint) {
-        var s = num1 + num2;
-        console.log(msg + '' + s);
+/* function sum(num1: number, num2:number, isPrint:boolean, msg:string){
+    if(isPrint){
+        let s = num1 + num2;
+        console.log(msg+'' +s)
     }
     return num1 + num2;
 }
-var n1 = 10;
-var n2 = '20'; // type inference, which we have initilize the value
+
+let n1 = 10;
+let n2 = '20';// type inference, which we have initilize the value
 //n2 = 'pampa'// error Type 'string' is not assignable to type 'number'.
-console.log(sum(12, 13, true, "sum is ="));
-console.log(n1, n2);
+
+
+
+console.log(sum(12,13,true, "sum is ="));
+console.log(n1,n2); */
 //console.log(sum('12',13))// string value and number will continate
 //Argument of type 'string' is not assignable to parameter of type 'number
+/* 06 Object Type in TypeScript  */
+var person = {
+    name: 'John',
+    age: 30,
+    gender: 'female',
+}; // type object doing type inference
+// using a object 
+var person1 = {
+    name: 'John',
+    age: 30,
+    gender: 'female',
+};
+var person2 = {
+    name: 'John',
+    age: 30,
+    // gender: 'female',
+};
+person = { name: 'mark', age: 32, gender: 'male' }; //Object literal may only specify known properties, and 'gender' does not exist in type '{ name: string; age: number; }
+//person = {name: 'mark', age: 32}//Property 'gender' is missing in type '{ name: string; age: number; }' but required in type '{ name: string; age: number; gender: string; }'.
+//console.log(person2.gender)
+console.log(person1.name); //roperty 'name' does not exist on type 'object'.
+console.log(person["age"]);

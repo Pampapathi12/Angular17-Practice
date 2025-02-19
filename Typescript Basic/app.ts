@@ -42,7 +42,7 @@ console.log(isGreater) */
 /* 05 Type Assignment & Type Inference */
 
 
-function sum(num1: number, num2:number, isPrint:boolean, msg:string){
+/* function sum(num1: number, num2:number, isPrint:boolean, msg:string){
     if(isPrint){
         let s = num1 + num2;
         console.log(msg+'' +s)
@@ -57,7 +57,52 @@ let n2 = '20';// type inference, which we have initilize the value
 
 
 console.log(sum(12,13,true, "sum is ="));
-console.log(n1,n2);
+console.log(n1,n2); */
 //console.log(sum('12',13))// string value and number will continate
 //Argument of type 'string' is not assignable to parameter of type 'number
+
+/* 06 Object Type in TypeScript  */
+
+
+let person = {
+    name: 'John',
+    age: 30,
+    gender: 'female',
+}// type object doing type inference
+// using a object 
+
+let person1 = {
+    name: 'John',
+    age: 30,
+    gender: 'female',
+}
+
+let person2: {name:string,age:number} = { // explicty specifying
+    name: 'John',
+    age: 30,
+    // gender: 'female',
+}
+
+person = {name: 'mark', age: 32, gender: 'male'}//Object literal may only specify known properties, and 'gender' does not exist in type '{ name: string; age: number; }
+//person = {name: 'mark', age: 32}//Property 'gender' is missing in type '{ name: string; age: number; }' but required in type '{ name: string; age: number; gender: string; }'.
+
+//console.log(person2.gender)
+console.log(person1.name)//roperty 'name' does not exist on type 'object'.
+console.log(person["age"])// suare bracket notation for accesing the object key value
+
+let person12: {
+    name: string,
+    age: number,
+    address: {
+        city: string,
+        country: string
+    }
+} = {
+    name: 'John',
+    age: 30,
+    address: {
+        city: 'london',
+        country: 'India'
+    }
+}
 
