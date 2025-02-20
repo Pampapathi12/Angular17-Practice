@@ -1,0 +1,191 @@
+# **Union Type in TypeScript**
+
+## **1. What is a Union Type?**
+In TypeScript, a **union type** allows a variable, parameter, or return type to hold **multiple types** instead of just one. It is defined using the **pipe (`|`)** operator.
+
+Union types help provide **flexibility** while maintaining **type safety**, ensuring that a variable can hold only the specified types.
+
+---
+
+## **2. Syntax of Union Type**
+```typescript
+let variable: type1 | type2 | type3;
+```
+Here, `variable` can hold a value of either `type1`, `type2`, or `type3`.
+
+---
+
+## **3. Example: Basic Union Type**
+```typescript
+let data: string | number;
+
+data = "Hello";  // ✅ Allowed
+data = 42;       // ✅ Allowed
+// data = true;  // ❌ Error: Type 'boolean' is not assignable to 'string | number'
+```
+Since `data` can be **either** a `string` **or** a `number`, TypeScript will enforce that only these types are assigned.
+
+---
+
+## **4. Union Type with Functions**
+A function can accept multiple types using a union type.
+
+### **Example: Function with Union Type Parameter**
+```typescript
+function display(value: string | number): void {
+    console.log(value);
+}
+
+display("Hello");  // ✅ Allowed
+display(123);      // ✅ Allowed
+// display(true);  // ❌ Error: Argument of type 'boolean' is not assignable to 'string | number'
+```
+Here, the function `display` can take either a `string` or a `number`, but not a `boolean`.
+
+---
+
+## **5. Union Type with Arrays**
+A union type can also be used in arrays, allowing elements of multiple types.
+
+### **Example: Array with Union Types**
+```typescript
+let mixedArray: (string | number)[] = ["Alice", 25, "Bob", 30];
+
+console.log(mixedArray); // ✅ Allowed
+// mixedArray.push(true);  // ❌ Error: Type 'boolean' is not assignable to 'string | number'
+```
+Here, `mixedArray` can contain both `string` and `number`, but **not** `boolean`.
+
+---
+
+## **6. Handling Union Types Using Type Guards**
+Since a union type can store multiple types, we need **type guards** to determine which type is currently in use.
+
+### **Example: Type Guard with `typeof`**
+```typescript
+function processInput(input: string | number) {
+    if (typeof input === "string") {
+        console.log("String length:", input.length);
+    } else {
+        console.log("Squared value:", input * input);
+    }
+}
+
+processInput("Hello");  // Output: String length: 5
+processInput(4);        // Output: Squared value: 16
+```
+The `typeof` operator is used to check whether `input` is a `string` or a `number` before performing operations.
+
+---
+
+## **7. Union Type with Objects**
+A function can accept different object types using a union.
+
+### **Example: Union Type with Objects**
+```typescript
+type Car = { brand: string; speed: number };
+type Bike = { brand: string; gears: number };
+
+function getVehicleInfo(vehicle: Car | Bike) {
+    console.log("Brand:", vehicle.brand);
+
+    if ("speed" in vehicle) {
+        console.log("Speed:", vehicle.speed);
+    } else {
+        console.log("Gears:", vehicle.gears);
+    }
+}
+
+getVehicleInfo({ brand: "Toyota", speed: 120 });  // ✅ Allowed
+getVehicleInfo({ brand: "Yamaha", gears: 6 });    // ✅ Allowed
+```
+Here, the function uses the **`in` operator** to check whether the property `speed` or `gears` exists.
+
+---
+
+## **8. Union Type vs Any**
+| Feature        | Union Type (`string | number`) | `any` |
+|---------------|--------------------------------|------|
+| Type Safety   | ✅ Ensures only defined types are used | ❌ No type checking |
+| Auto-Completion | ✅ Available in IDEs | ❌ Not available |
+| Error Detection | ✅ Catches errors at compile-time | ❌ Errors may appear at runtime |
+
+Using a **union type** is **safer** than `any` because it **limits** the accepted types.
+
+---
+
+## **9. Union Type with Type Aliases**
+To improve readability, **type aliases** can be used with union types.
+
+### **Example: Type Alias with Union Type**
+```typescript
+type ID = string | number;
+
+let userID: ID;
+userID = "user123";  // ✅ Allowed
+userID = 456;        // ✅ Allowed
+// userID = true;    // ❌ Error: Type 'boolean' is not assignable to 'ID'
+```
+Using `type ID = string | number;` improves readability and reusability.
+
+---
+
+## **10. Union Type with Function Return Type**
+A function can return different types using a union type.
+
+### **Example: Function Returning Union Type**
+```typescript
+function getValue(isString: boolean): string | number {
+    return isString ? "Hello" : 42;
+}
+
+console.log(getValue(true));  // ✅ Returns: "Hello"
+console.log(getValue(false)); // ✅ Returns: 42
+```
+The return type is **either** a `string` or a `number` based on the condition.
+
+---
+
+## **11. Union Type with Discriminated Unions**
+A **discriminated union** is a technique to work with union types more safely by using a common **discriminant property**.
+
+### **Example: Discriminated Union**
+```typescript
+type Circle = { kind: "circle"; radius: number };
+type Square = { kind: "square"; side: number };
+
+function getArea(shape: Circle | Square): number {
+    if (shape.kind === "circle") {
+        return Math.PI * shape.radius * shape.radius;
+    } else {
+        return shape.side * shape.side;
+    }
+}
+
+console.log(getArea({ kind: "circle", radius: 5 }));  // ✅ Output: 78.5398
+console.log(getArea({ kind: "square", side: 4 }));   // ✅ Output: 16
+```
+Using a **common `kind` property** allows TypeScript to **narrow** the type safely.
+
+---
+
+## **12. When to Use Union Types?**
+✅ Use union types when:
+- A variable can have multiple possible types.
+- A function parameter can accept different types.
+- A function can return multiple types.
+- Defining object types that can vary.
+
+❌ Avoid union types when:
+- The number of possible types is too large (use `unknown` instead).
+- Strict type checking is required.
+
+---
+
+## **Conclusion**
+- Union types allow variables, function parameters, and return types to hold multiple types.
+- They help maintain flexibility while still enforcing type safety.
+- Type guards (`typeof`, `in`, `instanceof`) help distinguish types in a union.
+- Type aliases and discriminated unions improve code clarity and maintainability.
+
+Would you like additional real-world examples? 🚀

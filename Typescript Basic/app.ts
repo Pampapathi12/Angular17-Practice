@@ -236,7 +236,7 @@ enum Status {
 console.log(Status.Pending) */
 
 
-let dynamicData: any;
+/* let dynamicData: any;
 dynamicData = 100;
 dynamicData = 'pampa';
 dynamicData = ['hello', 123]
@@ -271,4 +271,31 @@ let value: any;
 value = "Hello";
 
 console.log(value.toUpperCase());
-console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is not a function
+console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is not a function */
+
+
+/* #11 Union Type in TypeScript */
+
+let user: {user:string, age: number} | null = null;
+
+function getUser(){
+    const uname = 'pampapathi';
+    const age = 30;
+    user = {user:uname,age:age}
+    return user
+}
+getUser();
+
+
+function printMessage(message:string, code:string | number){
+
+    if(typeof code === 'string'){
+    console.log(`${message}. status code: ${code.trim()}`)
+    }
+    else{
+        console.log(`${message}. status code: ${code}`)
+    }
+    // Property 'trim' does not exist on type 'string | number'.Property 'trim' does not exist on type 'number
+}
+printMessage('request was successfull', 200);
+printMessage('resource was not found', ' 404');

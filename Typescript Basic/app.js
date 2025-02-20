@@ -218,29 +218,53 @@ enum Status {
 }s
 
 console.log(Status.Pending) */
-var dynamicData;
+/* let dynamicData: any;
 dynamicData = 100;
 dynamicData = 'pampa';
-dynamicData = ['hello', 123];
-dynamicData = { name: 'reddy', istrue: true };
+dynamicData = ['hello', 123]
+dynamicData = {name:'reddy', istrue:true}
 console.log(dynamicData);
-var arr;
-arr = ['heelo', 123, true, null, undefined];
-var test;
-console.log(typeof test);
-var data;
+
+let arr: any[];
+arr = ['heelo', 123,true,null,undefined];
+let test;
+console.log(typeof test)
+
+let data : any;
 data = 10;
+console.log(data)
+
+data = "hello"
 console.log(data);
-data = "hello";
-console.log(data);
+
 data = true;
-console.log(data);
-function fetchData() {
-    return { id: 1, name: "alice", active: true };
+console.log(data)
+
+function fetchData(): any{
+    return {id:1,name:"alice", active:true}
 }
-var user = fetchData();
-console.log(user.name);
-var value;
+let  user = fetchData()
+
+console.log(user.name)
+
+
+let value: any;
+
 value = "Hello";
+
 console.log(value.toUpperCase());
-console.log(value.toFixed(2));
+console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is not a function */
+/* #11 Union Type in TypeScript */
+var user = null;
+function getUser() {
+    var uname = 'pampapathi';
+    var age = 30;
+    user = { user: uname, age: age };
+    return user;
+}
+getUser();
+function printMessage(message, code) {
+    console.log("".concat(message, ". status code: ").concat(code));
+}
+printMessage('request was successfull', 200);
+printMessage('resource was not found', ' 404');
