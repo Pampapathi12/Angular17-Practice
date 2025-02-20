@@ -338,7 +338,7 @@ direction = "down"; */
 
 /* 13 Understanding Type Alias */
 
-type stringType = string;
+/* type stringType = string;
 let str : stringType = 'Hello'
 
 type StringOrNumber = string | number;
@@ -413,3 +413,19 @@ let user : user = {fname:'pampa', lname:'reddy', age: 30}
 console.log(getFullname(user))
 console.log(isElizible(user))
 
+ */
+
+/* 14 Function Return Type */
+
+function add(num1:number, num2:number){
+//  return  num1 + num2;// its going return number, wht result type
+
+//   console.log(num1+num2);
+  return num1 + num2;
+//  return (num1 + num2).toString()
+  
+}
+
+let add2 = add(1,2)
+
+console.log(add2)
