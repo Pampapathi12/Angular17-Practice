@@ -1,0 +1,130 @@
+Let's break down the execution of this TypeScript code step by step.
+
+---
+
+## **Code:**
+```typescript
+function getResult(num1: number, num2: number, print: (str: string, n: number) => void) {
+    const result = num1 + num2;
+    print('sum = ', result); // Calling the callback function
+}
+
+function display(msg: string, result: number) {
+    console.log(msg + result);
+}
+
+// Passing the 'display' function as a callback
+getResult(12, 13, display);
+```
+
+---
+
+## **Step-by-Step Execution**
+
+### **1. Function `getResult()` Explanation**
+- It **takes three parameters**:
+  1. `num1: number` - First number
+  2. `num2: number` - Second number
+  3. `print: (str: string, n: number) => void` - A **callback function** that takes:
+     - `str: string` (a message)
+     - `n: number` (a numerical value)
+
+- Inside `getResult()`, we calculate the sum:
+  ```typescript
+  const result = num1 + num2;
+  ```
+  - If `num1 = 12` and `num2 = 13`, then:
+    ```typescript
+    result = 12 + 13; // result = 25
+    ```
+
+- We **call the callback function** (`print()`) with two arguments:
+  ```typescript
+  print('sum = ', result);
+  ```
+  - This effectively becomes:
+    ```typescript
+    print('sum = ', 25);
+    ```
+
+---
+
+### **2. Function `display()` Explanation**
+- This function **matches the expected callback signature**:
+  ```typescript
+  function display(msg: string, result: number) {
+      console.log(msg + result);
+  }
+  ```
+- It takes:
+  - `msg: string` (message)
+  - `result: number` (sum value)
+- It **concatenates** the string and number, then logs it:
+  ```typescript
+  console.log(msg + result);
+  ```
+
+---
+
+### **3. Calling `getResult(12, 13, display)`**
+When calling:
+```typescript
+getResult(12, 13, display);
+```
+- `num1 = 12`
+- `num2 = 13`
+- `display` function is passed as a **callback**.
+
+---
+
+### **4. Execution Flow**
+| Step | Operation | Value |
+|------|------------|--------|
+| 1    | `getResult(12, 13, display)` is called | |
+| 2    | Inside `getResult()`, `result = 12 + 13` | `result = 25` |
+| 3    | `print('sum = ', result)` executes | Equivalent to `display('sum = ', 25)` |
+| 4    | Inside `display()`, `console.log('sum = ' + 25);` executes | Output: **"sum = 25"** |
+
+---
+
+## **Final Output**
+```
+sum = 25
+```
+
+---
+
+## **Key Takeaways**
+1. **Callback Function**:
+   - `display()` is **passed** as an argument and **executed** inside `getResult()`.
+  
+2. **Function Execution Order**:
+   - `getResult()` computes `result`.
+   - Then, `display('sum = ', result)` is called.
+
+3. **Callback Signature Must Match**:
+   - `display(msg: string, result: number)` matches `(str: string, n: number) => void`.
+
+---
+
+## **Alternative Example: Passing an Anonymous Callback**
+Instead of `display()`, we can pass an **anonymous function** directly:
+
+```typescript
+getResult(10, 5, (msg, num) => {
+    console.log(msg + num);
+});
+```
+### **Output**
+```
+sum = 15
+```
+
+---
+
+## **Conclusion**
+- This program demonstrates **callback functions in TypeScript**.
+- `getResult()` is a **higher-order function** that **calls** another function (`print()`).
+- `display()` is passed as an argument and executed inside `getResult()`.
+
+Would you like an example with **asynchronous callbacks** (like using `setTimeout()`)? 🚀

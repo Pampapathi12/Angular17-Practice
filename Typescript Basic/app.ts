@@ -466,8 +466,44 @@ greet(user)
 
  greet(user) */
 
- type AddFunction = (a:number, b:number) => number;
+/*  type AddFunction = (a:number, b:number) => number;
 
  const  add : AddFunction =(x,y) => x +y;
 
- console.log(add(5,10))
+ console.log(add(5,10)) */
+
+ /* 16 Function Type for Callback | TypeScript */
+
+ let addNumbers : (n1:number, n2:number) =>  number;
+
+ function sum(num1: number, num2: number){
+    return num1 + num2;
+ }
+
+ function add(num1: number, num2: number){
+
+    console.log(num1 + num2)
+    // return num1 + num2
+
+ }
+
+ addNumbers = sum;// works
+ //addNumbers = add;// error
+
+
+ function getResult(num1: number, num2:number, print:(str:string, n: number) => void){
+    const result = num1 + num2;
+    print('sum = ',result)// print paramert from 3rd any type call back, matches the signature of the display function and it calls the 
+ }
+
+ function display(msg:string, result: number){
+    console.log(msg + result);
+ }
+ getResult(12,13,display);// here passing the argument and display function 
+
+ function perFormOperation(num1:number, num2:number, callback:(a:number,b:number) => number){
+    let result = callback(num1,num2);
+    console.log("reult", result)
+ }
+
+ perFormOperation(1,2, (a,b) => a + b);
