@@ -474,7 +474,7 @@ greet(user)
 
  /* 16 Function Type for Callback | TypeScript */
 
- let addNumbers : (n1:number, n2:number) =>  number;
+ /* let addNumbers : (n1:number, n2:number) =>  number;
 
  function sum(num1: number, num2: number){
     return num1 + num2;
@@ -506,4 +506,44 @@ greet(user)
     console.log("reult", result)
  }
 
- perFormOperation(1,2, (a,b) => a + b);
+ perFormOperation(1,2, (a,b) => a + b); */
+
+ /* 17 Unknown Type in TypeScript */
+ let inputVal1: any;// anytype type of data
+ let inputVal: unknown;// at the creating , we dont know any type
+ let uname: string = 'someting';
+
+ inputVal = 100;
+//  inputVal = 'Hello'
+//  inputVal = [12,13]
+
+ inputVal = 'Hello'
+
+
+
+ if(typeof inputVal === 'string'){
+    uname = inputVal;
+ }
+
+ //uname = inputVal//Type 'unknown' is not assignable to type 'string'.
+ //inputVal = uname// works
+
+ console.log(uname);
+ console.log(typeof inputVal);
+
+ let a: any;
+let u: unknown;
+
+a = "Hello";  // ✅ Allowed
+u = "Hello";  // ✅ Allowed
+
+let str: string;
+str = a;  // ✅ Allowed
+//str = u;  // ❌ Error: Type 'unknown' is not assignable to type 'string'.
+
+let value: unknown;
+
+value = "Hello";   // ✅ Allowed
+value = 42;        // ✅ Allowed
+value = true;      // ✅ Allowed
+

@@ -442,26 +442,51 @@ greet(user)
 
  console.log(add(5,10)) */
 /* 16 Function Type for Callback | TypeScript */
-var addNumbers;
-function sum(num1, num2) {
-    return num1 + num2;
+/* let addNumbers : (n1:number, n2:number) =>  number;
+
+function sum(num1: number, num2: number){
+   return num1 + num2;
 }
-function add(num1, num2) {
-    console.log(num1 + num2);
-    // return num1 + num2
+
+function add(num1: number, num2: number){
+
+   console.log(num1 + num2)
+   // return num1 + num2
+
 }
-addNumbers = sum; // works
+
+addNumbers = sum;// works
 //addNumbers = add;// error
-function getResult(num1, num2, print) {
-    var result = num1 + num2;
-    print('sum = ', result); // print paramert from 3rd any type call back, matches the signature of the display function and it calls the 
+
+
+function getResult(num1: number, num2:number, print:(str:string, n: number) => void){
+   const result = num1 + num2;
+   print('sum = ',result)// print paramert from 3rd any type call back, matches the signature of the display function and it calls the
 }
-function display(msg, result) {
-    console.log(msg + result);
+
+function display(msg:string, result: number){
+   console.log(msg + result);
 }
-getResult(12, 13, display); // here passing the argument and display function 
-function perFormOperation(num1, num2, callback) {
-    var result = callback(num1, num2);
-    console.log("reult", result);
+getResult(12,13,display);// here passing the argument and display function
+
+function perFormOperation(num1:number, num2:number, callback:(a:number,b:number) => number){
+   let result = callback(num1,num2);
+   console.log("reult", result)
 }
-perFormOperation(1, 2, function (a, b) { return a + b; });
+
+perFormOperation(1,2, (a,b) => a + b); */
+/* 17 Unknown Type in TypeScript */
+//  let inputVal: any;// anytype type of data
+var inputVal; // at the creating , we dont know any type
+var uname = 'someting';
+inputVal = 100;
+//  inputVal = 'Hello'
+//  inputVal = [12,13]
+inputVal = 'Hello';
+if (typeof inputVal === 'string') {
+    uname = inputVal;
+}
+//uname = inputVal//Type 'unknown' is not assignable to type 'string'.
+//inputVal = uname// works
+console.log(uname);
+console.log(typeof inputVal);
