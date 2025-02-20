@@ -1,0 +1,236 @@
+# **Function as Type in TypeScript**
+
+## **1. What is a Function Type in TypeScript?**
+In TypeScript, functions can be assigned types just like variables. A **function type** defines the structure of a function, including:
+✅ **Parameter types**  
+✅ **Return type**  
+
+This ensures that any function assigned to a variable **matches the expected type signature**, improving code safety and maintainability.
+
+---
+
+## **2. Defining Function Types**
+A function type is defined using the following syntax:
+
+```typescript
+type FunctionType = (parameter1: Type, parameter2: Type) => ReturnType;
+```
+
+OR using an **interface**:
+
+```typescript
+interface FunctionType {
+    (parameter1: Type, parameter2: Type): ReturnType;
+}
+```
+
+---
+
+## **3. Example: Function Type Declaration**
+```typescript
+type AddFunction = (a: number, b: number) => number;
+
+const add: AddFunction = (x, y) => x + y;
+
+console.log(add(5, 10)); // ✅ Output: 15
+```
+Here:
+- `AddFunction` is a type alias for a function.
+- The `add` function **must match** the structure defined in `AddFunction`.
+
+---
+
+## **4. Function Type Using Interface**
+Instead of a type alias, we can use an **interface** to define a function type.
+
+```typescript
+interface MultiplyFunction {
+    (x: number, y: number): number;
+}
+
+const multiply: MultiplyFunction = (a, b) => a * b;
+
+console.log(multiply(3, 4)); // ✅ Output: 12
+```
+Both **type alias** and **interface** work, but interfaces are more useful when extending types.
+
+---
+
+## **5. Function Type with Optional Parameters**
+We can define optional parameters using `?`.
+
+```typescript
+type GreetFunction = (name: string, age?: number) => string;
+
+const greet: GreetFunction = (name, age) => {
+    return age ? `Hello, ${name}. You are ${age} years old.` : `Hello, ${name}.`;
+};
+
+console.log(greet("Alice"));       // ✅ Output: "Hello, Alice."
+console.log(greet("Bob", 25));     // ✅ Output: "Hello, Bob. You are 25 years old."
+```
+Here, `age?` is optional, so the function works **with or without it**.
+
+---
+
+## **6. Function Type with Default Parameters**
+A function type can include default parameter values.
+
+```typescript
+type PowerFunction = (base: number, exponent?: number) => number;
+
+const power: PowerFunction = (base, exponent = 2) => base ** exponent;
+
+console.log(power(3));     // ✅ Output: 9  (3^2)
+console.log(power(3, 3));  // ✅ Output: 27 (3^3)
+```
+Here, `exponent` has a default value of `2`.
+
+---
+
+## **7. Function Type with Rest Parameters**
+We can define function types that accept **multiple arguments** using the **rest operator (`...`)**.
+
+```typescript
+type SumFunction = (...numbers: number[]) => number;
+
+const sum: SumFunction = (...nums) => nums.reduce((total, num) => total + num, 0);
+
+console.log(sum(1, 2, 3, 4, 5)); // ✅ Output: 15
+```
+Here, `SumFunction` accepts **any number of arguments** as an array.
+
+---
+
+## **8. Function Type with `void` Return Type**
+A function type can return `void` if it **does not return a value**.
+
+```typescript
+type LoggerFunction = (message: string) => void;
+
+const logMessage: LoggerFunction = (msg) => {
+    console.log(msg);
+};
+
+logMessage("Hello, TypeScript!"); // ✅ Output: "Hello, TypeScript!"
+```
+The `logMessage` function **does not return anything**, so its return type is `void`.
+
+---
+
+## **9. Function Type with `never` Return Type**
+A function can have a `never` return type if it **never returns** (e.g., it throws an error or runs indefinitely).
+
+```typescript
+type ErrorFunction = (message: string) => never;
+
+const throwError: ErrorFunction = (msg) => {
+    throw new Error(msg);
+};
+
+// throwError("Critical error!"); // ❌ This will always throw an error.
+```
+Since `throwError` **never returns**, its return type is `never`.
+
+---
+
+## **10. Function Type in Object Methods**
+Function types can be used in **object properties**.
+
+```typescript
+type User = {
+    id: number;
+    name: string;
+    greet: (message: string) => string;
+};
+
+const user: User = {
+    id: 1,
+    name: "Alice",
+    greet: (msg) => `Hello, ${msg}!`
+};
+
+console.log(user.greet("Good morning")); // ✅ Output: "Hello, Good morning!"
+```
+Here, `greet` is a function type inside an object.
+
+---
+
+## **11. Function Type with Generics**
+Generics allow **reusable** function types.
+
+```typescript
+type GenericFunction<T> = (value: T) => T;
+
+const identity: GenericFunction<string> = (val) => val;
+const double: GenericFunction<number> = (num) => num * 2;
+
+console.log(identity("TypeScript")); // ✅ Output: "TypeScript"
+console.log(double(5));              // ✅ Output: 10
+```
+Here, `GenericFunction<T>` ensures type safety for **different data types**.
+
+---
+
+## **12. Function Type as a Parameter**
+A function type can be used as a **parameter to another function**.
+
+```typescript
+type Operation = (a: number, b: number) => number;
+
+function calculate(a: number, b: number, operation: Operation): number {
+    return operation(a, b);
+}
+
+const result = calculate(10, 5, (x, y) => x - y);
+console.log(result); // ✅ Output: 5
+```
+Here:
+- `Operation` defines a function type.
+- `calculate` accepts a function as an argument.
+
+---
+
+## **13. Function Type vs Interface**
+| Feature | Type Alias (`type`) | Interface (`interface`) |
+|---------|--------------------|--------------------|
+| Function Types | ✅ Supported | ✅ Supported |
+| Extensibility | ❌ Cannot extend | ✅ Can extend using `extends` |
+| Readability | ✅ Short and simple | ✅ Better for complex structures |
+
+### **Example: Extending an Interface**
+```typescript
+interface BaseFunction {
+    (x: number, y: number): number;
+}
+
+interface AdvancedFunction extends BaseFunction {
+    description: string;
+}
+
+const multiply: AdvancedFunction = (a, b) => a * b;
+multiply.description = "Multiplies two numbers";
+```
+Here, `AdvancedFunction` **extends** `BaseFunction` and adds a property.
+
+---
+
+## **14. When to Use Function Types?**
+✅ Use **function types** when:
+- You need **type-safe** function assignments.
+- You want to pass functions as arguments.
+- You are working with **callbacks, event handlers, or reusable functions**.
+
+✅ Use **type alias (`type`)** for simple function types.  
+✅ Use **interface (`interface`)** for extensible function types.
+
+---
+
+## **Conclusion**
+- **Function types** define function signatures for **type safety**.
+- Can be defined using **type aliases (`type`)** or **interfaces (`interface`)**.
+- Supports **optional, default, and rest parameters**.
+- Works with **generics, objects, callbacks, and higher-order functions**.
+- Improves **readability, maintainability, and reusability**.
+
+Would you like examples on **function types in event handling or async functions?** 🚀

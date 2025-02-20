@@ -417,7 +417,7 @@ console.log(isElizible(user))
 
 /* 14 Function Return Type */
 
-function add(num1:number, num2:number){
+/* function add(num1:number, num2:number){
 //  return  num1 + num2;// its going return number, wht result type
 
 //   console.log(num1+num2);
@@ -428,4 +428,46 @@ function add(num1:number, num2:number){
 
 let add2 = add(1,2)
 
-console.log(add2)
+console.log(add2) */
+
+/* 15 Function as Type */
+
+/* type user = {name:string; age: number};
+
+function greetUser(use:user){
+    const greetmag = 'hello, '+ use.name;
+
+    console.log(greetmag)
+}
+
+function sum(num1:number, num2:number){
+
+    return num1 + num2;
+
+
+}
+function isEligible(user:user){
+    console.log(user.age >= 18)
+}
+
+// let greet : Function;// specfic type function assign to greet
+let greet : (use:user) => void
+greet = greetUser;
+
+let user = {name:'john', age:28}
+greet(user)
+
+// greet = 100;
+// greet(user)// becasue we assing 100 value 
+
+// greet = sum;
+//  console.log( greet(user))
+ greet = isEligible;
+
+ greet(user) */
+
+ type AddFunction = (a:number, b:number) => number;
+
+ const  add : AddFunction =(x,y) => x +y;
+
+ console.log(add(5,10))
