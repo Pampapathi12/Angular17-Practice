@@ -128,3 +128,169 @@ sum = 15
 - `display()` is passed as an argument and executed inside `getResult()`.
 
 Would you like an example with **asynchronous callbacks** (like using `setTimeout()`)? 🚀
+
+
+### **Ways to Use Callbacks in JavaScript & TypeScript**
+A **callback function** is a function passed as an argument to another function and executed later. Below are different ways to use callbacks:
+
+---
+
+## **1️⃣ Anonymous Function as a Callback**
+You can pass an **anonymous function** directly as a callback.
+
+```typescript
+function performOperation(num1: number, num2: number, callback: (a: number, b: number) => number) {
+    let result = callback(num1, num2);
+    console.log("Result:", result);
+}
+
+// Passing an anonymous function as a callback
+performOperation(10, 5, function (a, b) {
+    return a + b;
+}); 
+// ✅ Output: Result: 15
+```
+
+✅ **Use case**: When the function is simple and used only once.
+
+---
+
+## **2️⃣ Arrow Function as a Callback (Shorter Syntax)**
+Using an **arrow function** makes the code cleaner.
+
+```typescript
+performOperation(10, 5, (a, b) => a * b);
+// ✅ Output: Result: 50
+```
+
+✅ **Use case**: When writing short and concise functions.
+
+---
+
+## **3️⃣ Named Function as a Callback**
+Instead of an anonymous function, we can define a function separately and pass it as a callback.
+
+```typescript
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+performOperation(10, 5, add);
+// ✅ Output: Result: 15
+```
+
+✅ **Use case**: When the function is reusable.
+
+---
+
+## **4️⃣ Inline Named Function as a Callback**
+You can define a function **inside** the function call.
+
+```typescript
+performOperation(10, 5, function multiply(a, b) {
+    return a * b;
+});
+// ✅ Output: Result: 50
+```
+
+✅ **Use case**: When you need a specific function only once.
+
+---
+
+## **5️⃣ Callback with Additional Operations**
+You can process the result before printing.
+
+```typescript
+performOperation(10, 5, (a, b) => {
+    let sum = a + b;
+    console.log("Performing addition...");
+    return sum;
+});
+// ✅ Output: 
+// Performing addition...
+// Result: 15
+```
+
+✅ **Use case**: When extra logic needs to be added inside the callback.
+
+---
+
+## **6️⃣ Callback Inside Another Function (Nested Callbacks)**
+You can use multiple callbacks **inside another function**.
+
+```typescript
+function calculate(num1: number, num2: number, callback: (a: number, b: number) => number) {
+    let result = callback(num1, num2);
+    console.log("Calculation result:", result);
+}
+
+function multiply(a: number, b: number): number {
+    return a * b;
+}
+
+function process(callback: (x: number, y: number) => number) {
+    calculate(4, 3, callback);
+}
+
+process(multiply);
+// ✅ Output: Calculation result: 12
+```
+
+✅ **Use case**: When calling one function inside another.
+
+---
+
+## **7️⃣ Callbacks with Asynchronous Code**
+Callbacks are useful in **asynchronous operations** like `setTimeout`, `setInterval`, and API calls.
+
+```typescript
+function fetchData(callback: (data: string) => void) {
+    setTimeout(() => {
+        callback("Data received from server!");
+    }, 2000);
+}
+
+fetchData((message) => {
+    console.log(message);
+});
+// ✅ Output (after 2 seconds): Data received from server!
+```
+
+✅ **Use case**: When handling async operations like API requests.
+
+---
+
+## **8️⃣ Callbacks with Error Handling**
+Passing an **error-first** callback for better error handling.
+
+```typescript
+function divide(a: number, b: number, callback: (error: string | null, result?: number) => void) {
+    if (b === 0) {
+        callback("Error: Division by zero");
+    } else {
+        callback(null, a / b);
+    }
+}
+
+divide(10, 2, (err, result) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Result:", result);
+    }
+});
+// ✅ Output: Result: 5
+```
+
+✅ **Use case**: When error handling is needed.
+
+---
+
+### **🚀 Conclusion**
+Callbacks are flexible and powerful. You can use them in:
+- Simple operations (Addition, Multiplication)
+- Asynchronous programming (setTimeout, API calls)
+- Error handling (Error-first callbacks)
+- Nested function calls
+
+Would you like a more detailed example on any of these? 😊
