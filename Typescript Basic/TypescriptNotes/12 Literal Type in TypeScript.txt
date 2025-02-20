@@ -1,0 +1,192 @@
+# **Literal Type in TypeScript**
+
+## **1. What is a Literal Type?**
+A **literal type** in TypeScript allows you to specify exact values that a variable can hold, rather than just general data types like `string`, `number`, or `boolean`.
+
+Literal types can be:
+- **String literals** (`"start"`, `"stop"`, `"pause"`, etc.)
+- **Number literals** (`0`, `1`, `100`, etc.)
+- **Boolean literals** (`true`, `false`)
+
+Using literal types helps in **strict type checking** and makes the code more **predictable** and **safe**.
+
+---
+
+## **2. Syntax of Literal Type**
+```typescript
+let variable: "value1" | "value2" | "value3";
+```
+Here, `variable` can **only** have one of the specified values.
+
+---
+
+## **3. Example: String Literal Type**
+```typescript
+let direction: "up" | "down" | "left" | "right";
+
+direction = "up";   // ✅ Allowed
+direction = "down"; // ✅ Allowed
+// direction = "forward"; // ❌ Error: Type '"forward"' is not assignable to type '"up" | "down" | "left" | "right"'
+```
+Since `direction` is restricted to `"up" | "down" | "left" | "right"`, any other value causes a **TypeScript error**.
+
+---
+
+## **4. Example: Number Literal Type**
+```typescript
+let statusCode: 200 | 400 | 404 | 500;
+
+statusCode = 200; // ✅ Allowed
+statusCode = 404; // ✅ Allowed
+// statusCode = 401; // ❌ Error: Type '401' is not assignable to type '200 | 400 | 404 | 500'
+```
+This ensures that `statusCode` only holds **specific HTTP response codes**.
+
+---
+
+## **5. Example: Boolean Literal Type**
+```typescript
+let isActive: true | false;
+
+isActive = true;  // ✅ Allowed
+isActive = false; // ✅ Allowed
+// isActive = "yes"; // ❌ Error: Type '"yes"' is not assignable to type 'true | false'
+```
+Here, `isActive` is restricted to **only `true` or `false`**, preventing accidental mistakes.
+
+---
+
+## **6. Literal Types with Functions**
+Literal types are useful in function parameters and return types to **restrict inputs and enforce expected outputs**.
+
+### **Example: Function with Literal Type Parameter**
+```typescript
+function move(direction: "up" | "down" | "left" | "right") {
+    console.log("Moving:", direction);
+}
+
+move("up");   // ✅ Allowed
+move("right"); // ✅ Allowed
+// move("forward"); // ❌ Error: Argument of type '"forward"' is not assignable to parameter
+```
+This function accepts only **four specific values**, reducing errors.
+
+---
+
+### **Example: Function Returning a Literal Type**
+```typescript
+function getResponseStatus(success: boolean): 200 | 400 {
+    return success ? 200 : 400;
+}
+
+console.log(getResponseStatus(true));  // ✅ Output: 200
+console.log(getResponseStatus(false)); // ✅ Output: 400
+```
+The function is **guaranteed** to return **either `200` or `400`**, improving type safety.
+
+---
+
+## **7. Combining Literal Types with Union Types**
+A **union type** with literals allows a variable to accept **only a specific set of values**.
+
+### **Example: Combining Literal and Union Types**
+```typescript
+type Status = "success" | "error" | "loading";
+
+let requestStatus: Status;
+
+requestStatus = "success"; // ✅ Allowed
+requestStatus = "error";   // ✅ Allowed
+// requestStatus = "pending"; // ❌ Error: Type '"pending"' is not assignable to type '"success" | "error" | "loading"'
+```
+Using **a union of literal types** ensures `requestStatus` only holds valid states.
+
+---
+
+## **8. Literal Types with Type Aliases**
+To improve readability, **type aliases** can be used.
+
+### **Example: Type Alias for Literal Type**
+```typescript
+type Direction = "up" | "down" | "left" | "right";
+
+let moveDirection: Direction;
+
+moveDirection = "left"; // ✅ Allowed
+// moveDirection = "forward"; // ❌ Error: Type '"forward"' is not assignable to type 'Direction'
+```
+Using **type aliases** makes it easier to manage and reuse literal types.
+
+---
+
+## **9. Literal Types with Enums (Alternative)**
+An alternative to string literal types is using **Enums**, which provide similar restrictions.
+
+### **Example: Using Enums Instead of Literal Types**
+```typescript
+enum Direction {
+    Up = "up",
+    Down = "down",
+    Left = "left",
+    Right = "right",
+}
+
+let moveDirection: Direction;
+
+moveDirection = Direction.Up; // ✅ Allowed
+moveDirection = Direction.Right; // ✅ Allowed
+// moveDirection = "forward"; // ❌ Error: Type '"forward"' is not assignable to type 'Direction'
+```
+Using **Enums** makes values more structured and readable.
+
+---
+
+## **10. Literal Types with Objects**
+Literal types can also be used inside objects.
+
+### **Example: Object with Literal Types**
+```typescript
+type User = {
+    name: string;
+    role: "admin" | "editor" | "viewer";
+};
+
+let user1: User = { name: "Alice", role: "admin" }; // ✅ Allowed
+let user2: User = { name: "Bob", role: "viewer" };  // ✅ Allowed
+// let user3: User = { name: "Charlie", role: "guest" }; // ❌ Error: Type '"guest"' is not assignable to type '"admin" | "editor" | "viewer"'
+```
+This ensures that `role` can only be one of the **three defined roles**.
+
+---
+
+## **11. Literal Types vs `any` vs `string`**
+| Feature         | Literal Type (`"start" | "stop"`) | `string` | `any` |
+|---------------|---------------------------------|---------|------|
+| **Type Safety** | ✅ Very strict                 | 🔶 Less strict | ❌ No type safety |
+| **Auto-Completion** | ✅ Available | 🔶 Limited | ❌ Not available |
+| **Error Prevention** | ✅ Catches errors early | 🔶 Possible mistakes | ❌ Runtime errors possible |
+
+Using **literal types** ensures **better type safety** compared to `string` and `any`.
+
+---
+
+## **12. When to Use Literal Types?**
+✅ **Use literal types when:**
+- You want **strictly controlled** values.
+- You want **better autocompletion** in IDEs.
+- You want to **prevent accidental errors**.
+- You are working with **fixed states** (e.g., `"pending" | "success" | "error"`).
+
+❌ **Avoid literal types when:**
+- The number of possible values is **too large**.
+- The values **frequently change** (use enums instead).
+
+---
+
+## **Conclusion**
+- **Literal types restrict** values to specific predefined options.
+- They **improve type safety**, **prevent errors**, and **enhance code readability**.
+- They work well with **union types, type aliases, objects, and functions**.
+- **Alternatives include enums** for better structuring.
+
+Would you like real-world examples of how literal types are used in applications? 🚀

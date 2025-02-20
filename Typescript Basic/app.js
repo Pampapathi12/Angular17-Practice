@@ -255,16 +255,45 @@ value = "Hello";
 console.log(value.toUpperCase());
 console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is not a function */
 /* #11 Union Type in TypeScript */
-var user = null;
-function getUser() {
-    var uname = 'pampapathi';
-    var age = 30;
-    user = { user: uname, age: age };
-    return user;
+/* let user: {user:string, age: number} | null = null;
+
+function getUser(){
+    const uname = 'pampapathi';
+    const age = 30;
+    user = {user:uname,age:age}
+    return user
 }
 getUser();
-function printMessage(message, code) {
-    console.log("".concat(message, ". status code: ").concat(code));
+
+
+function printMessage(message:string, code:string | number){
+
+    if(typeof code === 'string'){
+    console.log(`${message}. status code: ${code.trim()}`)
+    }
+    else{
+        console.log(`${message}. status code: ${code}`)
+    }
+    // Property 'trim' does not exist on type 'string | number'.Property 'trim' does not exist on type 'number
 }
 printMessage('request was successfull', 200);
-printMessage('resource was not found', ' 404');
+printMessage('resource was not found', ' 404'); */
+/* 12 Literal Type in TypeScript */
+var str = "hello, world"; // literal
+var str1 = "hellow wordl"; // string
+function roleMessage(role) {
+    switch (role) {
+        case 'Admin':
+            console.log(' you have admin permission');
+            break;
+        case 'read':
+            console.log('you have read permission');
+            break;
+        case 'write':
+            console.log('you have read and write permission');
+            break;
+        default:
+            console.log('unknow permission');
+    }
+}
+roleMessage('Admin');

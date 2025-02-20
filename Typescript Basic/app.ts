@@ -276,7 +276,7 @@ console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is 
 
 /* #11 Union Type in TypeScript */
 
-let user: {user:string, age: number} | null = null;
+/* let user: {user:string, age: number} | null = null;
 
 function getUser(){
     const uname = 'pampapathi';
@@ -298,4 +298,40 @@ function printMessage(message:string, code:string | number){
     // Property 'trim' does not exist on type 'string | number'.Property 'trim' does not exist on type 'number
 }
 printMessage('request was successfull', 200);
-printMessage('resource was not found', ' 404');
+printMessage('resource was not found', ' 404'); */
+
+/* 12 Literal Type in TypeScript */
+
+const str = "hello, world"// literal
+let str1 = "hellow wordl"// string
+
+function roleMessage(role:'Admin' | 'read' | 'write'){
+    switch(role){
+        case 'Admin':
+            console.log(' you have admin permission');
+            break;
+        case 'read':
+            console.log('you have read permission');
+                break;
+        case 'write':
+            console.log('you have read and write permission')
+            break;
+
+        default:
+            console.log('unknow permission')
+
+    }
+}
+
+//roleMessage('pampa')//Argument of type '"pampa"' is not assignable to parameter of type '"Admin" | "read" | "write"'
+roleMessage('Admin');// matched the value literla value from argument and defned type
+
+
+let variable: 'value1' | 'value2' | 'value3';
+
+
+let direction: 'up' | 'down' | 'left' | 'right';
+
+direction = "up";
+direction = "down";
+//direction = "forward"; //Type '"forward"' is not assignable to type '"up" | "down" | "left" | "right"'.
