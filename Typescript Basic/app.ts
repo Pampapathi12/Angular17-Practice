@@ -302,7 +302,7 @@ printMessage('resource was not found', ' 404'); */
 
 /* 12 Literal Type in TypeScript */
 
-const str = "hello, world"// literal
+/* const str = "hello, world"// literal
 let str1 = "hellow wordl"// string
 
 function roleMessage(role:'Admin' | 'read' | 'write'){
@@ -333,5 +333,83 @@ let variable: 'value1' | 'value2' | 'value3';
 let direction: 'up' | 'down' | 'left' | 'right';
 
 direction = "up";
-direction = "down";
+direction = "down"; */
 //direction = "forward"; //Type '"forward"' is not assignable to type '"up" | "down" | "left" | "right"'.
+
+/* 13 Understanding Type Alias */
+
+type stringType = string;
+let str : stringType = 'Hello'
+
+type StringOrNumber = string | number;
+
+function printMessage(message:string, code:StringOrNumber){
+    if(typeof code === 'string'){
+        console.log(`${message}. status code ${code.trim()}`)
+    } else{
+        console.log(`${message}. status code ${code}`)
+    }
+}
+printMessage('succes', 200)
+printMessage('resource not founf', '400')
+
+// type roleType = string | number | boolean;
+
+type roleType = 'Admin' | 1 | true;
+
+
+
+function roleMessage(role:roleType){
+    switch(role){
+        case 'Admin':
+            console.log(' you have admin permission');
+            break;
+        case 1:
+            console.log('you have read permission');
+                break;
+        case true:
+            console.log('you have read and write permission')
+            break;
+
+        default:
+            console.log('unknow permission')
+
+    }
+}
+function roleMessage1(role: 'Admin' | 'read' | 'write'){
+    switch(role){
+        case 'Admin':
+            console.log(' you have admin permission');
+            break;
+        case 'read':
+            console.log('you have read permission');
+                break;
+        case 'write':
+            console.log('you have read and write permission')
+            break;
+
+        default:
+            console.log('unknow permission')
+
+    }
+}
+
+roleMessage('Admin')
+roleMessage(1)
+//roleMessage(undefined)//Argument of type 'undefined' is not assignable to parameter of type 'roleType'
+
+type user = {fname:string; lname:string,age:number}
+
+function getFullname(user: user){
+
+    return user.fname + ''+user.lname;
+
+}
+
+function isElizible(user:user){
+    return user.age >= 18
+}
+let user : user = {fname:'pampa', lname:'reddy', age: 30}
+console.log(getFullname(user))
+console.log(isElizible(user))
+
