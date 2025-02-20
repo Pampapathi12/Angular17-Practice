@@ -181,19 +181,66 @@ console.log(employee12)
 employee12[2] = true;
 console.log(employee) */
 /* 09 Enums in TypeScript */
-var Roles;
-(function (Roles) {
-    Roles[Roles["ADMIN"] = 0] = "ADMIN";
-    Roles[Roles["READ_ONLY"] = 1] = "READ_ONLY";
-    Roles[Roles["WRITE_ONLY"] = 2] = "WRITE_ONLY";
-    Roles[Roles["READ_WRITE"] = 3] = "READ_WRITE";
-})(Roles || (Roles = {}));
-var user = {
+/* enum Roles {
+    ADMIN,
+    READ_ONLY,
+    WRITE_ONLY,
+    READ_WRITE,// NAMED VALUE, INCREMENT
+}
+
+const  user = {
     name: 'john',
     age: 30,
     gender: 'male',
     role: Roles.ADMIN
-};
-if (user.role === Roles.ADMIN) {
-    console.log('this user is an admin');
+
 }
+
+if(user.role ===  Roles.ADMIN){
+    console.log('this user is an admin')
+}
+
+enum Direction {
+    Up,
+    Down,
+    Left,
+    RIght
+}
+// By default, TypeScript assigns numeric values starting from 0.
+// Up = 0, Down = 1, Left = 2, Right = 3.
+
+console.log(Direction.Up, Direction.Down)
+
+enum Status {
+    Pending = 1,
+    InProgress = 5,
+    Completed = 10,
+}s
+
+console.log(Status.Pending) */
+var dynamicData;
+dynamicData = 100;
+dynamicData = 'pampa';
+dynamicData = ['hello', 123];
+dynamicData = { name: 'reddy', istrue: true };
+console.log(dynamicData);
+var arr;
+arr = ['heelo', 123, true, null, undefined];
+var test;
+console.log(typeof test);
+var data;
+data = 10;
+console.log(data);
+data = "hello";
+console.log(data);
+data = true;
+console.log(data);
+function fetchData() {
+    return { id: 1, name: "alice", active: true };
+}
+var user = fetchData();
+console.log(user.name);
+var value;
+value = "Hello";
+console.log(value.toUpperCase());
+console.log(value.toFixed(2));

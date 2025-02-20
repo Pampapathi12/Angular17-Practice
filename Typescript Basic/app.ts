@@ -197,7 +197,7 @@ console.log(employee) */
 
 /* 09 Enums in TypeScript */
 
-enum Roles {
+/* enum Roles {
     ADMIN,
     READ_ONLY,
     WRITE_ONLY,
@@ -222,8 +222,8 @@ enum Direction {
     Left,
     RIght
 }
-/* By default, TypeScript assigns numeric values starting from 0.
-Up = 0, Down = 1, Left = 2, Right = 3. */
+// By default, TypeScript assigns numeric values starting from 0.
+// Up = 0, Down = 1, Left = 2, Right = 3.
 
 console.log(Direction.Up, Direction.Down)
 
@@ -231,6 +231,44 @@ enum Status {
     Pending = 1,
     InProgress = 5,
     Completed = 10,
-}
+}s
 
-console.log(Status.Pending)
+console.log(Status.Pending) */
+
+
+let dynamicData: any;
+dynamicData = 100;
+dynamicData = 'pampa';
+dynamicData = ['hello', 123]
+dynamicData = {name:'reddy', istrue:true}
+console.log(dynamicData);
+
+let arr: any[];
+arr = ['heelo', 123,true,null,undefined];
+let test;
+console.log(typeof test)
+
+let data : any;
+data = 10;
+console.log(data)
+
+data = "hello"
+console.log(data);
+
+data = true;
+console.log(data)
+
+function fetchData(): any{
+    return {id:1,name:"alice", active:true}
+}
+let  user = fetchData()
+
+console.log(user.name)
+
+
+let value: any;
+
+value = "Hello";
+
+console.log(value.toUpperCase());
+console.log(value.toFixed(2));//app.js:246 Uncaught TypeError: value.toFixed is not a function
