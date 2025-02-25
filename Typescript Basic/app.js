@@ -1,3 +1,4 @@
+"use strict";
 // console.log('helloworld')
 //03 Variables in TypeScript 
 /* let num = 100;
@@ -514,14 +515,25 @@ value = "Hello";   // ✅ Allowed
 value = 42;        // ✅ Allowed
 value = true;      // ✅ Allowed */
 /* Never Type in TypeScript  */
-function greetUser(name) {
-    console.log('hello,' + name);
+/* function greetUser(name: string): void{
+
+    console.log('hello,' + name)
+
 }
+
 // greetUser('john');
-function createerror(errormsg, errorcode) {
-    throw { message: errormsg, code: errorcode };
-    // console.log(errormsg)
+
+function createerror(errormsg:string, errorcode: number): never{
+    throw {message:errormsg,code:errorcode}
+   // console.log(errormsg)
 }
+
 // createerror('internal server error', 500)
-console.log(greetUser('john mark'));
-console.log(createerror('internal server error123', 400));
+
+console.log(greetUser('john mark'))
+console.log(createerror('internal server error123', 400)) */
+/* 19 Configuring TypeScript Compiler */
+// 
+console.log('pampa tsc app.ts -w');
+//2 compiling multiple files
+// tsc --init
