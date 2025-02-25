@@ -476,17 +476,52 @@ function perFormOperation(num1:number, num2:number, callback:(a:number,b:number)
 
 perFormOperation(1,2, (a,b) => a + b); */
 /* 17 Unknown Type in TypeScript */
-//  let inputVal: any;// anytype type of data
-var inputVal; // at the creating , we dont know any type
-var uname = 'someting';
+/* let inputVal1: any;// anytype type of data
+let inputVal: unknown;// at the creating , we dont know any type
+let uname: string = 'someting';
+
 inputVal = 100;
 //  inputVal = 'Hello'
 //  inputVal = [12,13]
-inputVal = 'Hello';
-if (typeof inputVal === 'string') {
-    uname = inputVal;
+
+inputVal = 'Hello'
+
+
+
+if(typeof inputVal === 'string'){
+   uname = inputVal;
 }
+
 //uname = inputVal//Type 'unknown' is not assignable to type 'string'.
 //inputVal = uname// works
+
 console.log(uname);
 console.log(typeof inputVal);
+
+let a: any;
+let u: unknown;
+
+a = "Hello";  // ✅ Allowed
+u = "Hello";  // ✅ Allowed
+
+let str: string;
+str = a;  // ✅ Allowed
+//str = u;  // ❌ Error: Type 'unknown' is not assignable to type 'string'.
+
+let value: unknown;
+
+value = "Hello";   // ✅ Allowed
+value = 42;        // ✅ Allowed
+value = true;      // ✅ Allowed */
+/* Never Type in TypeScript  */
+function greetUser(name) {
+    console.log('hello,' + name);
+}
+// greetUser('john');
+function createerror(errormsg, errorcode) {
+    throw { message: errormsg, code: errorcode };
+    // console.log(errormsg)
+}
+// createerror('internal server error', 500)
+console.log(greetUser('john mark'));
+console.log(createerror('internal server error123', 400));

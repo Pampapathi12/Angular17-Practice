@@ -509,7 +509,7 @@ greet(user)
  perFormOperation(1,2, (a,b) => a + b); */
 
  /* 17 Unknown Type in TypeScript */
- let inputVal1: any;// anytype type of data
+ /* let inputVal1: any;// anytype type of data
  let inputVal: unknown;// at the creating , we dont know any type
  let uname: string = 'someting';
 
@@ -545,5 +545,25 @@ let value: unknown;
 
 value = "Hello";   // ✅ Allowed
 value = 42;        // ✅ Allowed
-value = true;      // ✅ Allowed
+value = true;      // ✅ Allowed */
 
+/* Never Type in TypeScript  */
+
+
+function greetUser(name: string): void{
+
+    console.log('hello,' + name)
+
+}
+
+// greetUser('john');
+
+function createerror(errormsg:string, errorcode: number): never{
+    throw {message:errormsg,code:errorcode}
+   // console.log(errormsg)
+}
+
+// createerror('internal server error', 500)
+
+console.log(greetUser('john mark'))
+console.log(createerror('internal server error123', 400))
